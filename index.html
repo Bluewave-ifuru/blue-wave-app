@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#12385b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Blue Wave">
+  <title>Blue Wave Ifuru Operations</title>
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f8fb;
+      color: #17233c;
+    }
+    .header {
+      background: #12385b;
+      color: white;
+      padding: 24px 18px 22px;
+      text-align: center;
+    }
+    .app-logo {
+      width: 92px;
+      height: 92px;
+      border-radius: 22px;
+      display: block;
+      margin: 0 auto 12px;
+    }
+    .header h1 { margin: 0; font-size: 24px; }
+    .header p { margin: 7px 0 0; opacity: .85; }
+    .container {
+      max-width: 760px;
+      margin: auto;
+      padding: 18px;
+    }
+    .intro {
+      background: white;
+      padding: 18px;
+      border-radius: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+      margin-bottom: 16px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .module {
+      background: white;
+      border-radius: 14px;
+      padding: 20px 15px;
+      min-height: 135px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+      text-decoration: none;
+      color: #17233c;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .module.active { border-top: 5px solid #12385b; }
+    .module.disabled { opacity: .52; cursor: default; }
+    .icon { font-size: 32px; margin-bottom: 10px; }
+    .module-title { font-size: 17px; font-weight: 700; margin-bottom: 5px; }
+    .module-subtitle { font-size: 13px; color: #607080; line-height: 1.35; }
+    .coming-soon {
+      margin-top: 8px;
+      font-size: 11px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: #7a8794;
+    }
+    .footer {
+      text-align: center;
+      color: #778390;
+      font-size: 12px;
+      margin: 22px 0 10px;
+    }
+    @media (max-width: 560px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="icon-192.png" alt="Blue Wave" class="app-logo">
+    <h1>Blue Wave Ifuru</h1>
+    <p>Operations Hub</p>
+  </div>
+
+  <main class="container">
+    <div class="intro">
+      <strong>Staff Operations</strong><br>
+      Open the scheduler below. Additional Blue Wave tools can be added here later without changing the installed app.
+    </div>
+
+    <div class="grid">
+      <a class="module active" href="https://script.google.com/macros/s/AKfycbypgiFDrZa7TeyaH9wkovPsfIlBQ0Y5apdPwS8eDbm9Gad4UMRjHrgu57UcRnTVTp2sWw/exec" target="_self">
+        <div class="icon">📅</div>
+        <div class="module-title">Daily Scheduler</div>
+        <div class="module-subtitle">Create schedules, generate WhatsApp messages and IVD requests.</div>
+      </a>
+
+      <div class="module disabled">
+        <div class="icon">🗓️</div>
+        <div class="module-title">Future Bookings</div>
+        <div class="module-subtitle">Planner and upcoming guest bookings.</div>
+        <div class="coming-soon">Coming later</div>
+      </div>
+
+      <div class="module disabled">
+        <div class="icon">👥</div>
+        <div class="module-title">Staff Planner</div>
+        <div class="module-subtitle">Off days and staff planning.</div>
+        <div class="coming-soon">Coming later</div>
+      </div>
+
+      <div class="module disabled">
+        <div class="icon">🏖️</div>
+        <div class="module-title">Holiday Planner</div>
+        <div class="module-subtitle">Annual leave and holiday planning.</div>
+        <div class="coming-soon">Coming later</div>
+      </div>
+
+      <div class="module disabled">
+        <div class="icon">⭐</div>
+        <div class="module-title">TripAdvisor Reviews</div>
+        <div class="module-subtitle">Quick access to Blue Wave review links.</div>
+        <div class="coming-soon">Coming later</div>
+      </div>
+
+      <div class="module disabled">
+        <div class="icon">📄</div>
+        <div class="module-title">Documents & SOPs</div>
+        <div class="module-subtitle">Operational documents and staff resources.</div>
+        <div class="coming-soon">Coming later</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      Blue Wave Ifuru · Dive Butler
+    </div>
+  </main>
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function() {
+        navigator.serviceWorker.register("./service-worker.js");
+      });
+    }
+  </script>
+</body>
+</html>
