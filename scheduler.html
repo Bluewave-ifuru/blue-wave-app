@@ -1,0 +1,3428 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <base target="_top">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+  >
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/flatpickr">
+  </script>
+
+
+<style>
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f5f8fb;
+  color: #17233c;
+}
+
+.header {
+  background: #12385b;
+  color: white;
+  padding: 22px;
+  text-align: center;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.header p {
+  margin: 6px 0 0;
+  opacity: .85;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 16px;
+}
+
+.card {
+  background: white;
+  padding: 18px;
+  border-radius: 14px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+
+.trip-card {
+  border-left: 5px solid #12385b;
+}
+
+.section-title,
+.trip-title {
+  font-size: 19px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #12385b;
+}
+
+label {
+  display: block;
+  margin-top: 14px;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+select,
+input,
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #cbd5df;
+  border-radius: 8px;
+  font-size: 16px;
+  background: white;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+button {
+  border: none;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.full-button {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 15px;
+  font-size: 16px;
+}
+
+.add-button {
+  background: #12385b;
+  color: white;
+}
+
+.save-button {
+  background: #18794e;
+  color: white;
+}
+
+.dc-button {
+  background: #0b6e4f;
+  color: white;
+}
+
+.fo-button {
+  background: #2f6690;
+  color: white;
+}
+
+.ivd-button {
+  background: #b66a20;
+  color: white;
+  margin-bottom: 25px;
+}
+
+.secondary-button {
+  margin-top: 12px;
+  background: #e8f0f7;
+  color: #12385b;
+}
+
+.remove-button {
+  margin-top: 12px;
+  background: #fdecec;
+  color: #a61b1b;
+}
+
+.tiny-remove {
+  background: transparent;
+  color: #a61b1b;
+  padding: 6px;
+  margin-top: 7px;
+}
+
+.status {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.loading { color: #666; }
+.success { color: #18794e; }
+.error { color: #b42318; }
+
+.input-error {
+  border: 2px solid #d32f2f !important;
+  background: #fff0f0 !important;
+}
+
+.meeting-time,
+.lagoon-time {
+  display: none;
+}
+
+.guide-row,
+.leave-row {
+  margin-top: 12px;
+}
+
+.counter-shift {
+  border-top: 1px solid #e4e9ef;
+  padding-top: 14px;
+  margin-top: 14px;
+}
+
+.counter-shift:first-child {
+  border-top: none;
+  margin-top: 0;
+}
+
+.counter-shift-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.staff-chip-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.staff-chip {
+  padding: 9px 13px;
+  border-radius: 20px;
+  background: #e8f0f7;
+  color: #12385b;
+  border: 1px solid #cbd5df;
+  cursor: pointer;
+  font-weight: bold;
+  user-select: none;
+}
+
+.staff-chip.selected {
+  background: #12385b;
+  color: white;
+  border-color: #12385b;
+}
+
+.lagoon-notice {
+  background: #edf7ff;
+  color: #12385b;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background: rgba(0,0,0,.5);
+}
+
+.modal-content {
+  background: white;
+  width: calc(100% - 32px);
+  max-width: 650px;
+  margin: 30px auto;
+  padding: 20px;
+  border-radius: 14px;
+  box-sizing: border-box;
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #12385b;
+  margin-bottom: 12px;
+}
+
+.message-box {
+  min-height: 420px;
+  line-height: 1.45;
+  resize: vertical;
+}
+
+.copy-button {
+  width: 100%;
+  margin-top: 12px;
+  background: #18794e;
+  color: white;
+}
+
+.close-button {
+  width: 100%;
+  margin-top: 8px;
+  background: #e8f0f7;
+  color: #12385b;
+}
+
+.copy-status {
+  text-align: center;
+  color: #18794e;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.ivd-link {
+  display: block;
+  text-align: center;
+  padding: 15px;
+  background: #b66a20;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+@media(max-width:650px) {
+
+  .row {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-content {
+    margin: 15px auto;
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="header">
+
+  <h1>
+    BLUE WAVE DIVE CENTER
+  </h1>
+
+  <p>
+    Daily Operations Scheduler
+  </p>
+
+</div>
+
+
+<div style="max-width:900px;margin:12px auto 0;padding:0 16px;">
+  <a
+    href="./index.html"
+    style="display:inline-block;text-decoration:none;background:#e8f0f7;color:#12385b;padding:9px 14px;border-radius:8px;font-weight:bold;"
+  >
+    ← Operations Hub
+  </a>
+</div>
+
+<div class="container">
+
+
+  <!-- DATE -->
+
+  <div class="card">
+
+    <label>
+      Schedule Date
+    </label>
+
+    <input
+      type="text"
+      id="scheduleDate"
+      placeholder="DD/MM/YYYY"
+    >
+
+  </div>
+
+
+  <!-- STAFF MEETING -->
+
+  <div class="card">
+
+    <div class="section-title">
+      Staff Meeting
+    </div>
+
+    <select
+      id="staffMeeting"
+      onchange="toggleMeetingTime()"
+    >
+
+      <option value="">
+        Select...
+      </option>
+
+      <option value="NO">
+        No
+      </option>
+
+      <option value="YES">
+        Yes
+      </option>
+
+    </select>
+
+
+    <div
+      id="meetingTimeContainer"
+      class="meeting-time"
+    >
+
+      <label>
+        Meeting Time
+      </label>
+
+      <input
+        type="text"
+        id="meetingTime"
+        placeholder="HH:MM"
+      >
+
+    </div>
+
+  </div>
+
+
+  <div
+    id="status"
+    class="status loading"
+  >
+    Loading backend data...
+  </div>
+
+
+  <!-- TRIPS -->
+
+  <div id="tripsContainer"></div>
+
+
+  <button
+    class="full-button add-button"
+    onclick="addTrip()"
+  >
+    + ADD TRIP
+  </button>
+
+
+  <!-- LEAVES -->
+
+  <div class="card">
+
+    <div class="section-title">
+      Leaves
+    </div>
+
+    <div id="leavesContainer"></div>
+
+    <button
+      class="secondary-button"
+      onclick="addLeave()"
+    >
+      + ADD LEAVE
+    </button>
+
+  </div>
+
+
+  <!-- COUNTER -->
+
+  <div class="card">
+
+    <div class="section-title">
+      Counter Duty
+    </div>
+
+
+    <div class="counter-shift">
+
+      <div class="counter-shift-title">
+        Morning
+      </div>
+
+      <div
+        id="counter-morning"
+        class="staff-chip-container"
+      ></div>
+
+    </div>
+
+
+    <div class="counter-shift">
+
+      <div class="counter-shift-title">
+        Afternoon
+      </div>
+
+      <div
+        id="counter-afternoon"
+        class="staff-chip-container"
+      ></div>
+
+    </div>
+
+
+    <div class="counter-shift">
+
+      <div class="counter-shift-title">
+        Evening
+      </div>
+
+      <div
+        id="counter-evening"
+        class="staff-chip-container"
+      ></div>
+
+    </div>
+
+  </div>
+
+
+  <!-- OUTPUT BUTTONS -->
+
+  <button
+    class="full-button remove-button"
+    onclick="clearAllSchedule()"
+  >
+    CLEAR ALL
+  </button>
+
+
+  <button
+    class="full-button dc-button"
+    onclick="generateDCWhatsApp()"
+  >
+    GENERATE DC WHATSAPP
+  </button>
+
+
+  <button
+    class="full-button fo-button"
+    onclick="generateFrontOfficeWhatsApp()"
+  >
+    GENERATE FRONT OFFICE WHATSAPP
+  </button>
+
+
+  <button
+    class="full-button ivd-button"
+    onclick="generateIVDRequest()"
+  >
+    GENERATE IVD REQUEST
+  </button>
+
+
+</div>
+
+
+
+<!-- MESSAGE MODAL -->
+
+<div
+  id="messageModal"
+  class="modal"
+>
+
+  <div class="modal-content">
+
+    <div
+      id="messageTitle"
+      class="modal-title"
+    ></div>
+
+    <textarea
+      id="messageText"
+      class="message-box"
+    ></textarea>
+
+    <button
+      class="copy-button"
+      onclick="copyMessage()"
+    >
+      COPY MESSAGE
+    </button>
+
+    <div
+      id="copyStatus"
+      class="copy-status"
+    ></div>
+
+    <button
+      class="close-button"
+      onclick="closeModal('messageModal')"
+    >
+      CLOSE
+    </button>
+
+  </div>
+
+</div>
+
+
+
+<script>
+
+
+let appData = {
+  activities: [],
+  boats: [],
+  captains: [],
+  staff: [],
+  leaveTypes: []
+};
+
+
+let tripCount = 0;
+
+let autoSaveTimer = null;
+let isLoadingSchedule = false;
+let appReady = false;
+
+const API_URL =
+  "https://script.google.com/macros/s/AKfycbypgiFDrZa7TeyaH9wkovPsfIlBQ0Y5apdPwS8eDbm9Gad4UMRjHrgu57UcRnTVTp2sWw/exec";
+
+async function apiCall(action, payload = {}) {
+
+  const response = await fetch(
+    API_URL,
+    {
+      method: "POST",
+      redirect: "follow",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: JSON.stringify({
+        action: action,
+        ...payload
+      })
+    }
+  );
+
+  const text = await response.text();
+
+  let result;
+
+  try {
+    result = JSON.parse(text);
+  } catch (error) {
+    throw new Error(
+      "Backend returned an unreadable response."
+    );
+  }
+
+  if (!result.ok) {
+    throw new Error(
+      result.error || "Backend request failed."
+    );
+  }
+
+  return result.data;
+}
+
+
+// =====================================================
+// LOAD BACKEND
+// =====================================================
+
+async function loadAppData() {
+
+  try {
+
+    const data =
+      await apiCall(
+        "getAppData"
+      );
+
+    appData = data;
+
+    setStatus(
+      "✓ Connected to BACKEND sheet",
+      "success"
+    );
+
+    resetScheduleForm();
+
+  } catch (error) {
+
+    setStatus(
+      "Error: " + error.message,
+      "error"
+    );
+  }
+}
+
+
+function setStatus(message,type) {
+
+  const status =
+    document.getElementById(
+      "status"
+    );
+
+  status.innerText = message;
+
+  status.className =
+    "status " + type;
+}
+
+
+
+// =====================================================
+// DATE / TIME
+// =====================================================
+
+function initialiseDatePicker() {
+
+  flatpickr(
+    "#scheduleDate",
+    {
+
+      dateFormat: "Y-m-d",
+
+      altInput: true,
+
+      altFormat: "d/m/Y",
+
+      allowInput: true,
+
+      disableMobile: true,
+
+      onChange:
+        loadSelectedSchedule
+
+    }
+  );
+}
+
+
+function initialiseTimePicker(
+  element
+) {
+
+  if (
+    !element ||
+    element._flatpickr
+  ) {
+    return;
+  }
+
+
+  flatpickr(
+    element,
+    {
+
+      enableTime: true,
+
+      noCalendar: true,
+
+      dateFormat: "H:i",
+
+      time_24hr: true,
+
+      allowInput: true,
+
+      disableMobile: true,
+
+      minuteIncrement: 5
+
+    }
+  );
+}
+
+
+function setTimeValue(
+  input,
+  value
+) {
+
+  if (
+    input &&
+    input._flatpickr
+  ) {
+
+    if (value) {
+
+      input
+        ._flatpickr
+        .setDate(
+          value,
+          false,
+          "H:i"
+        );
+
+    } else {
+
+      input
+        ._flatpickr
+        .clear();
+    }
+
+  } else if (input) {
+
+    input.value =
+      value || "";
+  }
+}
+
+
+
+// =====================================================
+// STAFF MEETING
+// =====================================================
+
+function toggleMeetingTime() {
+
+  const value =
+    document
+      .getElementById(
+        "staffMeeting"
+      )
+      .value;
+
+
+  const container =
+    document
+      .getElementById(
+        "meetingTimeContainer"
+      );
+
+
+  if (
+    value === "YES"
+  ) {
+
+    container.style.display =
+      "block";
+
+  } else {
+
+    container.style.display =
+      "none";
+
+    setTimeValue(
+      document.getElementById(
+        "meetingTime"
+      ),
+      ""
+    );
+  }
+}
+
+
+
+// =====================================================
+// OPTIONS
+// =====================================================
+
+function createOptions(items) {
+
+  let html =
+    '<option value="">Select...</option>';
+
+
+  (items || [])
+    .forEach(
+      function(item) {
+
+        html +=
+          '<option value="' +
+          escapeHtml(item) +
+          '">' +
+          escapeHtml(item) +
+          '</option>';
+      }
+    );
+
+
+  return html;
+}
+
+
+function setSelectValue(
+  select,
+  value
+) {
+
+  if (!value) {
+
+    select.value = "";
+
+    return;
+  }
+
+
+  const found =
+    Array
+      .from(select.options)
+      .some(
+        o =>
+          o.value === value
+      );
+
+
+  if (!found) {
+
+    const option =
+      document.createElement(
+        "option"
+      );
+
+    option.value = value;
+
+    option.textContent =
+      value + " (saved)";
+
+    select.appendChild(
+      option
+    );
+  }
+
+
+  select.value = value;
+}
+
+
+
+// =====================================================
+// TRIPS
+// =====================================================
+
+function addTrip(
+  saved = null
+) {
+
+  if (
+    document
+      .querySelectorAll(
+        ".trip-card"
+      )
+      .length >= 15
+  ) {
+
+    alert(
+      "Maximum of 15 trips."
+    );
+
+    return;
+  }
+
+
+  tripCount++;
+
+
+  const id =
+    tripCount;
+
+
+  const card =
+    document.createElement(
+      "div"
+    );
+
+
+  card.className =
+    "card trip-card";
+
+
+  card.id =
+    "trip-" + id;
+
+
+  card.innerHTML = `
+
+    <div class="trip-title">
+      Trip
+    </div>
+
+    <label>
+      Activity
+    </label>
+
+    <select
+      class="activity"
+      onchange="handleActivityChange(this)"
+    >
+      ${createOptions(
+        appData.activities
+      )}
+    </select>
+
+
+    <div class="row">
+
+      <div>
+
+        <label>
+          Villa
+        </label>
+
+        <input
+          class="villa"
+          placeholder="Example: 305"
+          onblur="formatVilla(this)"
+        >
+
+      </div>
+
+      <div>
+
+        <label>
+          Pax
+        </label>
+
+        <input
+          class="pax"
+          type="number"
+          min="1"
+        >
+
+      </div>
+
+    </div>
+
+
+    <div class="normal-operation-fields">
+
+      <div class="row">
+
+        <div>
+
+          <label>
+            Boat
+          </label>
+
+          <select class="boat">
+            ${createOptions(
+              appData.boats
+            )}
+          </select>
+
+        </div>
+
+
+        <div>
+
+          <label>
+            Captain
+          </label>
+
+          <select class="captain">
+            ${createOptions(
+              appData.captains
+            )}
+          </select>
+
+        </div>
+
+      </div>
+
+
+      <div class="row">
+
+        <div>
+
+          <label>
+            Boat Prep
+          </label>
+
+          <input
+            class="boatPrep"
+            placeholder="HH:MM"
+          >
+
+        </div>
+
+
+        <div>
+
+          <label>
+            Boat Departure
+          </label>
+
+          <input
+            class="boatDep"
+            placeholder="HH:MM"
+          >
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div
+      class="lagoon-time"
+    >
+
+      <div class="lagoon-notice">
+        Lagoon Session does not require
+        Boat, Captain, Boat Prep or Boat Departure.
+      </div>
+
+      <label>
+        Guest Meeting Time
+      </label>
+
+      <input
+        class="lagoonMeeting"
+        placeholder="HH:MM"
+      >
+
+    </div>
+
+
+    <div
+      id="guides-${id}"
+      class="guides-container"
+    >
+
+      <div class="guide-row">
+
+        <label>
+          Guide 1
+        </label>
+
+        <select class="guide">
+
+          ${createOptions(
+            appData.staff
+          )}
+
+        </select>
+
+      </div>
+
+    </div>
+
+
+    <button
+      class="secondary-button"
+      onclick="addGuide(${id})"
+      type="button"
+    >
+      + ADD GUIDE
+    </button>
+
+    <br>
+
+    <button
+      class="remove-button"
+      onclick="removeTrip(${id})"
+      type="button"
+    >
+      REMOVE TRIP
+    </button>
+  `;
+
+
+  document
+    .getElementById(
+      "tripsContainer"
+    )
+    .appendChild(card);
+
+
+  initialiseTimePicker(
+    card.querySelector(
+      ".boatPrep"
+    )
+  );
+
+  initialiseTimePicker(
+    card.querySelector(
+      ".boatDep"
+    )
+  );
+
+  initialiseTimePicker(
+    card.querySelector(
+      ".lagoonMeeting"
+    )
+  );
+
+
+  if (saved) {
+
+    setSelectValue(
+      card.querySelector(
+        ".activity"
+      ),
+      saved.activity
+    );
+
+
+    card.querySelector(
+      ".villa"
+    ).value =
+      saved.villa || "";
+
+
+    card.querySelector(
+      ".pax"
+    ).value =
+      saved.pax || "";
+
+
+    handleActivityChange(
+      card.querySelector(
+        ".activity"
+      )
+    );
+
+
+    if (
+      !isLagoonTrip(card)
+    ) {
+
+      setSelectValue(
+        card.querySelector(
+          ".boat"
+        ),
+        saved.boat
+      );
+
+
+      setSelectValue(
+        card.querySelector(
+          ".captain"
+        ),
+        saved.captain
+      );
+
+
+      setTimeValue(
+        card.querySelector(
+          ".boatPrep"
+        ),
+        saved.boatPrep
+      );
+
+
+      setTimeValue(
+        card.querySelector(
+          ".boatDep"
+        ),
+        saved.boatDep
+      );
+
+    } else {
+
+      setTimeValue(
+        card.querySelector(
+          ".lagoonMeeting"
+        ),
+        saved.lagoonMeetingTime
+      );
+    }
+
+
+    const guides =
+      saved.guides || [];
+
+
+    if (
+      guides.length
+    ) {
+
+      setSelectValue(
+        card.querySelector(
+          ".guide"
+        ),
+        guides[0]
+      );
+
+
+      for (
+        let i = 1;
+        i < guides.length;
+        i++
+      ) {
+
+        addGuide(
+          id,
+          guides[i]
+        );
+      }
+    }
+  }
+
+
+  renumberTrips();
+}
+
+
+function addGuide(
+  tripId,
+  saved = ""
+) {
+
+  const container =
+    document.getElementById(
+      "guides-" + tripId
+    );
+
+
+  const count =
+    container
+      .querySelectorAll(
+        ".guide-row"
+      )
+      .length;
+
+
+  if (
+    count >= 6
+  ) {
+
+    alert(
+      "Maximum of 6 guides per trip."
+    );
+
+    return;
+  }
+
+
+  const row =
+    document.createElement(
+      "div"
+    );
+
+
+  row.className =
+    "guide-row";
+
+
+  row.innerHTML = `
+
+    <label>
+      Guide ${count + 1}
+    </label>
+
+    <select class="guide">
+      ${createOptions(
+        appData.staff
+      )}
+    </select>
+  `;
+
+
+  container.appendChild(row);
+
+
+  if (saved) {
+
+    setSelectValue(
+      row.querySelector(
+        ".guide"
+      ),
+      saved
+    );
+  }
+}
+
+
+function removeTrip(id) {
+
+  const card =
+    document.getElementById(
+      "trip-" + id
+    );
+
+
+  if (card) {
+    card.remove();
+  }
+
+
+  if (
+    !document.querySelector(
+      ".trip-card"
+    )
+  ) {
+
+    addTrip();
+  }
+
+
+  renumberTrips();
+}
+
+
+function renumberTrips() {
+
+  document
+    .querySelectorAll(
+      ".trip-card"
+    )
+    .forEach(
+      function(card,index) {
+
+        card
+          .querySelector(
+            ".trip-title"
+          )
+          .innerText =
+            "Trip " +
+            (index + 1);
+      }
+    );
+}
+
+
+
+// =====================================================
+// LAGOON SESSION
+// =====================================================
+
+function isLagoonTrip(card) {
+
+  return (
+    card
+      .querySelector(
+        ".activity"
+      )
+      .value
+      .trim()
+      .toUpperCase() ===
+    "LAGOON SESSION"
+  );
+}
+
+
+function handleActivityChange(
+  select
+) {
+
+  const card =
+    select.closest(
+      ".trip-card"
+    );
+
+
+  const lagoon =
+    select.value
+      .trim()
+      .toUpperCase() ===
+    "LAGOON SESSION";
+
+
+  const normal =
+    card.querySelector(
+      ".normal-operation-fields"
+    );
+
+
+  const lagoonSection =
+    card.querySelector(
+      ".lagoon-time"
+    );
+
+
+  if (lagoon) {
+
+    normal.style.display =
+      "none";
+
+    lagoonSection.style.display =
+      "block";
+
+
+    card.querySelector(
+      ".boat"
+    ).value = "";
+
+
+    card.querySelector(
+      ".captain"
+    ).value = "";
+
+
+    setTimeValue(
+      card.querySelector(
+        ".boatPrep"
+      ),
+      ""
+    );
+
+
+    setTimeValue(
+      card.querySelector(
+        ".boatDep"
+      ),
+      ""
+    );
+
+  } else {
+
+    normal.style.display =
+      "block";
+
+    lagoonSection.style.display =
+      "none";
+
+
+    setTimeValue(
+      card.querySelector(
+        ".lagoonMeeting"
+      ),
+      ""
+    );
+  }
+}
+
+
+
+// =====================================================
+// VILLA FORMAT
+// =====================================================
+
+function formatVilla(input) {
+
+  let value =
+    input.value.trim();
+
+
+  if (!value) {
+    return;
+  }
+
+
+  const digits =
+    value.replace(
+      /[^0-9]/g,
+      ""
+    );
+
+
+  if (!digits) {
+    return;
+  }
+
+
+  const rooms = [];
+
+
+  for (
+    let i = 0;
+    i < digits.length;
+    i += 3
+  ) {
+
+    rooms.push(
+      digits.substring(
+        i,
+        i + 3
+      )
+    );
+  }
+
+
+  input.value =
+    rooms.join(
+      " - "
+    );
+}
+
+
+
+// =====================================================
+// LEAVES
+// =====================================================
+
+function addLeave(saved=null) {
+
+  const row =
+    document.createElement(
+      "div"
+    );
+
+
+  row.className =
+    "leave-row";
+
+
+  row.innerHTML = `
+
+    <div class="row">
+
+      <div>
+
+        <label>
+          Staff
+        </label>
+
+        <select class="leaveStaff">
+          ${createOptions(
+            appData.staff
+          )}
+        </select>
+
+      </div>
+
+      <div>
+
+        <label>
+          Leave Type
+        </label>
+
+        <select class="leaveType">
+          ${createOptions(
+            appData.leaveTypes
+          )}
+        </select>
+
+      </div>
+
+    </div>
+
+    <button
+      class="tiny-remove"
+      type="button"
+      onclick="this.parentElement.remove()"
+    >
+      Remove Leave
+    </button>
+  `;
+
+
+  document
+    .getElementById(
+      "leavesContainer"
+    )
+    .appendChild(row);
+
+
+  if (saved) {
+
+    setSelectValue(
+      row.querySelector(
+        ".leaveStaff"
+      ),
+      saved.staff
+    );
+
+    setSelectValue(
+      row.querySelector(
+        ".leaveType"
+      ),
+      saved.type
+    );
+  }
+}
+
+
+
+// =====================================================
+// COUNTER
+// =====================================================
+
+function renderCounterStaff() {
+
+  [
+    "morning",
+    "afternoon",
+    "evening"
+  ].forEach(
+    function(shift) {
+
+      const container =
+        document.getElementById(
+          "counter-" + shift
+        );
+
+
+      container.innerHTML = "";
+
+
+      appData.staff
+        .forEach(
+          function(name) {
+
+            const chip =
+              document.createElement(
+                "div"
+              );
+
+
+            chip.className =
+              "staff-chip";
+
+
+            chip.dataset.name =
+              name;
+
+
+            chip.textContent =
+              name;
+
+
+            chip.onclick =
+              function() {
+
+                chip
+                  .classList
+                  .toggle(
+                    "selected"
+                  );
+              };
+
+
+            container.appendChild(
+              chip
+            );
+          }
+        );
+    }
+  );
+}
+
+
+function getSelectedCounterStaff(
+  shift
+) {
+
+  return Array
+    .from(
+      document.querySelectorAll(
+        "#counter-" +
+        shift +
+        " .staff-chip.selected"
+      )
+    )
+    .map(
+      chip =>
+        chip.dataset.name
+    );
+}
+
+
+function setSelectedCounterStaff(
+  shift,
+  names
+) {
+
+  document
+    .querySelectorAll(
+      "#counter-" +
+      shift +
+      " .staff-chip"
+    )
+    .forEach(
+      function(chip) {
+
+        chip.classList.toggle(
+          "selected",
+          (names || [])
+            .includes(
+              chip.dataset.name
+            )
+        );
+      }
+    );
+}
+
+
+
+// =====================================================
+// RESET / COLLECT
+// =====================================================
+
+function resetScheduleForm() {
+
+  document
+    .getElementById(
+      "staffMeeting"
+    ).value = "";
+
+
+  document
+    .getElementById(
+      "meetingTimeContainer"
+    ).style.display =
+      "none";
+
+
+  setTimeValue(
+    document.getElementById(
+      "meetingTime"
+    ),
+    ""
+  );
+
+
+  document
+    .getElementById(
+      "tripsContainer"
+    ).innerHTML = "";
+
+
+  document
+    .getElementById(
+      "leavesContainer"
+    ).innerHTML = "";
+
+
+  tripCount = 0;
+
+
+  addTrip();
+
+  renderCounterStaff();
+}
+
+
+function collectScheduleData() {
+
+  const trips = [];
+
+
+  document
+    .querySelectorAll(
+      ".trip-card"
+    )
+    .forEach(
+      function(card) {
+
+        const guides =
+          Array
+            .from(
+              card.querySelectorAll(
+                ".guide"
+              )
+            )
+            .map(
+              g => g.value
+            )
+            .filter(Boolean);
+
+
+        trips.push({
+
+          activity:
+            card.querySelector(
+              ".activity"
+            ).value,
+
+          villa:
+            card.querySelector(
+              ".villa"
+            ).value,
+
+          pax:
+            card.querySelector(
+              ".pax"
+            ).value,
+
+          boat:
+            card.querySelector(
+              ".boat"
+            ).value,
+
+          captain:
+            card.querySelector(
+              ".captain"
+            ).value,
+
+          boatPrep:
+            card.querySelector(
+              ".boatPrep"
+            ).value,
+
+          boatDep:
+            card.querySelector(
+              ".boatDep"
+            ).value,
+
+          lagoonMeetingTime:
+            card.querySelector(
+              ".lagoonMeeting"
+            ).value,
+
+          guides:
+            guides
+        });
+      }
+    );
+
+
+  const leaves = [];
+
+
+  document
+    .querySelectorAll(
+      ".leave-row"
+    )
+    .forEach(
+      function(row) {
+
+        const staff =
+          row.querySelector(
+            ".leaveStaff"
+          ).value;
+
+        const type =
+          row.querySelector(
+            ".leaveType"
+          ).value;
+
+
+        if (
+          staff ||
+          type
+        ) {
+
+          leaves.push({
+            staff,
+            type
+          });
+        }
+      }
+    );
+
+
+  return {
+
+    date:
+      document
+        .getElementById(
+          "scheduleDate"
+        ).value,
+
+    staffMeeting:
+      document
+        .getElementById(
+          "staffMeeting"
+        ).value,
+
+    meetingTime:
+      document
+        .getElementById(
+          "meetingTime"
+        ).value,
+
+    trips,
+
+    leaves,
+
+    counter: {
+
+      morning:
+        getSelectedCounterStaff(
+          "morning"
+        ),
+
+      afternoon:
+        getSelectedCounterStaff(
+          "afternoon"
+        ),
+
+      evening:
+        getSelectedCounterStaff(
+          "evening"
+        )
+    }
+  };
+}
+
+
+
+// =====================================================
+// VALIDATION
+// =====================================================
+
+function clearValidationErrors() {
+
+  document
+    .querySelectorAll(
+      ".input-error"
+    )
+    .forEach(
+      el =>
+        el.classList.remove(
+          "input-error"
+        )
+    );
+}
+
+
+function markError(element) {
+
+  if (element) {
+
+    element
+      .classList
+      .add(
+        "input-error"
+      );
+  }
+}
+
+
+function tripContainsData(card) {
+
+  return Array
+    .from(
+      card.querySelectorAll(
+        "input,select"
+      )
+    )
+    .some(
+      element =>
+        element.value
+    );
+}
+
+
+function validateScheduleForOutput() {
+
+  clearValidationErrors();
+
+
+  const errors = [];
+
+  let firstError = null;
+
+
+  function fail(
+    element,
+    message
+  ) {
+
+    markError(element);
+
+    errors.push(message);
+
+    if (!firstError) {
+      firstError = element;
+    }
+  }
+
+
+  const date =
+    document.getElementById(
+      "scheduleDate"
+    );
+
+
+  if (!date.value) {
+
+    fail(
+      date,
+      "Schedule Date is missing."
+    );
+  }
+
+
+  const meeting =
+    document.getElementById(
+      "staffMeeting"
+    );
+
+
+  if (!meeting.value) {
+
+    fail(
+      meeting,
+      "Please select Staff Meeting Yes or No."
+    );
+
+  } else if (
+    meeting.value === "YES"
+  ) {
+
+    const time =
+      document.getElementById(
+        "meetingTime"
+      );
+
+
+    if (!time.value) {
+
+      fail(
+        time,
+        "Staff Meeting Time is missing."
+      );
+    }
+  }
+
+
+  const activeTrips = [];
+
+
+  document
+    .querySelectorAll(
+      ".trip-card"
+    )
+    .forEach(
+      function(card,index) {
+
+        const activity =
+          card.querySelector(
+            ".activity"
+          );
+
+
+        if (
+          !activity.value
+        ) {
+
+          if (
+            tripContainsData(card)
+          ) {
+
+            fail(
+              activity,
+              "Trip " +
+              (index + 1) +
+              ": Activity is missing."
+            );
+          }
+
+          return;
+        }
+
+
+        activeTrips.push({
+          card,
+          number:
+            index + 1
+        });
+
+
+        const villa =
+          card.querySelector(
+            ".villa"
+          );
+
+        const pax =
+          card.querySelector(
+            ".pax"
+          );
+
+        const guide1 =
+          card.querySelector(
+            ".guide"
+          );
+
+
+        if (!villa.value) {
+
+          fail(
+            villa,
+            "Trip " +
+            (index + 1) +
+            ": Villa is missing."
+          );
+        }
+
+
+        if (!pax.value) {
+
+          fail(
+            pax,
+            "Trip " +
+            (index + 1) +
+            ": Pax is missing."
+          );
+        }
+
+
+        if (
+          !guide1 ||
+          !guide1.value
+        ) {
+
+          fail(
+            guide1,
+            "Trip " +
+            (index + 1) +
+            ": Guide 1 is missing."
+          );
+        }
+
+
+        if (
+          isLagoonTrip(card)
+        ) {
+
+          const lagoonTime =
+            card.querySelector(
+              ".lagoonMeeting"
+            );
+
+
+          if (
+            !lagoonTime.value
+          ) {
+
+            fail(
+              lagoonTime,
+              "Trip " +
+              (index + 1) +
+              ": Guest Meeting Time is missing."
+            );
+          }
+
+        } else {
+
+          const fields = [
+
+            [
+              ".boat",
+              "Boat"
+            ],
+
+            [
+              ".captain",
+              "Captain"
+            ],
+
+            [
+              ".boatPrep",
+              "Boat Prep"
+            ],
+
+            [
+              ".boatDep",
+              "Boat Departure"
+            ]
+          ];
+
+
+          fields.forEach(
+            function(pair) {
+
+              const element =
+                card.querySelector(
+                  pair[0]
+                );
+
+
+              if (!element.value) {
+
+                fail(
+                  element,
+                  "Trip " +
+                  (index + 1) +
+                  ": " +
+                  pair[1] +
+                  " is missing."
+                );
+              }
+            }
+          );
+        }
+      }
+    );
+
+
+  if (
+    activeTrips.length === 0
+  ) {
+
+    errors.push(
+      "Please add at least one activity."
+    );
+  }
+
+
+  // -----------------------------------------
+  // BOAT CONFLICTS
+  // -----------------------------------------
+
+  for (
+    let a = 0;
+    a < activeTrips.length;
+    a++
+  ) {
+
+    const tripA =
+      activeTrips[a];
+
+
+    if (
+      isLagoonTrip(
+        tripA.card
+      )
+    ) {
+      continue;
+    }
+
+
+    const boatA =
+      tripA.card
+        .querySelector(
+          ".boat"
+        )
+        .value;
+
+    const prepA =
+      tripA.card
+        .querySelector(
+          ".boatPrep"
+        )
+        .value;
+
+    const depA =
+      tripA.card
+        .querySelector(
+          ".boatDep"
+        )
+        .value;
+
+
+    if (!boatA) {
+      continue;
+    }
+
+
+    for (
+      let b = a + 1;
+      b < activeTrips.length;
+      b++
+    ) {
+
+      const tripB =
+        activeTrips[b];
+
+
+      if (
+        isLagoonTrip(
+          tripB.card
+        )
+      ) {
+        continue;
+      }
+
+
+      const boatB =
+        tripB.card
+          .querySelector(
+            ".boat"
+          )
+          .value;
+
+
+      if (
+        boatA !== boatB
+      ) {
+        continue;
+      }
+
+
+      const prepB =
+        tripB.card
+          .querySelector(
+            ".boatPrep"
+          )
+          .value;
+
+      const depB =
+        tripB.card
+          .querySelector(
+            ".boatDep"
+          )
+          .value;
+
+
+      if (
+        prepA &&
+        prepA === prepB
+      ) {
+
+        markError(
+          tripA.card.querySelector(
+            ".boatPrep"
+          )
+        );
+
+        markError(
+          tripB.card.querySelector(
+            ".boatPrep"
+          )
+        );
+
+
+        errors.push(
+          "BOAT CONFLICT: " +
+          boatA +
+          " has the same Boat Prep time (" +
+          prepA +
+          ") for Trip " +
+          tripA.number +
+          " and Trip " +
+          tripB.number +
+          "."
+        );
+      }
+
+
+      if (
+        depA &&
+        depA === depB
+      ) {
+
+        markError(
+          tripA.card.querySelector(
+            ".boatDep"
+          )
+        );
+
+        markError(
+          tripB.card.querySelector(
+            ".boatDep"
+          )
+        );
+
+
+        errors.push(
+          "BOAT CONFLICT: " +
+          boatA +
+          " has the same Boat Departure time (" +
+          depA +
+          ") for Trip " +
+          tripA.number +
+          " and Trip " +
+          tripB.number +
+          "."
+        );
+      }
+    }
+  }
+
+
+  if (
+    errors.length
+  ) {
+
+    alert(
+      "⚠️ SCHEDULE CHECK FAILED ⚠️\n\n" +
+      errors.join(
+        "\n\n"
+      )
+    );
+
+
+    if (firstError) {
+
+      firstError
+        .scrollIntoView({
+          behavior:
+            "smooth",
+          block:
+            "center"
+        });
+    }
+
+
+    return false;
+  }
+
+
+  return true;
+}
+
+
+
+// =====================================================
+// SAVE / LOAD
+// =====================================================
+
+function scheduleAutoSave() {
+
+  if (!appReady || isLoadingSchedule) {
+    return;
+  }
+
+  const date =
+    document.getElementById("scheduleDate").value;
+
+  if (!date) {
+    return;
+  }
+
+  clearTimeout(autoSaveTimer);
+
+  setStatus(
+    "Saving...",
+    "loading"
+  );
+
+  autoSaveTimer = setTimeout(
+    async function() {
+
+      const data = collectScheduleData();
+
+      try {
+
+        await apiCall(
+          "saveAppSchedule",
+          { scheduleData: data }
+        );
+
+        setStatus(
+          "✓ Saved automatically",
+          "success"
+        );
+
+      } catch (error) {
+
+        setStatus(
+          "Autosave error: " + error.message,
+          "error"
+        );
+      }
+
+    },
+    900
+  );
+}
+
+
+async function clearAllSchedule() {
+
+  const date =
+    document.getElementById("scheduleDate").value;
+
+  if (!date) {
+    alert("Please select a schedule date first.");
+    return;
+  }
+
+  const displayDate = formatWhatsAppDate(date);
+
+  if (!confirm(
+    "Clear the entire saved schedule for " +
+    displayDate +
+    "?\n\nThis cannot be undone."
+  )) {
+    return;
+  }
+
+  clearTimeout(autoSaveTimer);
+  isLoadingSchedule = true;
+
+  setStatus(
+    "Clearing schedule...",
+    "loading"
+  );
+
+  try {
+
+    await apiCall(
+      "clearAppSchedule",
+      { dateKey: date }
+    );
+
+    resetScheduleForm();
+    isLoadingSchedule = false;
+
+    setStatus(
+      "✓ Schedule cleared",
+      "success"
+    );
+
+  } catch (error) {
+
+    isLoadingSchedule = false;
+
+    setStatus(
+      "Error clearing schedule: " + error.message,
+      "error"
+    );
+
+    alert(error.message);
+  }
+}
+
+
+async function loadSelectedSchedule() {
+
+  const date =
+    document
+      .getElementById(
+        "scheduleDate"
+      )
+      .value;
+
+  if (!date) {
+    return;
+  }
+
+  clearTimeout(autoSaveTimer);
+  isLoadingSchedule = true;
+
+  setStatus(
+    "Checking saved schedule...",
+    "loading"
+  );
+
+  try {
+
+    const saved =
+      await apiCall(
+        "loadAppSchedule",
+        { dateKey: date }
+      );
+
+    resetScheduleForm();
+
+    if (!saved) {
+
+      isLoadingSchedule = false;
+
+      setStatus(
+        "No saved schedule for this date",
+        "success"
+      );
+
+      return;
+    }
+
+    document
+      .getElementById(
+        "staffMeeting"
+      )
+      .value =
+        saved.staffMeeting || "";
+
+    toggleMeetingTime();
+
+    if (
+      saved.staffMeeting ===
+      "YES"
+    ) {
+
+      setTimeValue(
+        document.getElementById(
+          "meetingTime"
+        ),
+        saved.meetingTime
+      );
+    }
+
+    document
+      .getElementById(
+        "tripsContainer"
+      )
+      .innerHTML = "";
+
+    tripCount = 0;
+
+    if (
+      saved.trips &&
+      saved.trips.length
+    ) {
+
+      saved.trips
+        .forEach(
+          addTrip
+        );
+
+    } else {
+
+      addTrip();
+    }
+
+    document
+      .getElementById(
+        "leavesContainer"
+      )
+      .innerHTML = "";
+
+    (saved.leaves || [])
+      .forEach(
+        addLeave
+      );
+
+    renderCounterStaff();
+
+    const counter =
+      saved.counter || {};
+
+    setSelectedCounterStaff(
+      "morning",
+      counter.morning
+    );
+
+    setSelectedCounterStaff(
+      "afternoon",
+      counter.afternoon
+    );
+
+    setSelectedCounterStaff(
+      "evening",
+      counter.evening
+    );
+
+    isLoadingSchedule = false;
+
+    setStatus(
+      "✓ Saved schedule loaded",
+      "success"
+    );
+
+  } catch (error) {
+
+    isLoadingSchedule = false;
+
+    setStatus(
+      "Error loading schedule: " +
+      error.message,
+      "error"
+    );
+  }
+}
+
+
+
+// =====================================================
+// MESSAGE HELPERS
+// =====================================================
+
+// =====================================================
+// MESSAGE HELPERS
+// =====================================================
+
+function formatWhatsAppDate(date) {
+
+  const p =
+    date.split("-");
+
+
+  return (
+    p[2] +
+    "/" +
+    p[1] +
+    "/" +
+    p[0].slice(-2)
+  );
+}
+
+
+function getScheduleHeading(date) {
+
+  const selected =
+    new Date(
+      date +
+      "T12:00:00"
+    );
+
+
+  const today =
+    new Date();
+
+
+  today.setHours(
+    12,0,0,0
+  );
+
+
+  const tomorrow =
+    new Date(today);
+
+
+  tomorrow.setDate(
+    tomorrow.getDate() +
+    1
+  );
+
+
+  if (
+    selected.toDateString() ===
+    today.toDateString()
+  ) {
+    return "Today's schedule";
+  }
+
+
+  if (
+    selected.toDateString() ===
+    tomorrow.toDateString()
+  ) {
+    return "Tomorrow's schedule";
+  }
+
+
+  return "Schedule";
+}
+
+
+function showMessage(
+  title,
+  message
+) {
+
+  document
+    .getElementById(
+      "messageTitle"
+    )
+    .innerText =
+      title;
+
+
+  document
+    .getElementById(
+      "messageText"
+    )
+    .value =
+      message;
+
+
+  document
+    .getElementById(
+      "copyStatus"
+    )
+    .innerText =
+      "";
+
+
+  document
+    .getElementById(
+      "messageModal"
+    )
+    .style.display =
+      "block";
+}
+
+
+
+// =====================================================
+// DC WHATSAPP
+// =====================================================
+
+function generateDCWhatsApp() {
+
+  if (
+    !validateScheduleForOutput()
+  ) {
+    return;
+  }
+
+
+  const data =
+    collectScheduleData();
+
+
+  const trips =
+    data.trips
+      .filter(
+        t => t.activity
+      );
+
+
+  let message =
+    "*" +
+    getScheduleHeading(
+      data.date
+    ) +
+    " – " +
+    formatWhatsAppDate(
+      data.date
+    ) +
+    "*\n" +
+    "--------------------\n" +
+    "We have *" +
+    trips.length +
+    "* confirmed trip" +
+    (
+      trips.length === 1
+      ? ""
+      : "s"
+    ) +
+    "\n-------------------\n";
+
+
+  trips.forEach(
+    function(trip,index) {
+
+      message +=
+        "Trip " +
+        (index + 1) +
+        ": *" +
+        trip.activity
+          .toUpperCase() +
+        "*\n";
+
+
+      message +=
+        "Villa: " +
+        trip.villa +
+        "\n";
+
+
+      message +=
+        "Pax: " +
+        trip.pax +
+        "\n";
+
+
+      if (
+        trip.activity
+          .toUpperCase() ===
+        "LAGOON SESSION"
+      ) {
+
+        message +=
+          "Meeting Time: " +
+          trip.lagoonMeetingTime +
+          "\n";
+
+      } else {
+
+        message +=
+          "Boat : " +
+          trip.boat +
+          "\n";
+
+        message +=
+          "Cap : " +
+          trip.captain +
+          "\n";
+      }
+
+
+      message +=
+        "Guide : " +
+        trip.guides.join(
+          " -- "
+        ) +
+        "\n";
+
+
+      if (
+        trip.activity
+          .toUpperCase() !==
+        "LAGOON SESSION"
+      ) {
+
+        message +=
+          "Boat Prep: " +
+          trip.boatPrep +
+          "\n";
+
+        message +=
+          "Boat Dep: " +
+          trip.boatDep +
+          "\n";
+      }
+
+
+      message +=
+        "----------------\n";
+    }
+  );
+
+
+  if (
+    data.staffMeeting ===
+    "YES"
+  ) {
+
+    message =
+      "*⚠️⚠️ STAFF MEETING ⚠️⚠️*\n" +
+      "*TIME: " +
+      data.meetingTime +
+      "*\n" +
+      "*PLEASE MAKE SURE TO ATTEND*\n" +
+      "====================\n\n" +
+      message;
+  }
+
+
+  const leaves =
+    data.leaves.filter(
+      l =>
+        l.staff &&
+        l.type
+    );
+
+
+  if (leaves.length) {
+
+    message +=
+      "---------------\n" +
+      "*LEAVES*\n";
+
+
+    leaves.forEach(
+      l => {
+
+        message +=
+          "> " +
+          l.staff +
+          " - " +
+          l.type +
+          "\n";
+      }
+    );
+
+
+    message +=
+      "------------------\n";
+  }
+
+
+  message +=
+    "*COUNTER*\n" +
+    "------------------\n";
+
+
+  [
+    [
+      "Morning",
+      data.counter.morning
+    ],
+
+    [
+      "Afternoon",
+      data.counter.afternoon
+    ],
+
+    [
+      "Evening",
+      data.counter.evening
+    ]
+  ].forEach(
+    function(item) {
+
+      if (
+        item[1].length
+      ) {
+
+        message +=
+          item[0] +
+          "  --" +
+          item[1].join(
+            " - "
+          ) +
+          "\n";
+      }
+    }
+  );
+
+
+  message +=
+    "------------------\n" +
+    "⚠️ Check the towels and IVD before 30 mins before the dep ⚠️\n" +
+    "⚠️ All trips will only take place if the weather conditions are suitable ⚠️";
+
+
+  showMessage(
+    "DC / STAFF WHATSAPP MESSAGE",
+    message
+  );
+}
+
+
+
+// =====================================================
+// FRONT OFFICE WHATSAPP
+// =====================================================
+
+function generateFrontOfficeWhatsApp() {
+
+  if (
+    !validateScheduleForOutput()
+  ) {
+    return;
+  }
+
+
+  const data =
+    collectScheduleData();
+
+
+  const trips =
+    data.trips.filter(
+      t => t.activity
+    );
+
+
+  let message =
+    "*" +
+    getScheduleHeading(
+      data.date
+    ) +
+    " – " +
+    formatWhatsAppDate(
+      data.date
+    ) +
+    "*\n" +
+    "--------------------\n" +
+    "We have *" +
+    trips.length +
+    "* confirmed trip" +
+    (
+      trips.length === 1
+      ? ""
+      : "s"
+    ) +
+    "\n-------------------\n";
+
+
+  trips.forEach(
+    function(trip,index) {
+
+      message +=
+        "Trip " +
+        (index + 1) +
+        ": *" +
+        trip.activity
+          .toUpperCase() +
+        "*\n";
+
+
+      if (
+        trip.activity
+          .toUpperCase() ===
+        "LAGOON SESSION"
+      ) {
+
+        message +=
+          "Meeting Time: " +
+          trip.lagoonMeetingTime +
+          "\n";
+
+      } else {
+
+        message +=
+          "Boat : " +
+          trip.boat +
+          "\n";
+
+        message +=
+          "Cap : " +
+          trip.captain +
+          "\n";
+      }
+
+
+      message +=
+        "Guide : " +
+        trip.guides.join(
+          "--"
+        ) +
+        "\n";
+
+
+      if (
+        trip.activity
+          .toUpperCase() !==
+        "LAGOON SESSION"
+      ) {
+
+        message +=
+          "Boat Prep: " +
+          trip.boatPrep +
+          "\n";
+
+        message +=
+          "Boat Dep: " +
+          trip.boatDep +
+          "\n";
+      }
+
+
+      message +=
+        "----------------\n";
+    }
+  );
+
+
+  const todayText =
+    getScheduleHeading(
+      data.date
+    ) ===
+    "Today's schedule"
+      ? "TODAY'S"
+      : "TOMORROW'S";
+
+
+  message +=
+    "⚠️PLEASE *UPDATE GUESTS* WITH " +
+    todayText +
+    " CONFIRMED TRIPS ⚠️\n\n" +
+    "⚠️All trips will only take place if the weather conditions are suitable ⚠️\n" +
+    "⚠️Please advise the guests *to be at the DC 15 minutes prior* to departure⚠️";
+
+
+  showMessage(
+    "FRONT OFFICE WHATSAPP MESSAGE",
+    message
+  );
+}
+
+
+
+// =====================================================
+// IVD
+// =====================================================
+
+async function generateIVDRequest() {
+
+  if (
+    !validateScheduleForOutput()
+  ) {
+    return;
+  }
+
+  const data =
+    collectScheduleData();
+
+  const eligible =
+    data.trips.filter(
+      function(trip) {
+
+        return (
+          trip.activity &&
+          trip.activity
+            .toUpperCase()
+            .trim() !==
+          "LAGOON SESSION"
+        );
+
+      }
+    );
+
+  if (
+    eligible.length === 0
+  ) {
+
+    alert(
+      "There are no activities requiring an IVD request."
+    );
+
+    return;
+  }
+
+  setStatus(
+    "Generating IVD request...",
+    "loading"
+  );
+
+  try {
+
+    const result =
+      await apiCall(
+        "generateIVDFromApp",
+        { scheduleData: data }
+      );
+
+    const byteCharacters =
+      atob(
+        result.base64
+      );
+
+    const byteNumbers =
+      new Array(
+        byteCharacters.length
+      );
+
+    for (
+      let i = 0;
+      i < byteCharacters.length;
+      i++
+    ) {
+
+      byteNumbers[i] =
+        byteCharacters
+          .charCodeAt(i);
+    }
+
+    const byteArray =
+      new Uint8Array(
+        byteNumbers
+      );
+
+    const blob =
+      new Blob(
+        [byteArray],
+        {
+          type:
+            result.mimeType ||
+            "application/pdf"
+        }
+      );
+
+    const url =
+      URL.createObjectURL(
+        blob
+      );
+
+    const link =
+      document.createElement(
+        "a"
+      );
+
+    link.href =
+      url;
+
+    link.download =
+      result.fileName ||
+      "IVD REQUEST.pdf";
+
+    document.body
+      .appendChild(
+        link
+      );
+
+    link.click();
+
+    document.body
+      .removeChild(
+        link
+      );
+
+    setTimeout(
+      function() {
+
+        URL.revokeObjectURL(
+          url
+        );
+
+      },
+      2000
+    );
+
+    setStatus(
+      "✓ IVD Request downloaded",
+      "success"
+    );
+
+  } catch (error) {
+
+    setStatus(
+      "IVD Error: " +
+      error.message,
+      "error"
+    );
+
+    alert(
+      error.message
+    );
+  }
+}
+
+
+// =====================================================
+// COPY / CLOSE / ESCAPE
+// =====================================================
+
+// =====================================================
+// COPY / CLOSE / ESCAPE
+// =====================================================
+
+function copyMessage() {
+
+  const box = document.getElementById("messageText");
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(box.value).then(function() {
+      document.getElementById("copyStatus").innerText = "✓ Message copied";
+    });
+  } else {
+    box.select();
+    document.execCommand("copy");
+    document.getElementById("copyStatus").innerText = "✓ Message copied";
+  }
+}
+
+
+function closeModal(id) {
+  document.getElementById(id).style.display = "none";
+}
+
+
+function escapeHtml(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+
+// =====================================================
+// AUTOSAVE EVENTS
+// =====================================================
+
+document.addEventListener("input", function(event) {
+  event.target.classList.remove("input-error");
+
+  if (event.target.id !== "scheduleDate") {
+    scheduleAutoSave();
+  }
+});
+
+
+document.addEventListener("change", function(event) {
+  event.target.classList.remove("input-error");
+
+  if (event.target.id !== "scheduleDate") {
+    scheduleAutoSave();
+  }
+});
+
+
+document.addEventListener("click", function(event) {
+  if (
+    event.target.classList.contains("staff-chip") ||
+    event.target.classList.contains("secondary-button") ||
+    event.target.classList.contains("remove-button") ||
+    event.target.classList.contains("tiny-remove")
+  ) {
+    setTimeout(scheduleAutoSave, 0);
+  }
+});
+
+
+// =====================================================
+// START
+// =====================================================
+
+window.onload = function() {
+
+  initialiseDatePicker();
+
+  initialiseTimePicker(
+    document.getElementById("meetingTime")
+  );
+
+  loadAppData();
+
+  setTimeout(function() {
+    appReady = true;
+  }, 500);
+};
+
+</script>
+
+</body>
+</html>

@@ -1,7 +1,8 @@
-const CACHE_NAME = "blue-wave-shell-v1";
+const CACHE_NAME = "blue-wave-shell-v2";
 const APP_SHELL = [
   "./",
   "./index.html",
+  "./scheduler.html",
   "./manifest.json",
   "./icon-192.png",
   "./icon-512.png"
@@ -17,7 +18,11 @@ self.addEventListener("install", event => {
 self.addEventListener("activate", event => {
   event.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
+      Promise.all(
+        keys
+          .filter(k => k !== CACHE_NAME)
+          .map(k => caches.delete(k))
+      )
     )
   );
   self.clients.claim();
@@ -25,6 +30,7 @@ self.addEventListener("activate", event => {
 
 self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
+
   event.respondWith(
     fetch(event.request)
       .then(response => {
