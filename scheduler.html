@@ -3098,6 +3098,18 @@ function generateFrontOfficeWhatsApp() {
         "*\n";
 
 
+      message +=
+        "Villa: " +
+        trip.villa +
+        "\n";
+
+
+      message +=
+        "Pax: " +
+        trip.pax +
+        "\n";
+
+
       if (
         trip.activity
           .toUpperCase() ===
@@ -3177,7 +3189,6 @@ function generateFrontOfficeWhatsApp() {
     message
   );
 }
-
 
 
 // =====================================================
