@@ -43,39 +43,40 @@
       background: #ffffff;
     }
 
-    .top-bar {
-      flex: 0 0 auto;
+   .top-bar {
+  width: 100%;
 
-      width: 100%;
+  padding:
+    calc(8px + env(safe-area-inset-top))
+    12px
+    6px;
 
-      padding:
-        calc(8px + env(safe-area-inset-top))
-        12px
-        8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-      background: #ffffff;
+  background: #ffffff;
 
-      display: flex;
-      align-items: center;
-    }
+  position: relative;
+  z-index: 10;
+}
+   .back-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 
-    .back-button {
-      display: inline-flex;
-      align-items: center;
+  padding: 9px 14px;
 
-      padding: 9px 14px;
+  border-radius: 9px;
 
-      border-radius: 9px;
+  background: #eaf2f8;
+  color: #12385b;
 
-      background: #eaf2f8;
-      color: #12385b;
+  text-decoration: none;
 
-      text-decoration: none;
-
-      font-size: 14px;
-      font-weight: 700;
-    }
-
+  font-size: 14px;
+  font-weight: 700;
+}
     .poster-area {
       flex: 1 1 auto;
 
