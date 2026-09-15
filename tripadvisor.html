@@ -36,77 +36,88 @@
     }
 
 
-    body {
-      height: 100vh;
-      height: 100dvh;
-    }
-
-
     .page {
-      width: 100%;
-      height: 100%;
+      position: fixed;
 
-      display: grid;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
 
-      /*
-        Top controls
-        Poster gets remaining space
-        Bottom controls
-      */
+      display: flex;
+      flex-direction: column;
 
-      grid-template-rows:
-        55px
-        minmax(0, 1fr)
-        60px;
+      background: #ffffff;
 
       padding:
-        env(safe-area-inset-top)
+        calc(8px + env(safe-area-inset-top))
         10px
-        env(safe-area-inset-bottom);
-
-      overflow: hidden;
+        calc(8px + env(safe-area-inset-bottom));
     }
 
 
-    /* TOP */
+    /* =========================
+       TOP BAR
+    ========================= */
 
-    .top {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .top-bar {
+      flex: 0 0 auto;
 
       width: 100%;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 8px;
+
+      padding-bottom: 8px;
     }
 
 
-    .back-button {
+    .button {
       display: inline-flex;
 
       align-items: center;
       justify-content: center;
 
-      padding: 9px 16px;
+      min-height: 38px;
 
-      background: #eaf2f8;
-      color: #12385b;
+      padding: 9px 13px;
 
       border-radius: 9px;
 
       text-decoration: none;
 
-      font-size: 14px;
+      font-size: 13px;
       font-weight: bold;
+
+      white-space: nowrap;
     }
 
 
-    /* POSTER */
+    .back-button {
+      background: #eaf2f8;
+      color: #12385b;
+    }
 
-    .poster-container {
-      width: 100%;
-      height: 100%;
 
-      min-width: 0;
+    .tripadvisor-button {
+      background: #12385b;
+      color: #ffffff;
+    }
+
+
+    /* =========================
+       POSTER
+    ========================= */
+
+    .poster-area {
+      flex: 1 1 0;
+
       min-height: 0;
+
+      width: 100%;
 
       display: flex;
 
@@ -127,39 +138,6 @@
     }
 
 
-    /* BOTTOM */
-
-    .bottom {
-      display: flex;
-
-      align-items: center;
-      justify-content: center;
-
-      width: 100%;
-    }
-
-
-    .tripadvisor-button {
-      display: inline-flex;
-
-      align-items: center;
-      justify-content: center;
-
-      padding: 11px 22px;
-
-      background: #12385b;
-      color: #ffffff;
-
-      border-radius: 9px;
-
-      text-decoration: none;
-
-      font-size: 14px;
-      font-weight: bold;
-
-      white-space: nowrap;
-    }
-
   </style>
 
 </head>
@@ -171,41 +149,21 @@
   <div class="page">
 
 
-    <!-- TOP -->
+    <!-- TOP LEFT + TOP RIGHT BUTTONS -->
 
-    <div class="top">
+    <div class="top-bar">
+
 
       <a
-        class="back-button"
+        class="button back-button"
         href="./index.html"
       >
         ← Operations Hub
       </a>
 
-    </div>
-
-
-
-    <!-- POSTER -->
-
-    <div class="poster-container">
-
-      <img
-        class="poster"
-        src="./tripadvisor-poster.png"
-        alt="Blue Wave Ifuru TripAdvisor Review QR Code"
-      >
-
-    </div>
-
-
-
-    <!-- BOTTOM -->
-
-    <div class="bottom">
 
       <a
-        class="tripadvisor-button"
+        class="button tripadvisor-button"
 
         href="https://www.tripadvisor.com/Attraction_Review-g26636997-d32910485-Reviews-Blue_Wave_Ifuru_By_Dive_Butler_At_Ifuru_Island_Maldives-Ifuru.html"
 
@@ -215,6 +173,25 @@
       >
         OPEN TRIPADVISOR
       </a>
+
+
+    </div>
+
+
+
+    <!-- TRIPADVISOR POSTER -->
+
+    <div class="poster-area">
+
+
+      <img
+        class="poster"
+
+        src="./tripadvisor-poster.png"
+
+        alt="Blue Wave Ifuru TripAdvisor Review QR Code"
+      >
+
 
     </div>
 
