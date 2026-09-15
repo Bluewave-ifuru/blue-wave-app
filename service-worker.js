@@ -1,4 +1,4 @@
-const CACHE_NAME = "blue-wave-shell-v7";
+const CACHE_NAME = "blue-wave-shell-v8";
 const APP_SHELL = [
   "./tripadvisor.html",
 "./tripadvisor-poster.png",
