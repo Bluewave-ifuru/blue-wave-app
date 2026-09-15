@@ -90,19 +90,28 @@
 
       overflow: hidden;
     }
+.poster {
+  display: block;
 
-    .poster {
-      display: block;
+  width: auto;
+  height: auto;
 
-      width: auto;
-      height: auto;
+  max-width: 100%;
+  max-height: 100%;
 
-      max-width: 100%;
-      max-height: 100%;
+  object-fit: contain;
+}
 
-      object-fit: contain;
-    }
 
+/* SMALL PORTRAIT PHONE SCREENS */
+
+@media (orientation: portrait) and (max-height: 850px) {
+
+  .poster {
+    max-height: calc(100% - 55px);
+  }
+
+}
     /* TRIPADVISOR BUTTON */
 
     .bottom {
