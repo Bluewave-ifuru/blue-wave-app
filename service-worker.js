@@ -1,45 +1,166 @@
-const CACHE_NAME = "blue-wave-shell-v14";
+const CACHE_NAME = "blue-wave-shell-v15";
+
 const APP_SHELL = [
-  "./tripadvisor.html",
-"./tripadvisor-poster.png",
   "./",
   "./index.html",
   "./scheduler.html",
+  "./tripadvisor.html",
+  "./tripadvisor-poster.png",
   "./manifest.json",
   "./icon-192.png",
   "./icon-512.png"
 ];
 
+
+/* INSTALL */
+
 self.addEventListener("install", event => {
+
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL))
+    caches
+      .open(CACHE_NAME)
+      .then(cache =>
+        cache.addAll(APP_SHELL)
+      )
   );
+
   self.skipWaiting();
+
 });
+
+
+/* ACTIVATE */
 
 self.addEventListener("activate", event => {
+
   event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(
-        keys
-          .filter(k => k !== CACHE_NAME)
-          .map(k => caches.delete(k))
+
+    caches
+      .keys()
+      .then(keys =>
+
+        Promise.all(
+
+          keys
+            .filter(
+              key =>
+                key !== CACHE_NAME
+            )
+            .map(
+              key =>
+                caches.delete(key)
+            )
+
+        )
+
       )
-    )
+
   );
+
   self.clients.claim();
+
 });
 
+
+/* FETCH */
+
 self.addEventListener("fetch", event => {
-  if (event.request.method !== "GET") return;
+
+  if (
+    event.request.method !== "GET"
+  ) {
+    return;
+  }
+
+
+  const request = event.request;
+
+  const url =
+    new URL(request.url);
+
+
+  /*
+    HTML / PAGE NAVIGATION
+
+    Always try the newest version
+    from the internet first.
+  */
+
+  if (
+    request.mode === "navigate" ||
+    url.pathname.endsWith(".html")
+  ) {
+
+    event.respondWith(
+
+      fetch(
+        request,
+        {
+          cache: "no-store"
+        }
+      )
+
+        .then(response => {
+
+          const copy =
+            response.clone();
+
+          caches
+            .open(CACHE_NAME)
+            .then(cache =>
+              cache.put(
+                request,
+                copy
+              )
+            );
+
+          return response;
+
+        })
+
+        .catch(() =>
+          caches.match(request)
+        )
+
+    );
+
+    return;
+  }
+
+
+  /*
+    OTHER FILES
+
+    Network first,
+    cache as fallback.
+  */
 
   event.respondWith(
-    fetch(event.request)
+
+    fetch(request)
+
       .then(response => {
-        const copy = response.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+
+        const copy =
+          response.clone();
+
+        caches
+          .open(CACHE_NAME)
+          .then(cache =>
+            cache.put(
+              request,
+              copy
+            )
+          );
+
         return response;
+
       })
-      .catch(() => caches.match(event.request))
+
+      .catch(() =>
+        caches.match(request)
+      )
+
   );
+
 });
