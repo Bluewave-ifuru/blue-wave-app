@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
   <meta charset="UTF-8">
 
   <meta
@@ -23,46 +24,66 @@
     body {
       margin: 0;
       padding: 0;
+
       width: 100%;
       height: 100%;
-      background: #ffffff;
-      font-family: Arial, sans-serif;
+
       overflow: hidden;
+
+      background: #ffffff;
+
+      font-family: Arial, sans-serif;
     }
 
+
     body {
-      display: flex;
-      justify-content: center;
+      height: 100vh;
+      height: 100dvh;
     }
+
 
     .page {
       width: 100%;
-      max-width: 650px;
-      height: 100vh;
-      height: 100dvh;
+      height: 100%;
 
-      display: flex;
-      flex-direction: column;
+      display: grid;
+
+      /*
+        Top controls
+        Poster gets remaining space
+        Bottom controls
+      */
+
+      grid-template-rows:
+        55px
+        minmax(0, 1fr)
+        60px;
 
       padding:
-        calc(10px + env(safe-area-inset-top))
-        12px
-        calc(10px + env(safe-area-inset-bottom));
+        env(safe-area-inset-top)
+        10px
+        env(safe-area-inset-bottom);
 
-      background: #ffffff;
+      overflow: hidden;
     }
 
-    /* BACK BUTTON */
+
+    /* TOP */
 
     .top {
-      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
       width: 100%;
-      text-align: center;
-      margin-bottom: 8px;
     }
 
+
     .back-button {
-      display: inline-block;
+      display: inline-flex;
+
+      align-items: center;
+      justify-content: center;
 
       padding: 9px 16px;
 
@@ -77,57 +98,54 @@
       font-weight: bold;
     }
 
+
     /* POSTER */
 
     .poster-container {
-      flex: 1 1 auto;
-      min-height: 0;
       width: 100%;
+      height: 100%;
+
+      min-width: 0;
+      min-height: 0;
 
       display: flex;
-      justify-content: center;
+
       align-items: center;
+      justify-content: center;
 
       overflow: hidden;
     }
-.poster {
-  display: block;
-
-  width: auto;
-  height: auto;
-
-  max-width: 100%;
-  max-height: 100%;
-
-  object-fit: contain;
-}
 
 
-/* SMALL PORTRAIT PHONE SCREENS */
-
-@media (orientation: portrait) and (max-height: 850px) {
-
-  .poster {
-    max-height: calc(100% - 55px);
-  }
-
-}
-    /* TRIPADVISOR BUTTON */
-
-    .bottom {
-      flex: 0 0 auto;
+    .poster {
+      display: block;
 
       width: 100%;
+      height: 100%;
 
-      text-align: center;
-
-      padding-top: 10px;
+      object-fit: contain;
     }
 
-    .tripadvisor-button {
-      display: inline-block;
 
-      padding: 12px 24px;
+    /* BOTTOM */
+
+    .bottom {
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      width: 100%;
+    }
+
+
+    .tripadvisor-button {
+      display: inline-flex;
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 11px 22px;
 
       background: #12385b;
       color: #ffffff;
@@ -138,6 +156,8 @@
 
       font-size: 14px;
       font-weight: bold;
+
+      white-space: nowrap;
     }
 
   </style>
@@ -147,8 +167,11 @@
 
 <body>
 
+
   <div class="page">
 
+
+    <!-- TOP -->
 
     <div class="top">
 
@@ -162,6 +185,9 @@
     </div>
 
 
+
+    <!-- POSTER -->
+
     <div class="poster-container">
 
       <img
@@ -173,12 +199,18 @@
     </div>
 
 
+
+    <!-- BOTTOM -->
+
     <div class="bottom">
 
       <a
         class="tripadvisor-button"
+
         href="https://www.tripadvisor.com/Attraction_Review-g26636997-d32910485-Reviews-Blue_Wave_Ifuru_By_Dive_Butler_At_Ifuru_Island_Maldives-Ifuru.html"
+
         target="_blank"
+
         rel="noopener noreferrer"
       >
         OPEN TRIPADVISOR
@@ -188,6 +220,7 @@
 
 
   </div>
+
 
 </body>
 
