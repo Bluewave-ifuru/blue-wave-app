@@ -9,10 +9,7 @@
     content="width=device-width, initial-scale=1.0, viewport-fit=cover"
   >
 
-  <meta
-    name="theme-color"
-    content="#ffffff"
-  >
+  <meta name="theme-color" content="#ffffff">
 
   <title>TripAdvisor Reviews</title>
 
@@ -28,70 +25,68 @@
       padding: 0;
       width: 100%;
       height: 100%;
-      overflow: hidden;
       background: #ffffff;
       font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
     }
 
     .page {
       width: 100%;
+      max-width: 650px;
+      height: 100vh;
       height: 100dvh;
 
       display: flex;
       flex-direction: column;
 
+      padding:
+        calc(10px + env(safe-area-inset-top))
+        12px
+        calc(10px + env(safe-area-inset-bottom));
+
       background: #ffffff;
     }
 
-   .top-bar {
-  width: 100%;
+    /* BACK BUTTON */
 
-  padding:
-    calc(8px + env(safe-area-inset-top))
-    12px
-    6px;
+    .top {
+      flex: 0 0 auto;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 8px;
+    }
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    .back-button {
+      display: inline-block;
 
-  background: #ffffff;
+      padding: 9px 16px;
 
-  position: relative;
-  z-index: 10;
-}
-   .back-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+      background: #eaf2f8;
+      color: #12385b;
 
-  padding: 9px 14px;
+      border-radius: 9px;
 
-  border-radius: 9px;
+      text-decoration: none;
 
-  background: #eaf2f8;
-  color: #12385b;
+      font-size: 14px;
+      font-weight: bold;
+    }
 
-  text-decoration: none;
+    /* POSTER */
 
-  font-size: 14px;
-  font-weight: 700;
-}
-    .poster-area {
+    .poster-container {
       flex: 1 1 auto;
-
+      min-height: 0;
       width: 100%;
 
-      min-height: 0;
-
       display: flex;
-      align-items: center;
       justify-content: center;
-
-      padding:
-        4px
-        8px
-        calc(8px + env(safe-area-inset-bottom));
+      align-items: center;
 
       overflow: hidden;
     }
@@ -99,16 +94,45 @@
     .poster {
       display: block;
 
-      max-width: 100%;
-      max-height: 100%;
-
       width: auto;
       height: auto;
+
+      max-width: 100%;
+      max-height: 100%;
 
       object-fit: contain;
     }
 
+    /* TRIPADVISOR BUTTON */
+
+    .bottom {
+      flex: 0 0 auto;
+
+      width: 100%;
+
+      text-align: center;
+
+      padding-top: 10px;
+    }
+
+    .tripadvisor-button {
+      display: inline-block;
+
+      padding: 12px 24px;
+
+      background: #12385b;
+      color: #ffffff;
+
+      border-radius: 9px;
+
+      text-decoration: none;
+
+      font-size: 14px;
+      font-weight: bold;
+    }
+
   </style>
+
 </head>
 
 
@@ -116,7 +140,8 @@
 
   <div class="page">
 
-    <div class="top-bar">
+
+    <div class="top">
 
       <a
         class="back-button"
@@ -125,51 +150,36 @@
         ← Operations Hub
       </a>
 
- <div class="poster-area">
+    </div>
 
-  <div
-    style="
-      width:100%;
-      height:100%;
-      display:grid;
-      grid-template-rows:minmax(0, 1fr) auto;
-      gap:10px;
-      justify-items:center;
-      overflow:hidden;
-    "
-  >
 
-    <img
-      src="./tripadvisor-poster.png"
-      alt="Blue Wave Ifuru TripAdvisor Review QR Code"
-      style="
-        width:100%;
-        height:100%;
-        min-height:0;
-        object-fit:contain;
-        display:block;
-      "
-    >
+    <div class="poster-container">
 
-    <a
-      href="https://www.tripadvisor.com/Attraction_Review-g26636997-d32910485-Reviews-Blue_Wave_Ifuru_By_Dive_Butler_At_Ifuru_Island_Maldives-Ifuru.html"
-      target="_blank"
-      rel="noopener noreferrer"
-      style="
-        display:block;
-        padding:11px 22px;
-        background:#12385b;
-        color:#ffffff;
-        text-decoration:none;
-        border-radius:9px;
-        font-size:14px;
-        font-weight:bold;
-        white-space:nowrap;
-      "
-    >
-      OPEN TRIPADVISOR
-    </a>
+      <img
+        class="poster"
+        src="./tripadvisor-poster.png"
+        alt="Blue Wave Ifuru TripAdvisor Review QR Code"
+      >
+
+    </div>
+
+
+    <div class="bottom">
+
+      <a
+        class="tripadvisor-button"
+        href="https://www.tripadvisor.com/Attraction_Review-g26636997-d32910485-Reviews-Blue_Wave_Ifuru_By_Dive_Butler_At_Ifuru_Island_Maldives-Ifuru.html"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        OPEN TRIPADVISOR
+      </a>
+
+    </div>
+
 
   </div>
 
-</div>
+</body>
+
+</html>
