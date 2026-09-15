@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
+
+  <meta
+    name="theme-color"
+    content="#ffffff"
+  >
+
+  <title>TripAdvisor Reviews</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #ffffff;
+      font-family: Arial, sans-serif;
+    }
+
+    .page {
+      width: 100%;
+      height: 100dvh;
+
+      display: flex;
+      flex-direction: column;
+
+      background: #ffffff;
+    }
+
+    .top-bar {
+      flex: 0 0 auto;
+
+      width: 100%;
+
+      padding:
+        calc(8px + env(safe-area-inset-top))
+        12px
+        8px;
+
+      background: #ffffff;
+
+      display: flex;
+      align-items: center;
+    }
+
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+
+      padding: 9px 14px;
+
+      border-radius: 9px;
+
+      background: #eaf2f8;
+      color: #12385b;
+
+      text-decoration: none;
+
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .poster-area {
+      flex: 1 1 auto;
+
+      width: 100%;
+
+      min-height: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding:
+        4px
+        8px
+        calc(8px + env(safe-area-inset-bottom));
+
+      overflow: hidden;
+    }
+
+    .poster {
+      display: block;
+
+      max-width: 100%;
+      max-height: 100%;
+
+      width: auto;
+      height: auto;
+
+      object-fit: contain;
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+  <div class="page">
+
+    <div class="top-bar">
+
+      <a
+        class="back-button"
+        href="./index.html"
+      >
+        ← Operations Hub
+      </a>
+
+    </div>
+
+
+    <div class="poster-area">
+
+      <img
+        class="poster"
+        src="./tripadvisor-poster.png"
+        alt="Blue Wave Ifuru TripAdvisor Review QR Code"
+      >
+
+    </div>
+
+  </div>
+
+</body>
+
+</html>
