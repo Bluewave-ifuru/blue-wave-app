@@ -264,30 +264,69 @@
             Activity
           </label>
 
-<select id="activity">
+<select id="activity" onchange="calculateTotal()">
 
   <option value="">
     Select Activity
   </option>
 
-  <option>Sunrise Fishing</option>
-  <option>Sunset Fishing</option>
-  <option>Desert Island Exploration on Kokomo</option>
-  <option>Sandbank Snorkeling on Kokomo</option>
-  <option>Luxury Sunset Cruise on Kokomo</option>
-  <option>Deep Sea Fishing on Kokomo</option>
-  <option>Turtle Snorkeling</option>
-  <option>House Reef Snorkeling</option>
-  <option>Wildlife Snorkeling</option>
-  <option>Castaway Snorkeling</option>
-  <option>Local Island Experience</option>
-  <option>Night Snorkeling</option>
-  <option>Sunset Cruise</option>
-  <option>Dolphin Cruise</option>
-  <option>Manta Quest</option>
+  <option value="Sunrise Fishing">Sunrise Fishing</option>
+
+  <option value="Sunset Fishing">Sunset Fishing</option>
+
+  <option value="Desert Island Exploration on Kokomo">
+    Desert Island Exploration on Kokomo
+  </option>
+
+  <option value="Sandbank Snorkeling on Kokomo">
+    Sandbank Snorkeling on Kokomo
+  </option>
+
+  <option value="Luxury Sunset Cruise on Kokomo">
+    Luxury Sunset Cruise on Kokomo
+  </option>
+
+  <option value="Deep Sea Fishing on Kokomo">
+    Deep Sea Fishing on Kokomo
+  </option>
+
+  <option value="Turtle Snorkeling">
+    Turtle Snorkeling
+  </option>
+
+  <option value="House Reef Snorkeling">
+    House Reef Snorkeling
+  </option>
+
+  <option value="Wildlife Snorkeling">
+    Wildlife Snorkeling
+  </option>
+
+  <option value="Castaway Snorkeling">
+    Castaway Snorkeling
+  </option>
+
+  <option value="Local Island Experience">
+    Local Island Experience
+  </option>
+
+  <option value="Night Snorkeling">
+    Night Snorkeling
+  </option>
+
+  <option value="Sunset Cruise">
+    Sunset Cruise
+  </option>
+
+  <option value="Dolphin Cruise">
+    Dolphin Cruise
+  </option>
+
+  <option value="Manta Quest">
+    Manta Quest
+  </option>
 
 </select>
-
         </div>
 
 
@@ -313,6 +352,7 @@
                 type="number"
                 min="0"
                 value="0"
+                oninput="calculateTotal()"
               >
 
             </div>
@@ -329,6 +369,7 @@
                 type="number"
                 min="0"
                 value="0"
+                 oninput="calculateTotal()"
               >
 
             </div>
@@ -345,6 +386,7 @@
                 type="number"
                 min="0"
                 value="0"
+                 oninput="calculateTotal()"
               >
 
             </div>
