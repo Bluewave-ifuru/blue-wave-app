@@ -195,7 +195,263 @@
       }
 
     }
+/* BOOKING CONFIRMATION CARD */
 
+.preview-title {
+  font-size: 17px;
+  font-weight: bold;
+  color: #12385b;
+  margin-bottom: 12px;
+}
+
+
+.confirmation-card {
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  background: white;
+  border: 2px solid #0c4e7a;
+  border-radius: 18px;
+  overflow: hidden;
+  color: #0c3158;
+}
+
+
+.card-header {
+  text-align: center;
+  padding: 14px 20px 0;
+}
+
+
+.card-logo {
+  width: 190px;
+  max-width: 55%;
+  height: auto;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+
+.card-heading {
+  background: linear-gradient(
+    90deg,
+    #0c4e7a,
+    #08769a
+  );
+
+  color: white;
+
+  font-size: 22px;
+  font-weight: bold;
+  letter-spacing: 1px;
+
+  padding: 10px 12px;
+  border-radius: 9px;
+}
+
+
+.card-content {
+  margin: 14px 20px 0;
+  border: 1px solid #7fc5e6;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+
+.card-row {
+  display: grid;
+  grid-template-columns: 42% 58%;
+  min-height: 34px;
+  align-items: center;
+  padding: 5px 14px;
+  font-size: 13px;
+}
+
+
+.card-row:nth-child(odd) {
+  background: #e8f5fb;
+}
+
+
+.card-row:nth-child(even) {
+  background: #ffffff;
+}
+
+
+.card-label {
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 0.7px;
+  color: #12466e;
+}
+
+
+.card-value {
+  font-size: 14px;
+  font-weight: bold;
+  color: #0c3158;
+}
+
+
+.status-confirmed {
+  display: inline-block;
+  background: #28a745;
+  color: white;
+  padding: 5px 14px;
+  border-radius: 18px;
+  font-weight: bold;
+}
+
+
+.status-tbc {
+  display: inline-block;
+  background: #e5a000;
+  color: white;
+  padding: 5px 14px;
+  border-radius: 18px;
+  font-weight: bold;
+}
+
+
+.status-cancelled {
+  display: inline-block;
+  background: #b4232f;
+  color: white;
+  padding: 5px 14px;
+  border-radius: 18px;
+  font-weight: bold;
+}
+
+
+.snorkel-notice {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 10px;
+  align-items: center;
+
+  margin: 12px 20px 0;
+  padding: 11px 14px;
+
+  background: #e8f5fb;
+  border-radius: 11px;
+
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+
+.notice-icon {
+  font-size: 27px;
+  text-align: center;
+  color: #0c5b86;
+}
+
+
+.cancellation-box {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 10px;
+
+  margin: 10px 20px 14px;
+  padding: 11px 14px;
+
+  background: #fff0f0;
+  border: 1px solid #f1c3c3;
+  border-radius: 11px;
+
+  color: #7e1620;
+
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+
+.cancel-icon {
+  width: 34px;
+  height: 34px;
+
+  border: 3px solid #a41924;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 22px;
+  font-weight: bold;
+
+  margin-top: 2px;
+}
+
+
+.policy-text {
+  margin-top: 4px;
+  color: #253b52;
+}
+
+
+.ocean-footer {
+  background: linear-gradient(
+    180deg,
+    #08769a,
+    #07466f
+  );
+
+  color: white;
+  padding: 8px 14px 14px;
+}
+
+
+.wave-line {
+  text-align: center;
+  font-size: 22px;
+  letter-spacing: 5px;
+  opacity: 0.75;
+  margin-bottom: 5px;
+}
+
+
+.ocean-items {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  text-align: center;
+
+  font-size: 9px;
+  line-height: 1.25;
+  letter-spacing: 0.5px;
+}
+
+
+.ocean-items > div:not(:last-child) {
+  border-right: 1px solid rgba(255,255,255,0.45);
+}
+
+
+.ocean-icon {
+  font-size: 18px;
+  margin-bottom: 3px;
+}
+
+
+.copy-card-button {
+  display: block;
+  width: 100%;
+  max-width: 600px;
+
+  margin: 12px auto 0;
+  padding: 13px;
+
+  border: 0;
+  border-radius: 10px;
+
+  background: #12385b;
+  color: white;
+
+  font-size: 15px;
+  font-weight: bold;
+
+  cursor: pointer;
+}
   </style>
 
 </head>
@@ -536,66 +792,121 @@
     >
       GENERATE CONFIRMATION CARD
     </button>
-    <!-- CONFIRMATION CARD PREVIEW -->
+  <!-- CONFIRMATION CARD PREVIEW -->
 
-<div
-  id="cardSection"
-  style="
-    display:none;
-    margin-top:20px;
-  "
->
+<div id="cardSection" style="display:none; margin-top:20px;">
 
-  <div
-    style="
-      font-size:17px;
-      font-weight:bold;
-      color:#12385b;
-      margin-bottom:12px;
-    "
-  >
+  <div class="preview-title">
     Confirmation Card Preview
   </div>
 
+  <div id="confirmationCard" class="confirmation-card">
 
-  <div
-    id="confirmationCard"
-    style="
-      background:#ffffff;
-      border:2px solid #12385b;
-      border-radius:12px;
-      padding:20px;
-      max-width:600px;
-      margin:auto;
-      color:#17324d;
-    "
-  >
+    <!-- HEADER -->
 
-    <div
-      style="
-        text-align:center;
-        font-size:22px;
-        font-weight:bold;
-        color:#12385b;
-        margin-bottom:4px;
-      "
-    >
-      BLUE WAVE IFURU
-    </div>
+    <div class="card-header">
 
-    <div
-      style="
-        text-align:center;
-        font-size:13px;
-        margin-bottom:18px;
-      "
-    >
-      BOOKING CONFIRMATION
+      <img
+        src="./bluewave-logo.jpg"
+        class="card-logo"
+        alt="Blue Wave Ifuru"
+      >
+
+      <div class="card-heading">
+        BOOKING CONFIRMATION
+      </div>
+
     </div>
 
 
-    <div id="cardContent"></div>
+    <!-- BOOKING INFORMATION -->
 
+    <div
+      id="cardContent"
+      class="card-content"
+    ></div>
+
+
+    <!-- SNORKEL INFORMATION -->
+
+    <div class="snorkel-notice">
+
+      <div class="notice-icon">
+        ◉
+      </div>
+
+      <div>
+        <strong>For Snorkeling Activities:</strong><br>
+        Guests are requested to bring personal or previously
+        rented snorkeling equipment.
+      </div>
+
+    </div>
+
+
+    <!-- CANCELLATION POLICY -->
+
+    <div class="cancellation-box">
+
+      <div class="cancel-icon">
+        !
+      </div>
+
+      <div>
+
+        <strong>CANCELLATION POLICY:</strong>
+
+        <div class="policy-text">
+
+          For any last-minute cancellation or no show,
+          Blue Wave by Dive Butler reserves the right to charge
+          a 100% cancellation / no show fee.
+
+          Cancellation requests by guests should be made at least
+          6 hours prior to the activity, to avoid any relevant
+          Cancellation Charges.
+
+          Blue Wave by Dive Butler reserves the right to cancel
+          any activities or excursions at any time.
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- RESPONSIBLE OCEAN PRACTICES -->
+
+    <div class="ocean-footer">
+
+      <div class="wave-line">
+        〰 〰 〰
+      </div>
+
+      <div class="ocean-items">
+
+        <div>
+          <div class="ocean-icon">♒</div>
+          <strong>PROTECT</strong><br>
+          OUR OCEAN
+        </div>
+
+        <div>
+          <div class="ocean-icon">🐟</div>
+          <strong>RESPECT</strong><br>
+          MARINE LIFE
+        </div>
+
+        <div>
+          <div class="ocean-icon">◇</div>
+          <strong>EXPLORE</strong><br>
+          RESPONSIBLY
+        </div>
+
+      </div>
+
+    </div>
 
   </div>
 
@@ -604,28 +915,12 @@
     id="copyCardButton"
     type="button"
     onclick="copyCard()"
-    style="
-      display:block;
-      width:100%;
-      max-width:600px;
-      margin:12px auto 0;
-      padding:13px;
-      border:0;
-      border-radius:10px;
-      background:#12385b;
-      color:#ffffff;
-      font-size:15px;
-      font-weight:bold;
-      cursor:pointer;
-    "
+    class="copy-card-button"
   >
     COPY CARD
   </button>
 
-
 </div>
-
-
   </main>
 
 
@@ -836,75 +1131,89 @@
     );
 
 
-  cardContent.innerHTML = `
+ let statusClass = "status-confirmed";
 
-    <div style="
-      display:grid;
-      grid-template-columns:130px 1fr;
-      gap:8px 12px;
-      font-size:14px;
-      line-height:1.4;
-    ">
+if (status === "TBC") {
+  statusClass = "status-tbc";
+}
 
-      <strong>Room No.</strong>
-      <span>${room}</span>
+if (status === "CANCELLED") {
+  statusClass = "status-cancelled";
+}
 
-      <strong>Activity</strong>
-      <span>${activity}</span>
 
-      <strong>Adults</strong>
-      <span>${adults}</span>
+cardContent.innerHTML = `
 
-      <strong>Kids 6–12</strong>
-      <span>${kids}</span>
+  <div class="card-row">
+    <div class="card-label">ROOM NO.</div>
+    <div class="card-value">${room}</div>
+  </div>
 
-      <strong>Kids 0–5</strong>
-      <span>${infants}</span>
+  <div class="card-row">
+    <div class="card-label">ACTIVITY</div>
+    <div class="card-value">${activity}</div>
+  </div>
 
-      <strong>Date</strong>
-      <span>${formattedDate}</span>
+  <div class="card-row">
+    <div class="card-label">ADULTS</div>
+    <div class="card-value">${adults}</div>
+  </div>
 
-      <strong>Reporting Time</strong>
-      <span>${reportingTime}</span>
+  <div class="card-row">
+    <div class="card-label">KIDS 6–12</div>
+    <div class="card-value">${kids}</div>
+  </div>
 
-      <strong>GRO / Butler</strong>
-      <span>${gro}</span>
+  <div class="card-row">
+    <div class="card-label">KIDS 0–5</div>
+    <div class="card-value">${infants}</div>
+  </div>
 
-      <strong>Booked By</strong>
-      <span>${bookedBy}</span>
+  <div class="card-row">
+    <div class="card-label">DATE</div>
+    <div class="card-value">${formattedDate}</div>
+  </div>
 
-      <strong>Price</strong>
-      <span>${total}</span>
+  <div class="card-row">
+    <div class="card-label">REPORTING TIME</div>
+    <div class="card-value">${reportingTime}</div>
+  </div>
 
-      <strong>Status</strong>
-      <span style="font-weight:bold;">
+  <div class="card-row">
+    <div class="card-label">GRO / BUTLER</div>
+    <div class="card-value">${gro}</div>
+  </div>
+
+  <div class="card-row">
+    <div class="card-label">BOOKED BY</div>
+    <div class="card-value">${bookedBy}</div>
+  </div>
+
+  <div class="card-row">
+    <div class="card-label">TOTAL PRICE</div>
+
+    <div class="card-value">
+      ${total}
+      <span style="
+        font-size:9px;
+        font-weight:normal;
+      ">
+        (including 10% Service Charge & 17% GST)
+      </span>
+    </div>
+  </div>
+
+  <div class="card-row">
+    <div class="card-label">STATUS</div>
+
+    <div class="card-value">
+      <span class="${statusClass}">
         ${statusText}
       </span>
-
     </div>
+  </div>
 
-
-    <div style="
-      margin-top:18px;
-      padding-top:14px;
-      border-top:1px solid #d8e0e7;
-      font-size:11px;
-      line-height:1.5;
-    ">
-
-      Please collect your snorkelling equipment from
-      Blue Wave Dive Center prior to the activity.
-
-      <br><br>
-
-      <strong>Cancellation Policy:</strong>
-      Cancellations made less than 6 hours before
-      departure will be charged in full.
-
-    </div>
-
-  `;
-
+`;
 
   document.getElementById(
     "cardSection"
