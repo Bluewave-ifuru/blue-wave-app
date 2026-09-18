@@ -428,10 +428,22 @@
 
 
 .ocean-icon {
-  font-size: 18px;
-  margin-bottom: 3px;
+  height: 28px;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+.ocean-icon svg {
+  width: 30px;
+  height: 30px;
+  fill: white;
+  stroke: white;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 
 .copy-card-button {
   display: block;
@@ -884,29 +896,83 @@
         〰 〰 〰
       </div>
 
-      <div class="ocean-items">
+<div class="ocean-items">
 
-        <div>
-          <div class="ocean-icon">♒</div>
-          <strong>PROTECT</strong><br>
-          OUR OCEAN
-        </div>
+  <div>
 
-        <div>
-          <div class="ocean-icon">🐟</div>
-          <strong>RESPECT</strong><br>
-          MARINE LIFE
-        </div>
-
-        <div>
-          <div class="ocean-icon">◇</div>
-          <strong>EXPLORE</strong><br>
-          RESPONSIBLY
-        </div>
-
-      </div>
-
+    <div class="ocean-icon">
+      <!-- CORAL -->
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <path d="
+          M32 56
+          V35
+          M32 42 L21 31
+          M21 31 V20
+          M21 26 L14 19
+          M32 34 L43 23
+          M43 23 V13
+          M43 20 L51 12
+          M32 28 L27 22
+          M27 22 V14
+        "/>
+      </svg>
     </div>
+
+    <strong>PROTECT</strong><br>
+    OUR OCEAN
+
+  </div>
+
+
+  <div>
+
+    <div class="ocean-icon">
+      <!-- FISH -->
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <path d="
+          M12 32
+          C22 20 38 19 48 27
+          L58 19
+          L55 32
+          L58 45
+          L48 37
+          C38 45 22 44 12 32
+          Z
+        "/>
+        <circle cx="40" cy="29" r="1.8"/>
+      </svg>
+    </div>
+
+    <strong>RESPECT</strong><br>
+    MARINE LIFE
+
+  </div>
+
+
+  <div>
+
+    <div class="ocean-icon">
+      <!-- MANTA -->
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <path d="
+          M7 31
+          C18 27 23 19 32 12
+          C41 19 46 27 57 31
+          C48 34 43 40 39 48
+          L32 39
+          L25 48
+          C21 40 16 34 7 31
+          Z
+        "/>
+      </svg>
+    </div>
+
+    <strong>EXPLORE</strong><br>
+    RESPONSIBLY
+
+  </div>
+
+</div> </div>
 
   </div>
 
