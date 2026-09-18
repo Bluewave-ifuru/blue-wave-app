@@ -1,16 +1,18 @@
-const CACHE_NAME = "blue-wave-shell-v20";
+const CACHE_NAME = "blue-wave-shell-v21";
 
 const APP_SHELL = [
   "./",
   "./index.html",
   "./scheduler.html",
+  "./booking.html",
   "./tripadvisor.html",
   "./tripadvisor-poster.png",
+  "./bluewave-logo.jpg",
+  "./instagram-qr.png",
   "./manifest.json",
   "./icon-192.png",
   "./icon-512.png"
 ];
-
 
 /* INSTALL */
 
