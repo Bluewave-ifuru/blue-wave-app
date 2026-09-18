@@ -536,6 +536,94 @@
     >
       GENERATE CONFIRMATION CARD
     </button>
+    <!-- CONFIRMATION CARD PREVIEW -->
+
+<div
+  id="cardSection"
+  style="
+    display:none;
+    margin-top:20px;
+  "
+>
+
+  <div
+    style="
+      font-size:17px;
+      font-weight:bold;
+      color:#12385b;
+      margin-bottom:12px;
+    "
+  >
+    Confirmation Card Preview
+  </div>
+
+
+  <div
+    id="confirmationCard"
+    style="
+      background:#ffffff;
+      border:2px solid #12385b;
+      border-radius:12px;
+      padding:20px;
+      max-width:600px;
+      margin:auto;
+      color:#17324d;
+    "
+  >
+
+    <div
+      style="
+        text-align:center;
+        font-size:22px;
+        font-weight:bold;
+        color:#12385b;
+        margin-bottom:4px;
+      "
+    >
+      BLUE WAVE IFURU
+    </div>
+
+    <div
+      style="
+        text-align:center;
+        font-size:13px;
+        margin-bottom:18px;
+      "
+    >
+      BOOKING CONFIRMATION
+    </div>
+
+
+    <div id="cardContent"></div>
+
+
+  </div>
+
+
+  <button
+    id="copyCardButton"
+    type="button"
+    onclick="copyCard()"
+    style="
+      display:block;
+      width:100%;
+      max-width:600px;
+      margin:12px auto 0;
+      padding:13px;
+      border:0;
+      border-radius:10px;
+      background:#12385b;
+      color:#ffffff;
+      font-size:15px;
+      font-weight:bold;
+      cursor:pointer;
+    "
+  >
+    COPY CARD
+  </button>
+
+
+</div>
 
 
   </main>
@@ -637,13 +725,206 @@
 
 
 
-  function generateCard() {
+ function generateCard() {
+
+  const room =
+    document.getElementById("room").value.trim();
+
+  const activity =
+    document.getElementById("activity").value;
+
+  const adults =
+    Number(document.getElementById("adults").value) || 0;
+
+  const kids =
+    Number(document.getElementById("kids").value) || 0;
+
+  const infants =
+    Number(document.getElementById("infants").value) || 0;
+
+  const date =
+    document.getElementById("date").value;
+
+  const reportingTime =
+    document.getElementById("reportingTime").value;
+
+  const gro =
+    document.getElementById("gro").value;
+
+  const bookedBy =
+    document.getElementById("bookedBy").value;
+
+  const status =
+    document.getElementById("status").value;
+
+
+  /* VALIDATION */
+
+  if (
+    !room ||
+    !activity ||
+    !date ||
+    !reportingTime ||
+    !gro ||
+    !bookedBy
+  ) {
 
     alert(
-      "Booking card generator will be connected in the next step."
+      "Please complete all booking details before generating the confirmation card."
     );
 
+    return;
   }
+
+
+  if (
+    adults + kids + infants === 0
+  ) {
+
+    alert(
+      "Please enter at least one guest."
+    );
+
+    return;
+  }
+
+
+  /* FORMAT DATE */
+
+  const dateParts =
+    date.split("-");
+
+  const formattedDate =
+    dateParts[2] +
+    "/" +
+    dateParts[1] +
+    "/" +
+    dateParts[0];
+
+
+  /* STATUS TEXT */
+
+  let statusText =
+    status;
+
+  if (status === "TBC") {
+    statusText = "TO BE CONFIRMED";
+  }
+
+  if (status === "CANCELLED") {
+    statusText = "CANCELLED";
+  }
+
+  if (status === "CONFIRMED") {
+    statusText = "CONFIRMED";
+  }
+
+
+  /* TOTAL */
+
+  const total =
+    document.getElementById(
+      "bookingTotal"
+    ).textContent;
+
+
+  /* CREATE CARD */
+
+  const cardContent =
+    document.getElementById(
+      "cardContent"
+    );
+
+
+  cardContent.innerHTML = `
+
+    <div style="
+      display:grid;
+      grid-template-columns:130px 1fr;
+      gap:8px 12px;
+      font-size:14px;
+      line-height:1.4;
+    ">
+
+      <strong>Room No.</strong>
+      <span>${room}</span>
+
+      <strong>Activity</strong>
+      <span>${activity}</span>
+
+      <strong>Adults</strong>
+      <span>${adults}</span>
+
+      <strong>Kids 6–12</strong>
+      <span>${kids}</span>
+
+      <strong>Kids 0–5</strong>
+      <span>${infants}</span>
+
+      <strong>Date</strong>
+      <span>${formattedDate}</span>
+
+      <strong>Reporting Time</strong>
+      <span>${reportingTime}</span>
+
+      <strong>GRO / Butler</strong>
+      <span>${gro}</span>
+
+      <strong>Booked By</strong>
+      <span>${bookedBy}</span>
+
+      <strong>Price</strong>
+      <span>${total}</span>
+
+      <strong>Status</strong>
+      <span style="font-weight:bold;">
+        ${statusText}
+      </span>
+
+    </div>
+
+
+    <div style="
+      margin-top:18px;
+      padding-top:14px;
+      border-top:1px solid #d8e0e7;
+      font-size:11px;
+      line-height:1.5;
+    ">
+
+      Please collect your snorkelling equipment from
+      Blue Wave Dive Center prior to the activity.
+
+      <br><br>
+
+      <strong>Cancellation Policy:</strong>
+      Cancellations made less than 6 hours before
+      departure will be charged in full.
+
+    </div>
+
+  `;
+
+
+  document.getElementById(
+    "cardSection"
+  ).style.display = "block";
+
+
+  document.getElementById(
+    "cardSection"
+  ).scrollIntoView({
+    behavior: "smooth"
+  });
+
+}
+    function copyCard() {
+
+  alert(
+    "The image-copy function will be connected after we approve the card design."
+  );
+
+}
 
 </script>
 </body>
