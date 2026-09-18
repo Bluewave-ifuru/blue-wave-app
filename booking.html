@@ -1129,7 +1129,7 @@
   </main>
 
 
-
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script>
 
   const activityPrices = {
@@ -1432,11 +1432,92 @@ cardContent.innerHTML = `
   });
 
 }
-    function copyCard() {
+  async function copyCard() {
 
-  alert(
-    "The image-copy function will be connected after we approve the card design."
-  );
+  const card =
+    document.getElementById("confirmationCard");
+
+  const button =
+    document.getElementById("copyCardButton");
+
+
+  try {
+
+    button.disabled = true;
+    button.textContent = "COPYING...";
+
+
+    const canvas =
+      await html2canvas(card, {
+
+        scale: 2,
+
+        backgroundColor: "#ffffff",
+
+        useCORS: true,
+
+        logging: false
+
+      });
+
+
+    const blob =
+      await new Promise(
+        resolve =>
+          canvas.toBlob(
+            resolve,
+            "image/png"
+          )
+      );
+
+
+    if (!blob) {
+      throw new Error(
+        "Could not create booking card image."
+      );
+    }
+
+
+    await navigator.clipboard.write([
+      new ClipboardItem({
+        "image/png": blob
+      })
+    ]);
+
+
+    button.textContent = "✓ COPIED TO CLIPBOARD";
+
+
+    setTimeout(
+      function() {
+
+        button.textContent =
+          "COPY CARD";
+
+        button.disabled =
+          false;
+
+      },
+      2000
+    );
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    button.textContent =
+      "COPY CARD";
+
+    button.disabled =
+      false;
+
+
+    alert(
+      "This device/browser could not copy the card image directly. Please try using Chrome."
+    );
+
+  }
 
 }
 
