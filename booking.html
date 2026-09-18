@@ -501,106 +501,109 @@
 
 
   <script>
-const activityPrices = {
-  "Sunrise Fishing": 70,
-  "Sunset Fishing": 70,
-  "Desert Island Exploration on Kokomo": 150,
-  "Sandbank Snorkeling on Kokomo": 150,
-  "Luxury Sunset Cruise on Kokomo": 120,
-  "Deep Sea Fishing on Kokomo": 150,
-  "Turtle Snorkeling": 95,
-  "House Reef Snorkeling": 50,
-  "Wildlife Snorkeling": 95,
-  "Castaway Snorkeling": 95,
-  "Local Island Experience": 85,
-  "Night Snorkeling": 70,
-  "Sunset Cruise": 95,
-  "Dolphin Cruise": 95,
-  "Manta Quest": 120
-};
+
+  const activityPrices = {
+    "Sunrise Fishing": 70,
+    "Sunset Fishing": 70,
+    "Desert Island Exploration on Kokomo": 150,
+    "Sandbank Snorkeling on Kokomo": 150,
+    "Luxury Sunset Cruise on Kokomo": 120,
+    "Deep Sea Fishing on Kokomo": 150,
+    "Turtle Snorkeling": 95,
+    "House Reef Snorkeling": 50,
+    "Wildlife Snorkeling": 95,
+    "Castaway Snorkeling": 95,
+    "Local Island Experience": 85,
+    "Night Snorkeling": 70,
+    "Sunset Cruise": 95,
+    "Dolphin Cruise": 95,
+    "Manta Quest": 120
+  };
 
 
-function calculateTotal() {
+  function calculateTotal() {
 
-  const activity =
-    document.getElementById("activity").value;
+    const activity =
+      document.getElementById("activity").value;
 
-  const adults =
-    Number(document.getElementById("adults").value) || 0;
+    const adults =
+      Number(document.getElementById("adults").value) || 0;
 
-  const kids =
-    Number(document.getElementById("kids").value) || 0;
+    const kids =
+      Number(document.getElementById("kids").value) || 0;
 
 
-  if (!activity || !activityPrices[activity]) {
+    const priceDisplay =
+      document.getElementById("bookingTotal");
 
-    document.getElementById("bookingTotal").textContent = "—";
 
-    return;
+    if (!activity || activityPrices[activity] === undefined) {
+
+      priceDisplay.textContent = "—";
+
+      return;
+    }
+
+
+    const basePrice =
+      activityPrices[activity];
+
+
+    const chargeablePax =
+      adults + (kids * 0.5);
+
+
+    if (chargeablePax === 0) {
+
+      priceDisplay.textContent = "$0.00";
+
+      return;
+    }
+
+
+    const total =
+      basePrice *
+      chargeablePax *
+      1.10 *
+      1.17;
+
+
+    priceDisplay.textContent =
+      "$" + total.toFixed(2);
+
   }
 
 
-  const basePrice =
-    activityPrices[activity];
+  document
+    .getElementById("activity")
+    .addEventListener("change", calculateTotal);
 
 
-  const chargeablePax =
-    adults + (kids * 0.5);
+  document
+    .getElementById("adults")
+    .addEventListener("input", calculateTotal);
 
 
-  const subtotal =
-    basePrice * chargeablePax;
+  document
+    .getElementById("kids")
+    .addEventListener("input", calculateTotal);
 
 
-  const total =
-    subtotal * 1.10 * 1.17;
+  document
+    .getElementById("infants")
+    .addEventListener("input", calculateTotal);
 
 
-  document.getElementById("bookingTotal").textContent =
-    "$" + total.toFixed(2);
 
-}
-    document
-  .getElementById("activity")
-  .addEventListener(
-    "change",
-    calculateTotal
-  );
+  function generateCard() {
 
+    alert(
+      "Booking card generator will be connected in the next step."
+    );
 
-document
-  .getElementById("adults")
-  .addEventListener(
-    "input",
-    calculateTotal
-  );
+  }
 
-
-document
-  .getElementById("kids")
-  .addEventListener(
-    "input",
-    calculateTotal
-  );
-
-
-document
-  .getElementById("infants")
-  .addEventListener(
-    "input",
-    calculateTotal
-  );
-    function generateCard() {
-
-      alert(
-        "Booking card generator will be connected in the next step."
-      );
-
-    }
-
-  </script>
-
-
+</script>
 </body>
 
 </html>
