@@ -1131,7 +1131,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script>
-
+const BOOKING_API =
+  "https://script.google.com/macros/s/AKfycbz1BD0TCINOPHvd3ntKEZl1grDUs4H8RxxlGx-1MLiO41JohwFCKnb3OHMc71MnCV5Pcg/exec?action=bookingBackend";
   const activityPrices = {
     "Sunrise Fishing": 70,
     "Sunset Fishing": 70,
@@ -1149,7 +1150,118 @@
     "Dolphin Cruise": 95,
     "Manta Quest": 120
   };
+async function loadBookingBackend() {
 
+  try {
+
+    const response = await fetch(BOOKING_API);
+
+    if (!response.ok) {
+      throw new Error("Could not load booking backend.");
+    }
+
+    const data = await response.json();
+
+
+    /* ACTIVITY + PRICES */
+
+    const activitySelect =
+      document.getElementById("activity");
+
+    activitySelect.innerHTML =
+      '<option value="">Select activity</option>';
+
+    data.activities.forEach(function(item) {
+
+      const option =
+        document.createElement("option");
+
+      option.value = item.name;
+      option.textContent = item.name;
+
+      activitySelect.appendChild(option);
+
+      activityPrices[item.name] =
+        Number(item.price);
+
+    });
+
+
+    /* GRO / BUTLER */
+
+    const groSelect =
+      document.getElementById("gro");
+
+    groSelect.innerHTML =
+      '<option value="">Select GRO / Butler</option>';
+
+    data.gros.forEach(function(name) {
+
+      const option =
+        document.createElement("option");
+
+      option.value = name;
+      option.textContent = name;
+
+      groSelect.appendChild(option);
+
+    });
+
+
+    /* KEEP DIRECT BOOKING */
+
+    const directOption =
+      document.createElement("option");
+
+    directOption.value = "Direct Booking";
+    directOption.textContent = "Direct Booking";
+
+    groSelect.appendChild(directOption);
+
+
+    /* BOOKED BY */
+
+    const bookedBySelect =
+      document.getElementById("bookedBy");
+
+    bookedBySelect.innerHTML =
+      '<option value="">Select staff</option>';
+
+    data.staff.forEach(function(name) {
+
+      const option =
+        document.createElement("option");
+
+      option.value = name;
+      option.textContent = name;
+
+      bookedBySelect.appendChild(option);
+
+    });
+
+
+    console.log(
+      "Booking backend loaded successfully."
+    );
+
+  } catch (error) {
+
+    console.error(
+      "Booking backend error:",
+      error
+    );
+
+    /*
+      IMPORTANT:
+      We do nothing here.
+
+      This means the existing hard-coded dropdowns
+      remain available if Google cannot be reached.
+    */
+
+  }
+
+}
 
   function calculateTotal() {
 
@@ -1520,7 +1632,7 @@ cardContent.innerHTML = `
   }
 
 }
-
+loadBookingBackend();
 </script>
 </body>
 
