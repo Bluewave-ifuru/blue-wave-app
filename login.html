@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
+
+  <meta name="theme-color" content="#ffffff">
+
+  <title>Blue Wave Staff Login</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f7fb;
+      color: #17324d;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 420px;
+      background: #ffffff;
+      border-radius: 22px;
+      padding: 32px 24px;
+      box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .logo-wrap {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .logo {
+      width: 145px;
+      max-width: 55%;
+      height: auto;
+      display: inline-block;
+    }
+
+    h1 {
+      margin: 0;
+      text-align: center;
+      font-size: 25px;
+      color: #123f69;
+    }
+
+    .subtitle {
+      text-align: center;
+      margin: 8px 0 28px;
+      color: #6b7d8f;
+      font-size: 14px;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #294c6d;
+    }
+
+    input {
+      width: 100%;
+      height: 50px;
+      border: 1px solid #ccd7e2;
+      border-radius: 12px;
+      padding: 0 14px;
+      font-size: 16px;
+      background: #ffffff;
+      color: #17324d;
+      outline: none;
+      transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+    }
+
+    input:focus {
+      border-color: #2878b8;
+      box-shadow:
+        0 0 0 3px rgba(40, 120, 184, 0.12);
+    }
+
+    #pin {
+      letter-spacing: 5px;
+      font-size: 20px;
+    }
+
+    .login-button {
+      width: 100%;
+      height: 52px;
+      border: none;
+      border-radius: 13px;
+      background: #1769a6;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 4px;
+      transition:
+        transform 0.1s,
+        opacity 0.2s;
+    }
+
+    .login-button:active {
+      transform: scale(0.99);
+    }
+
+    .login-button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .message {
+      display: none;
+      margin-top: 18px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    .message.error {
+      display: block;
+      background: #fff0f0;
+      color: #a42a2a;
+      border: 1px solid #f2caca;
+    }
+
+    .message.success {
+      display: block;
+      background: #edf9f0;
+      color: #246c36;
+      border: 1px solid #cbe9d2;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 24px;
+      color: #94a2af;
+      font-size: 12px;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      margin-right: 8px;
+      vertical-align: -3px;
+      border: 2px solid rgba(255, 255, 255, 0.45);
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 18px 14px;
+      }
+
+      .login-card {
+        padding: 28px 20px;
+        border-radius: 18px;
+      }
+
+      h1 {
+        font-size: 23px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="login-card">
+
+    <div class="logo-wrap">
+      <img
+        src="./bluewave-logo.jpg"
+        alt="Blue Wave"
+        class="logo"
+      >
+    </div>
+
+    <h1>Staff Login</h1>
+
+    <div class="subtitle">
+      Blue Wave Operations Hub
+    </div>
+
+    <form id="loginForm">
+
+      <div class="field">
+        <label for="username">
+          Username
+        </label>
+
+        <input
+          id="username"
+          name="username"
+          type="text"
+          autocomplete="username"
+          autocapitalize="none"
+          spellcheck="false"
+          placeholder="Enter username"
+          required
+        >
+      </div>
+
+      <div class="field">
+        <label for="pin">
+          PIN
+        </label>
+
+        <input
+          id="pin"
+          name="pin"
+          type="password"
+          inputmode="numeric"
+          autocomplete="current-password"
+          placeholder="••••••"
+          maxlength="6"
+          pattern="[0-9]{6}"
+          required
+        >
+      </div>
+
+      <button
+        id="loginButton"
+        class="login-button"
+        type="submit"
+      >
+        Login
+      </button>
+
+      <div
+        id="message"
+        class="message"
+      ></div>
+
+    </form>
+
+    <div class="footer">
+      Blue Wave Ifuru
+    </div>
+
+  </main>
+
+
+  <script>
+
+    const AUTH_API =
+      "https://script.google.com/macros/s/AKfycbzg-QR_87Lpk_IChM8AQADfGGLN3dAXhMlxrkcq7to0RVFJaD1oB5oYnDKTuBbXD5Et-Q/exec";
+
+
+    const SESSION_TOKEN_KEY =
+      "blueWaveSessionToken";
+
+    const SESSION_USER_KEY =
+      "blueWaveSessionUser";
+
+
+    const loginForm =
+      document.getElementById(
+        "loginForm"
+      );
+
+    const usernameInput =
+      document.getElementById(
+        "username"
+      );
+
+    const pinInput =
+      document.getElementById(
+        "pin"
+      );
+
+    const loginButton =
+      document.getElementById(
+        "loginButton"
+      );
+
+    const messageBox =
+      document.getElementById(
+        "message"
+      );
+
+
+    function showMessage(
+      text,
+      type
+    ) {
+
+      messageBox.textContent =
+        text;
+
+      messageBox.className =
+        "message " + type;
+
+    }
+
+
+    function clearMessage() {
+
+      messageBox.textContent =
+        "";
+
+      messageBox.className =
+        "message";
+
+    }
+
+
+    function setLoading(
+      loading
+    ) {
+
+      loginButton.disabled =
+        loading;
+
+      if (loading) {
+
+        loginButton.innerHTML =
+          '<span class="spinner"></span>Logging in...';
+
+      } else {
+
+        loginButton.textContent =
+          "Login";
+
+      }
+
+    }
+
+
+    function saveSession(
+      token,
+      user
+    ) {
+
+      localStorage.setItem(
+        SESSION_TOKEN_KEY,
+        token
+      );
+
+      localStorage.setItem(
+        SESSION_USER_KEY,
+        JSON.stringify(user)
+      );
+
+    }
+
+
+    function clearSession() {
+
+      localStorage.removeItem(
+        SESSION_TOKEN_KEY
+      );
+
+      localStorage.removeItem(
+        SESSION_USER_KEY
+      );
+
+    }
+
+
+    async function apiRequest(
+      payload
+    ) {
+
+      const response =
+        await fetch(
+          AUTH_API,
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "text/plain;charset=utf-8"
+            },
+
+            body:
+              JSON.stringify(
+                payload
+              )
+          }
+        );
+
+
+      const text =
+        await response.text();
+
+
+      let result;
+
+      try {
+
+        result =
+          JSON.parse(text);
+
+      } catch (error) {
+
+        throw new Error(
+          "The server returned an invalid response."
+        );
+
+      }
+
+
+      return result;
+
+    }
+
+
+    async function checkExistingSession() {
+
+      const token =
+        localStorage.getItem(
+          SESSION_TOKEN_KEY
+        );
+
+
+      if (!token) {
+        return;
+      }
+
+
+      try {
+
+        const result =
+          await apiRequest({
+            action:
+              "checkSession",
+
+            token:
+              token
+          });
+
+
+        if (
+          result &&
+          result.ok &&
+          result.data &&
+          result.data.valid
+        ) {
+
+          window.location.replace(
+            "./index.html"
+          );
+
+          return;
+
+        }
+
+
+        clearSession();
+
+      } catch (error) {
+
+        /*
+          If the server cannot be reached,
+          leave the user on the login page.
+        */
+
+      }
+
+    }
+
+
+    loginForm.addEventListener(
+      "submit",
+      async function(event) {
+
+        event.preventDefault();
+
+        clearMessage();
+
+
+        const username =
+          usernameInput.value
+            .trim()
+            .toLowerCase();
+
+        const pin =
+          pinInput.value.trim();
+
+
+        if (!username) {
+
+          showMessage(
+            "Please enter your username.",
+            "error"
+          );
+
+          usernameInput.focus();
+
+          return;
+
+        }
+
+
+        if (!/^\d{6}$/.test(pin)) {
+
+          showMessage(
+            "PIN must contain 6 digits.",
+            "error"
+          );
+
+          pinInput.focus();
+
+          return;
+
+        }
+
+
+        setLoading(true);
+
+
+        try {
+
+          const result =
+            await apiRequest({
+              action:
+                "login",
+
+              username:
+                username,
+
+              pin:
+                pin
+            });
+
+
+          if (
+            !result ||
+            !result.ok
+          ) {
+
+            throw new Error(
+              result &&
+              result.error
+                ? result.error
+                : "Login failed."
+            );
+
+          }
+
+
+          if (
+            !result.data ||
+            !result.data.token
+          ) {
+
+            throw new Error(
+              "No session was returned by the server."
+            );
+
+          }
+
+
+          saveSession(
+            result.data.token,
+            result.data.user || {}
+          );
+
+
+          showMessage(
+            "Login successful.",
+            "success"
+          );
+
+
+          setTimeout(
+            function() {
+
+              window.location.replace(
+                "./index.html"
+              );
+
+            },
+            300
+          );
+
+
+        } catch (error) {
+
+          clearSession();
+
+          pinInput.value =
+            "";
+
+          showMessage(
+            error.message ||
+            "Unable to log in.",
+            "error"
+          );
+
+          pinInput.focus();
+
+        } finally {
+
+          setLoading(false);
+
+        }
+
+      }
+    );
+
+
+    pinInput.addEventListener(
+      "input",
+      function() {
+
+        this.value =
+          this.value.replace(
+            /\D/g,
+            ""
+          );
+
+      }
+    );
+
+
+    checkExistingSession();
+
+  </script>
+
+</body>
+
+</html>
