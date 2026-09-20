@@ -1,4 +1,4 @@
-const CACHE_NAME = "blue-wave-shell-v24";
+const CACHE_NAME = "blue-wave-shell-v25";
 
 const APP_SHELL = [
   "./",
