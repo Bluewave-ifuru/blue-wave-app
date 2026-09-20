@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
+
+  <meta name="theme-color" content="#ffffff">
+
+  <title>Blue Wave Staff Admin</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f7fb;
+      color: #17324d;
+    }
+
+    body {
+      padding: 20px 14px 40px;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 6px 22px rgba(0,0,0,0.07);
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo {
+      width: 72px;
+      height: auto;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 24px;
+      color: #123f69;
+    }
+
+    .subtitle {
+      margin-top: 4px;
+      color: #718293;
+      font-size: 13px;
+    }
+
+    .back-button {
+      border: none;
+      border-radius: 11px;
+      background: #eaf1f7;
+      color: #245477;
+      padding: 11px 14px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .panel {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 6px 22px rgba(0,0,0,0.07);
+    }
+
+    .panel-title {
+      margin: 0 0 17px;
+      font-size: 19px;
+      color: #123f69;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .field {
+      margin-bottom: 2px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #345673;
+    }
+
+    input {
+      width: 100%;
+      height: 46px;
+      border: 1px solid #ccd7e2;
+      border-radius: 11px;
+      padding: 0 13px;
+      font-size: 15px;
+      color: #17324d;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #2878b8;
+      box-shadow: 0 0 0 3px rgba(40,120,184,0.10);
+    }
+
+    .pin-input {
+      letter-spacing: 4px;
+      font-size: 18px;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 46px;
+    }
+
+    .checkbox-row input {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+    }
+
+    .checkbox-row label {
+      margin: 0;
+      cursor: pointer;
+    }
+
+    .primary-button {
+      width: 100%;
+      height: 48px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 12px;
+      background: #1769a6;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .primary-button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .message {
+      display: none;
+      margin-top: 14px;
+      padding: 11px 13px;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .message.success {
+      display: block;
+      background: #edf9f0;
+      color: #246c36;
+      border: 1px solid #cbe9d2;
+    }
+
+    .message.error {
+      display: block;
+      background: #fff0f0;
+      color: #a42a2a;
+      border: 1px solid #f2caca;
+    }
+
+    .loading {
+      padding: 25px 10px;
+      text-align: center;
+      color: #718293;
+    }
+
+    .user-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .user-card {
+      border: 1px solid #dce5ed;
+      border-radius: 15px;
+      padding: 15px;
+    }
+
+    .user-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 13px;
+    }
+
+    .user-name {
+      font-size: 17px;
+      font-weight: 700;
+      color: #173f5f;
+    }
+
+    .username {
+      margin-top: 3px;
+      font-size: 13px;
+      color: #758697;
+    }
+
+    .badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .badge {
+      padding: 5px 9px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .badge.active {
+      background: #e8f7ec;
+      color: #28703a;
+    }
+
+    .badge.disabled {
+      background: #f6eaea;
+      color: #9d3434;
+    }
+
+    .badge.admin {
+      background: #e9f1fb;
+      color: #255f91;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .action-button {
+      min-height: 40px;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 9px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .reset-button {
+      background: #edf2f6;
+      color: #365a76;
+    }
+
+    .status-button {
+      background: #fff2dc;
+      color: #895b0d;
+    }
+
+    .admin-button {
+      background: #eaf0fa;
+      color: #315f8a;
+    }
+
+    .danger {
+      background: #f9e8e8;
+      color: #a13737;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 28px 10px;
+      color: #758697;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(14,32,48,0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 1000;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 400px;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+    }
+
+    .modal h2 {
+      margin: 0 0 8px;
+      color: #123f69;
+      font-size: 20px;
+    }
+
+    .modal-text {
+      color: #718293;
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 17px;
+    }
+
+    .modal-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      margin-top: 15px;
+    }
+
+    .cancel-button {
+      height: 43px;
+      border: none;
+      border-radius: 10px;
+      background: #edf2f6;
+      color: #365a76;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .confirm-button {
+      height: 43px;
+      border: none;
+      border-radius: 10px;
+      background: #1769a6;
+      color: #ffffff;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    @media (max-width: 600px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+
+      .actions {
+        grid-template-columns: 1fr;
+      }
+
+      .header-top {
+        align-items: flex-start;
+      }
+
+      .logo {
+        width: 60px;
+      }
+
+      h1 {
+        font-size: 21px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page">
+
+    <section class="header">
+
+      <div class="header-top">
+
+        <div class="brand">
+
+          <img
+            src="./bluewave-logo.jpg"
+            class="logo"
+            alt="Blue Wave"
+          >
+
+          <div>
+            <h1>Staff Administration</h1>
+
+            <div class="subtitle">
+              Blue Wave Operations Hub
+            </div>
+          </div>
+
+        </div>
+
+        <button
+          class="back-button"
+          onclick="goBack()"
+        >
+          ← Hub
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <section
+      class="panel"
+      id="addPanel"
+      style="display:none;"
+    >
+
+      <h2 class="panel-title">
+        Add Employee
+      </h2>
+
+      <form id="addUserForm">
+
+        <div class="form-grid">
+
+          <div class="field">
+
+            <label for="newName">
+              Name
+            </label>
+
+            <input
+              id="newName"
+              type="text"
+              placeholder="Employee name"
+              required
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="newUsername">
+              Username
+            </label>
+
+            <input
+              id="newUsername"
+              type="text"
+              placeholder="Username"
+              autocapitalize="none"
+              spellcheck="false"
+              required
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="newPin">
+              6-digit PIN
+            </label>
+
+            <input
+              id="newPin"
+              class="pin-input"
+              type="password"
+              inputmode="numeric"
+              maxlength="6"
+              placeholder="••••••"
+              required
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <div class="checkbox-row">
+
+              <input
+                id="newAdmin"
+                type="checkbox"
+              >
+
+              <label for="newAdmin">
+                Grant Admin access
+              </label>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <button
+          id="addButton"
+          class="primary-button"
+          type="submit"
+        >
+          Add Employee
+        </button>
+
+        <div
+          id="addMessage"
+          class="message"
+        ></div>
+
+      </form>
+
+    </section>
+
+
+    <section class="panel">
+
+      <h2 class="panel-title">
+        Staff Accounts
+      </h2>
+
+      <div
+        id="staffContent"
+        class="loading"
+      >
+        Loading staff accounts...
+      </div>
+
+    </section>
+
+  </div>
+
+
+  <div
+    id="pinModal"
+    class="modal-overlay"
+  >
+
+    <div class="modal">
+
+      <h2>Reset PIN</h2>
+
+      <div
+        id="pinModalText"
+        class="modal-text"
+      ></div>
+
+      <label for="resetPinInput">
+        New 6-digit PIN
+      </label>
+
+      <input
+        id="resetPinInput"
+        class="pin-input"
+        type="password"
+        inputmode="numeric"
+        maxlength="6"
+        placeholder="••••••"
+      >
+
+      <div
+        id="pinMessage"
+        class="message"
+      ></div>
+
+      <div class="modal-buttons">
+
+        <button
+          class="cancel-button"
+          onclick="closePinModal()"
+        >
+          Cancel
+        </button>
+
+        <button
+          class="confirm-button"
+          onclick="confirmPinReset()"
+        >
+          Reset PIN
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    const AUTH_API =
+      "https://script.google.com/macros/s/AKfycbzg-QR_87Lpk_IChM8AQADfGGLN3dAXhMlxrkcq7to0RVFJaD1oB5oYnDKTuBbXD5Et-Q/exec";
+
+
+    const SESSION_TOKEN_KEY =
+      "blueWaveSessionToken";
+
+    const SESSION_USER_KEY =
+      "blueWaveSessionUser";
+
+
+    let sessionToken = "";
+
+    let currentUser = null;
+
+    let staffUsers = [];
+
+    let resetTarget = null;
+
+
+    function goBack() {
+
+      window.location.href =
+        "./index.html";
+
+    }
+
+
+    function goLogin() {
+
+      localStorage.removeItem(
+        SESSION_TOKEN_KEY
+      );
+
+      localStorage.removeItem(
+        SESSION_USER_KEY
+      );
+
+      window.location.replace(
+        "./login.html"
+      );
+
+    }
+
+
+    async function apiRequest(
+      payload
+    ) {
+
+      const response =
+        await fetch(
+          AUTH_API,
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "text/plain;charset=utf-8"
+            },
+
+            body:
+              JSON.stringify(payload)
+          }
+        );
+
+
+      const text =
+        await response.text();
+
+
+      let result;
+
+      try {
+
+        result =
+          JSON.parse(text);
+
+      } catch (error) {
+
+        throw new Error(
+          "The server returned an invalid response."
+        );
+
+      }
+
+
+      if (
+        !result ||
+        result.ok !== true
+      ) {
+
+        throw new Error(
+          result &&
+          result.error
+            ? result.error
+            : "Request failed."
+        );
+
+      }
+
+
+      return result.data;
+
+    }
+
+
+    function setMessage(
+      element,
+      text,
+      type
+    ) {
+
+      element.textContent =
+        text;
+
+      element.className =
+        "message " + type;
+
+    }
+
+
+    function clearMessage(
+      element
+    ) {
+
+      element.textContent =
+        "";
+
+      element.className =
+        "message";
+
+    }
+
+
+    function escapeHtml(
+      value
+    ) {
+
+      return String(
+        value == null
+          ? ""
+          : value
+      )
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+        .replace(
+          /</g,
+          "&lt;"
+        )
+        .replace(
+          />/g,
+          "&gt;"
+        )
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+        .replace(
+          /'/g,
+          "&#039;"
+        );
+
+    }
+
+
+    function safeJsString(
+      value
+    ) {
+
+      return JSON.stringify(
+        String(value)
+      );
+
+    }
+
+
+    async function initialiseAdmin() {
+
+      sessionToken =
+        localStorage.getItem(
+          SESSION_TOKEN_KEY
+        ) || "";
+
+
+      if (!sessionToken) {
+
+        goLogin();
+
+        return;
+
+      }
+
+
+      try {
+
+        const session =
+          await apiRequest({
+            action:
+              "checkSession",
+
+            token:
+              sessionToken
+          });
+
+
+        if (
+          !session ||
+          !session.valid ||
+          !session.user
+        ) {
+
+          goLogin();
+
+          return;
+
+        }
+
+
+        currentUser =
+          session.user;
+
+
+        if (
+          currentUser.admin !== true
+        ) {
+
+          alert(
+            "Administrator access required."
+          );
+
+          window.location.replace(
+            "./index.html"
+          );
+
+          return;
+
+        }
+
+
+        document.getElementById(
+          "addPanel"
+        ).style.display =
+          "block";
+
+
+        await loadUsers();
+
+
+      } catch (error) {
+
+        alert(
+          error.message ||
+          "Unable to verify administrator access."
+        );
+
+        goLogin();
+
+      }
+
+    }
+
+
+    async function loadUsers() {
+
+      const staffContent =
+        document.getElementById(
+          "staffContent"
+        );
+
+
+      staffContent.className =
+        "loading";
+
+      staffContent.textContent =
+        "Loading staff accounts...";
+
+
+      try {
+
+        const data =
+          await apiRequest({
+            action:
+              "listUsers",
+
+            token:
+              sessionToken
+          });
+
+
+        if (Array.isArray(data)) {
+
+          staffUsers =
+            data;
+
+        } else if (
+          data &&
+          Array.isArray(data.users)
+        ) {
+
+          staffUsers =
+            data.users;
+
+        } else {
+
+          staffUsers =
+            [];
+
+        }
+
+
+        renderUsers();
+
+
+      } catch (error) {
+
+        staffContent.className =
+          "message error";
+
+        staffContent.textContent =
+          error.message ||
+          "Unable to load staff accounts.";
+
+      }
+
+    }
+
+
+    function renderUsers() {
+
+      const staffContent =
+        document.getElementById(
+          "staffContent"
+        );
+
+
+      if (
+        !staffUsers.length
+      ) {
+
+        staffContent.className =
+          "empty";
+
+        staffContent.textContent =
+          "No staff accounts found.";
+
+        return;
+
+      }
+
+
+      staffContent.className =
+        "user-list";
+
+      staffContent.innerHTML =
+        "";
+
+
+      staffUsers.forEach(
+        function(user) {
+
+          const card =
+            document.createElement(
+              "div"
+            );
+
+          card.className =
+            "user-card";
+
+
+          const isActive =
+            user.active !== false;
+
+          const isAdmin =
+            user.admin === true;
+
+
+          const statusBadge =
+            isActive
+              ? '<span class="badge active">Active</span>'
+              : '<span class="badge disabled">Disabled</span>';
+
+
+          const adminBadge =
+            isAdmin
+              ? '<span class="badge admin">Admin</span>'
+              : "";
+
+
+          const username =
+            String(
+              user.username || ""
+            );
+
+
+          const displayName =
+            String(
+              user.name ||
+              username
+            );
+
+
+          const usernameArg =
+            safeJsString(
+              username
+            );
+
+          const nameArg =
+            safeJsString(
+              displayName
+            );
+
+
+          card.innerHTML = `
+            <div class="user-top">
+
+              <div>
+                <div class="user-name">
+                  ${escapeHtml(displayName)}
+                </div>
+
+                <div class="username">
+                  @${escapeHtml(username)}
+                </div>
+              </div>
+
+              <div class="badges">
+                ${statusBadge}
+                ${adminBadge}
+              </div>
+
+            </div>
+
+            <div class="actions">
+
+              <button
+                class="action-button reset-button"
+                onclick='openPinModal(${usernameArg}, ${nameArg})'
+              >
+                Reset PIN
+              </button>
+
+              <button
+                class="action-button status-button ${isActive ? "danger" : ""}"
+                onclick='changeActive(${usernameArg}, ${!isActive})'
+              >
+                ${isActive ? "Disable" : "Enable"}
+              </button>
+
+              <button
+                class="action-button admin-button"
+                onclick='changeAdmin(${usernameArg}, ${!isAdmin})'
+              >
+                ${isAdmin ? "Remove Admin" : "Make Admin"}
+              </button>
+
+            </div>
+          `;
+
+
+          staffContent.appendChild(
+            card
+          );
+
+        }
+      );
+
+    }
+
+
+    const addUserForm =
+      document.getElementById(
+        "addUserForm"
+      );
+
+
+    addUserForm.addEventListener(
+      "submit",
+      async function(event) {
+
+        event.preventDefault();
+
+
+        const addMessage =
+          document.getElementById(
+            "addMessage"
+          );
+
+        const addButton =
+          document.getElementById(
+            "addButton"
+          );
+
+
+        clearMessage(
+          addMessage
+        );
+
+
+        const name =
+          document.getElementById(
+            "newName"
+          ).value.trim();
+
+
+        const username =
+          document.getElementById(
+            "newUsername"
+          ).value
+            .trim()
+            .toLowerCase();
+
+
+        const pin =
+          document.getElementById(
+            "newPin"
+          ).value.trim();
+
+
+        const admin =
+          document.getElementById(
+            "newAdmin"
+          ).checked;
+
+
+        if (
+          !name ||
+          !username
+        ) {
+
+          setMessage(
+            addMessage,
+            "Name and username are required.",
+            "error"
+          );
+
+          return;
+
+        }
+
+
+        if (
+          !/^\d{6}$/.test(pin)
+        ) {
+
+          setMessage(
+            addMessage,
+            "PIN must contain 6 digits.",
+            "error"
+          );
+
+          return;
+
+        }
+
+
+        addButton.disabled =
+          true;
+
+        addButton.textContent =
+          "Adding...";
+
+
+        try {
+
+          await apiRequest({
+            action:
+              "createUser",
+
+            token:
+              sessionToken,
+
+            name:
+              name,
+
+            username:
+              username,
+
+            pin:
+              pin,
+
+            admin:
+              admin
+          });
+
+
+          addUserForm.reset();
+
+
+          setMessage(
+            addMessage,
+            "Employee added successfully.",
+            "success"
+          );
+
+
+          await loadUsers();
+
+
+        } catch (error) {
+
+          setMessage(
+            addMessage,
+            error.message ||
+            "Unable to add employee.",
+            "error"
+          );
+
+        } finally {
+
+          addButton.disabled =
+            false;
+
+          addButton.textContent =
+            "Add Employee";
+
+        }
+
+      }
+    );
+
+
+    function openPinModal(
+      username,
+      name
+    ) {
+
+      resetTarget = {
+        username:
+          username,
+
+        name:
+          name
+      };
+
+
+      document.getElementById(
+        "pinModalText"
+      ).textContent =
+        "Set a new PIN for " +
+        name +
+        ".";
+
+
+      document.getElementById(
+        "resetPinInput"
+      ).value =
+        "";
+
+
+      clearMessage(
+        document.getElementById(
+          "pinMessage"
+        )
+      );
+
+
+      document.getElementById(
+        "pinModal"
+      ).classList.add(
+        "show"
+      );
+
+
+      setTimeout(
+        function() {
+
+          document.getElementById(
+            "resetPinInput"
+          ).focus();
+
+        },
+        100
+      );
+
+    }
+
+
+    function closePinModal() {
+
+      resetTarget =
+        null;
+
+
+      document.getElementById(
+        "pinModal"
+      ).classList.remove(
+        "show"
+      );
+
+    }
+
+
+    async function confirmPinReset() {
+
+      if (!resetTarget) {
+        return;
+      }
+
+
+      const input =
+        document.getElementById(
+          "resetPinInput"
+        );
+
+      const message =
+        document.getElementById(
+          "pinMessage"
+        );
+
+      const newPin =
+        input.value.trim();
+
+
+      clearMessage(
+        message
+      );
+
+
+      if (
+        !/^\d{6}$/.test(newPin)
+      ) {
+
+        setMessage(
+          message,
+          "PIN must contain 6 digits.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      try {
+
+        await apiRequest({
+          action:
+            "resetUserPin",
+
+          token:
+            sessionToken,
+
+          username:
+            resetTarget.username,
+
+          newPin:
+            newPin
+        });
+
+
+        closePinModal();
+
+
+        alert(
+          "PIN reset successfully."
+        );
+
+
+      } catch (error) {
+
+        setMessage(
+          message,
+          error.message ||
+          "Unable to reset PIN.",
+          "error"
+        );
+
+      }
+
+    }
+
+
+    async function changeActive(
+      username,
+      makeActive
+    ) {
+
+      const actionText =
+        makeActive
+          ? "enable"
+          : "disable";
+
+
+      if (
+        !confirm(
+          "Are you sure you want to " +
+          actionText +
+          " @" +
+          username +
+          "?"
+        )
+      ) {
+
+        return;
+
+      }
+
+
+      try {
+
+        await apiRequest({
+          action:
+            "setUserActive",
+
+          token:
+            sessionToken,
+
+          username:
+            username,
+
+          active:
+            makeActive
+        });
+
+
+        await loadUsers();
+
+
+      } catch (error) {
+
+        alert(
+          error.message ||
+          "Unable to update employee status."
+        );
+
+      }
+
+    }
+
+
+    async function changeAdmin(
+      username,
+      makeAdmin
+    ) {
+
+      const actionText =
+        makeAdmin
+          ? "grant Admin access to"
+          : "remove Admin access from";
+
+
+      if (
+        !confirm(
+          "Are you sure you want to " +
+          actionText +
+          " @" +
+          username +
+          "?"
+        )
+      ) {
+
+        return;
+
+      }
+
+
+      try {
+
+        await apiRequest({
+          action:
+            "setUserAdmin",
+
+          token:
+            sessionToken,
+
+          username:
+            username,
+
+          admin:
+            makeAdmin
+        });
+
+
+        await loadUsers();
+
+
+      } catch (error) {
+
+        alert(
+          error.message ||
+          "Unable to update Admin access."
+        );
+
+      }
+
+    }
+
+
+    document.getElementById(
+      "newPin"
+    ).addEventListener(
+      "input",
+      function() {
+
+        this.value =
+          this.value.replace(
+            /\D/g,
+            ""
+          );
+
+      }
+    );
+
+
+    document.getElementById(
+      "resetPinInput"
+    ).addEventListener(
+      "input",
+      function() {
+
+        this.value =
+          this.value.replace(
+            /\D/g,
+            ""
+          );
+
+      }
+    );
+
+
+    document.getElementById(
+      "pinModal"
+    ).addEventListener(
+      "click",
+      function(event) {
+
+        if (
+          event.target === this
+        ) {
+
+          closePinModal();
+
+        }
+
+      }
+    );
+
+
+    initialiseAdmin();
+
+  </script>
+
+</body>
+
+</html>
