@@ -761,13 +761,13 @@
         <div class="field">
 
           <label for="gro">
-            GRO / Butler
+            GRO 
           </label>
 
         <select id="gro">
 
   <option value="">
-    Select GRO / Butler
+    Select GRO 
   </option>
 
   <option>Direct Booking</option>
@@ -1193,7 +1193,7 @@ async function loadBookingBackend() {
       document.getElementById("gro");
 
     groSelect.innerHTML =
-      '<option value="">Select GRO / Butler</option>';
+      '<option value="">Select GRO</option>';
 
     data.gros.forEach(function(name) {
 
@@ -1495,11 +1495,10 @@ cardContent.innerHTML = `
     <div class="card-label">REPORTING TIME</div>
     <div class="card-value">${reportingTime}</div>
   </div>
-
-  <div class="card-row">
-    <div class="card-label">GRO / BUTLER</div>
-    <div class="card-value">${gro}</div>
-  </div>
+<div class="card-row">
+  <div class="card-label">GRO</div>
+  <div class="card-value">${gro}</div>
+</div>
 
   <div class="card-row">
     <div class="card-label">BOOKED BY</div>
