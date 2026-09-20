@@ -820,49 +820,54 @@
       try {
 
         const session =
-          await apiRequest({
-            action:
-              "checkSession",
+  await apiRequest({
+    action:
+      "checkSession",
 
-            token:
-              sessionToken
-          });
-
-
-        if (
-          !session ||
-          !session.valid ||
-          !session.user
-        ) {
-
-          goLogin();
-
-          return;
-
-        }
+    token:
+      sessionToken
+  });
 
 
-        currentUser =
-          session.user;
+if (
+  !session ||
+  session.loggedIn !== true
+) {
+
+  goLogin();
+
+  return;
+
+}
 
 
-        if (
-          currentUser.admin !== true
-        ) {
+currentUser = {
+  name:
+    session.name || "",
 
-          alert(
-            "Administrator access required."
-          );
+  username:
+    session.username || "",
 
-          window.location.replace(
-            "./index.html"
-          );
-
-          return;
-
-        }
+  admin:
+    session.admin === true
+};
 
 
+if (
+  currentUser.admin !== true
+) {
+
+  alert(
+    "Administrator access required."
+  );
+
+  window.location.replace(
+    "./index.html"
+  );
+
+  return;
+
+}
         document.getElementById(
           "addPanel"
         ).style.display =
