@@ -196,4 +196,1316 @@ input[type=date] {
 
 .status.error {
   background: #fff0ee;
-  color: #a12d
+  color: #a12d22;
+}
+
+.badge {
+  display: inline-block;
+  background: #ffedcc;
+  color: #875100;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.mode-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.mode-button {
+  border: 2px solid #d6e3eb;
+  background: #f5f9fc;
+  color: #183044;
+  border-radius: 12px;
+  padding: 20px 12px;
+  font: inherit;
+  cursor: pointer;
+  text-align: center;
+}
+
+.mode-button strong {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.mode-button span {
+  font-size: 13px;
+  color: #627687;
+  line-height: 1.5;
+}
+
+.mode-button.selected {
+  border-color: #086a9c;
+  background: #e6f2f8;
+}
+
+.highlight {
+  font-weight: bold;
+  color: #07547a;
+}
+
+.time-highlight {
+  font-weight: bold;
+  color: #07547a;
+  background: #d7edf9;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+@media(max-width:500px) {
+  .row,
+  .mode-options {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 15px;
+  }
+}
+</style>
+</head>
+
+<body>
+<main>
+
+<header class="top">
+  <img class="logo"
+       src="./bluewave-logo.jpg"
+       alt="Blue Wave Ifuru logo">
+
+  <h1>Equipment Registration</h1>
+
+  <div class="muted">
+    Blue Wave Ifuru · Dive Butler International
+  </div>
+
+  <p id="test-badge">
+    <span class="badge">
+      TEST PAGE — SUBMISSIONS DISABLED
+    </span>
+  </p>
+</header>
+
+<section class="card">
+  <h2>Welcome</h2>
+
+  <p class="muted">
+    Please select how you would like to register.
+  </p>
+
+  <div class="mode-options">
+
+    <button type="button"
+            class="mode-button"
+            id="new-mode">
+      <strong>New Registration</strong>
+      <span>
+        Register yourself and other participants
+        for the first time.
+      </span>
+    </button>
+
+    <button type="button"
+            class="mode-button"
+            id="existing-mode">
+      <strong>Existing Registration</strong>
+      <span>
+        Add more participants to a registration
+        already completed.
+      </span>
+    </button>
+
+  </div>
+</section>
+
+<form id="registration" class="hidden" novalidate>
+
+<section class="card">
+  <h2 id="details-heading">1. Villa details</h2>
+
+  <div class="row">
+
+    <div>
+      <label for="villa">Villa number *</label>
+      <input id="villa"
+             type="text"
+             required
+             maxlength="20"
+             placeholder="e.g. 206"
+             autocomplete="off">
+    </div>
+
+    <div id="departure-field">
+      <label for="departure">Departure date *</label>
+      <input id="departure"
+             type="date">
+    </div>
+
+    <div id="existing-name-field" class="hidden">
+      <label for="existing-name">
+        Name of an already registered guest *
+      </label>
+      <input id="existing-name"
+             type="text"
+             maxlength="150"
+             autocomplete="off"
+             placeholder="Full name">
+    </div>
+
+  </div>
+
+  <p class="muted hidden" id="existing-explanation">
+    Enter the villa number and full name of a guest
+    who has already completed the registration.
+    You can then add new participants.
+
+    Previously registered participants cannot
+    be changed or removed.
+  </p>
+</section>
+
+<section class="card">
+  <h2>2. Equipment rental agreement</h2>
+
+  <div class="agreement" id="rental-agreement">
+
+    <p>
+      <span class="highlight">
+        Equipment is provided free of charge during your stay.
+      </span>
+    </p>
+
+    <p>
+      By signing below, I agree and understand that
+      should I lose or damage beyond normal wear and tear
+      or that should I do not return the equipment to the
+      <span class="highlight">
+        Dive Centre the day before my departure before
+      </span>
+      <span class="time-highlight">17:30</span>,
+      a charge of <strong>$170 per set</strong>
+      (mask, snorkel, fins and bag) will be made to my room.
+    </p>
+
+    <p>
+      Should only a part of the equipment be lost,
+      damaged or not returned, the following charges
+      will apply:
+    </p>
+
+    <p>
+      <strong>
+        $50 per mask ·
+        $70 per set of fins ·
+        $30 per snorkel ·
+        $20 per bag.
+      </strong>
+    </p>
+
+    <p>
+      <span class="highlight">
+        Prices are quoted in US Dollars and are subject
+        to 10% service charge and 17% Tourism Goods
+        and Service Tax (TGST).
+      </span>
+    </p>
+
+  </div>
+
+  <p class="muted">
+    Agreement transcribed from the existing Blue Wave
+    rental form. Wording must be approved before guest use.
+  </p>
+</section>
+
+<section class="card">
+  <h2>3. Liability release</h2>
+
+  <p class="muted">
+    Please read the complete agreement before signing.
+    Each participant must be registered individually.
+  </p>
+
+  <div class="agreement" id="waiver">
+
+    <p>
+      <strong>
+        WAIVER AND RELEASE OF LIABILITY,
+        ASSUMPTION OF RISK, AND INDEMNITY AGREEMENT
+      </strong>
+    </p>
+
+    <p>
+      Whereas DBI Maldives Private Limited
+      (herein the "Released Party") allows my participation
+      in Scuba Diving, Snorkeling, or Water Sports,
+      or Excursions, or any and all activities or events
+      in which the Released Party is in any way involved
+      (herein the "Activities"),
+      I hereby represent and agree to the following
+      and the terms and conditions herein
+      (the "Agreement"):
+    </p>
+
+    <p>
+      <strong>1.</strong>
+      I (i) am in good health and in proper physical
+      condition to participate in the Activities;
+      (ii) am not under the influence of alcohol or any
+      drugs which would in any way impair my ability
+      to safely participate in the Activities;
+      (iii) agree that it is my sole responsibility
+      to determine whether I am sufficiently fit
+      and healthy enough to participate in the Activities;
+      and (iv) have disclosed any existing injuries
+      or conditions that may in any way affect my
+      participation in the Activities.
+
+      For Scuba Diving activities, I declare that I
+      have read through the R.S.T.C Medical statement
+      and fully declare that I have none and have
+      never had any of the medical conditions
+      mentioned in this statement.
+    </p>
+
+    <p>
+      <strong>2.</strong>
+      I will abide by all rules and regulations
+      established from time to time for the Activities
+      in which I participate, and accept sole
+      responsibility for my own conduct and actions
+      while participating in these Activities,
+      and the condition and adequacy of any equipment
+      that I use in conjunction with those Activities.
+
+      In particular, I agree that:
+    </p>
+
+    <p>
+      <strong>a.</strong>
+      I must be able to swim for at least 15
+      (fifteen) minutes in open water in order
+      to be eligible for Snorkeling and
+      Water Sports Activities.
+    </p>
+
+    <p>
+      <strong>b.</strong>
+      I will wear life vests at all time or
+      howsoever instructed when participating
+      in Water Sports or Snorkeling Activities,
+      including Snorkeling or floatation devices
+      or other safety and security equipment
+      required by the Released Party.
+    </p>
+
+    <p>
+      <strong>c.</strong>
+      I will abide by all instructions by the
+      Released Party on local hazards and dangers,
+      such as no-swim zones, or boundaries,
+      or local emergency signals for alarms
+      and calls for assistance.
+    </p>
+
+    <p>
+      <strong>i.</strong>
+      The physical and mental rigors associated
+      with the Activities are inherently dangerous,
+      and that participation in the Activities,
+      especially where water-based, involves risks
+      and dangers which include, without limitation,
+      serious bodily injury, or loss of life,
+      or damage to property, or collision,
+      or drowning; decompression sickness,
+      lung expansion and other conditions and
+      risks associated with Scuba Diving,
+      and other undefined risks and dangers
+      (the "Risks"), and I hereby expressly
+      assume all such Risks and responsibility
+      for any damages, liabilities, losses,
+      or expenses which I incur as a result
+      of my participation.
+    </p>
+
+    <p>
+      <strong>ii.</strong>
+      I will use all equipment and facilities
+      provided in conjunction with the Activities
+      in the manner such equipment and facilities
+      are meant to be used, and agree that
+      replacement charges and/or additional
+      usage charges will apply where equipment
+      is either damaged or subject to any
+      additional use by me.
+    </p>
+
+    <p>
+      <strong>iii.</strong>
+      I know that safety when taking part in
+      scuba diving activities and/or courses
+      and/or programs is warranted only if
+      the integrity of the entire equipment
+      used is warranted 100%.
+
+      The perfect working condition of rental
+      diving equipment is regularly tested
+      and checked by the diving personnel.
+
+      Nevertheless, it remains my sole
+      responsibility to personally check
+      the functional integrity of the
+      equipment before each dive.
+
+      I also assume full responsibility
+      for any loss or damage to equipment
+      rented to me.
+
+      For my own equipment, I bear the sole
+      responsibility and I am fully responsible
+      for any damages.
+
+      In case I have my own personal dive
+      equipment, I explicitly declare that
+      such equipment meets local safety
+      requirements and regulations.
+    </p>
+
+    <p>
+      <strong>3.</strong>
+      For Scuba Diving Activities, I agree
+      to fully comply with the following
+      dive regulations.
+
+      Except for DSD participants, the
+      certified diver must be in possession
+      of a valid diving certificate
+      (PADI, NAUI, SSI, and CMAS etc.)
+      and logbook.
+
+      An orientation dive or check dive
+      is the general rule.
+
+      The maximum depth for all-recreational
+      diving in the Maldives is 30 meters
+      (for Open Water Divers/CMAS 1*
+      /or Equivalent: the maximum depth
+      is 20 meters).
+
+      For all participants in dive excursions,
+      courses or programs:
+
+      It is prohibited to dive in less than
+      24 hours to the flight time.
+
+      Only no-decompression diving is allowed
+      and after all dives a safety stop
+      must be made for at least 3 minutes
+      at 5 meters.
+
+      The use of a dive computer is compulsory
+      for each diver, student or participant.
+
+      Divers must commence their safety-stop
+      with a tank pressure not less than
+      50 bars and surface with minimum
+      30 bars left in the tank.
+
+      No solo diving is permitted.
+
+      Remain throughout the dive with
+      your dive buddy.
+
+      The maximum bottom time is 60 minutes
+      including the safety stop.
+
+      All dives are under guidance of a
+      Dive Master or Instructor.
+    </p>
+
+    <p>
+      <strong>4.</strong>
+      I agree to cancel planned Activities
+      at least 06 (six) hours in advance
+      of the time for commencement of
+      such Activity, failing which I agree
+      to be subject to cancellation or
+      no-show charges, except where an
+      Activity is cancelled by the
+      Released Party due to adverse weather
+      or any other condition beyond my control.
+    </p>
+
+    <p>
+      <strong>5.</strong>
+      I hereby release, further agree to
+      indemnify, defend and hold harmless
+      the Released Party, and its respective
+      parent, subsidiary and affiliated
+      companies, and officers with respect
+      to any liability, claim(s), demand(s),
+      cause(s) of action, damage(s), loss
+      or expense, including court costs
+      and reasonable attorney's fees
+      of any kind or nature ("Liability")
+      which may arise out of, the result
+      of, or relate to my participation
+      in the Activities.
+    </p>
+
+    <p>
+      <strong>6.</strong>
+      I hereby warrant that I have read
+      this Agreement carefully, understand
+      its terms and conditions, acknowledge
+      that I have signed this Agreement
+      freely and voluntarily, and accept
+      the provisions herein.
+    </p>
+
+    <p>
+      <strong>7.</strong>
+      This Agreement represents the complete
+      understanding between the parties
+      regarding these issues and no oral
+      representation, statements, or
+      inducements have been made apart
+      from this Agreement.
+    </p>
+
+    <p>
+      <strong>8.</strong>
+      If any provision of this Agreement
+      is held to be unenforceable for
+      any reason, then that provision
+      shall not affect the validity
+      and enforceability of any
+      remaining provisions.
+    </p>
+
+  </div>
+</section>
+
+<section class="card">
+
+  <h2>4. Participants and signatures</h2>
+
+  <p class="muted">
+    Add every person who will use equipment.
+    For anyone under 18, parent/legal guardian
+    consent and signature are also required.
+  </p>
+
+  <div id="participants"></div>
+
+  <button type="button"
+          class="button secondary"
+          id="add">
+    + Add Another Participant
+  </button>
+
+</section>
+
+<section class="card">
+
+  <label class="check">
+    <input id="confirm"
+           type="checkbox"
+           required>
+
+    <span>
+      I confirm that the details entered
+      are correct and each participant
+      has reviewed and signed the
+      applicable agreements.
+    </span>
+  </label>
+
+  <button class="button"
+          id="submit-button"
+          type="submit">
+    Test Registration
+  </button>
+
+  <div id="result" aria-live="polite"></div>
+
+  <p class="notice" id="test-notice">
+    <strong>Testing only:</strong>
+    This page is not currently saving guest
+    details or signatures.
+    Please do not use it with real guests yet.
+  </p>
+
+</section>
+
+</form>
+
+<div class="foot">
+  Blue Wave Ifuru · Equipment Rentals
+</div>
+
+</main>
+
+<template id="participant-template">
+
+<div class="participant">
+
+  <div class="participant-head">
+
+    <strong class="heading">
+      Participant
+    </strong>
+
+    <button type="button"
+            class="button light remove">
+      Remove
+    </button>
+
+  </div>
+
+  <div class="row">
+
+    <div>
+      <label>Participant full name *</label>
+      <input class="name"
+             type="text"
+             required
+             maxlength="150"
+             autocomplete="off">
+    </div>
+
+    <div>
+      <label>Age *</label>
+      <input class="age"
+             type="number"
+             min="0"
+             max="120"
+             required>
+    </div>
+
+  </div>
+
+  <label class="check">
+
+    <input class="agree"
+           type="checkbox"
+           required>
+
+    <span>
+      I have read and agree to the
+      equipment rental conditions
+      and liability release above.
+    </span>
+
+  </label>
+
+  <div class="signrow">
+
+    <label>Participant signature *</label>
+
+    <button type="button"
+            class="button light clear-sign">
+      Clear
+    </button>
+
+  </div>
+
+  <canvas class="signature person-sign"
+          aria-label="Participant signature">
+  </canvas>
+
+  <div class="guardian hidden">
+
+    <p class="notice">
+      <strong>Under 18:</strong>
+      Parent/legal guardian consent
+      is required.
+    </p>
+
+    <p class="muted">
+      As the parent or legal guardian
+      to the minor identified above,
+      I hereby accept and agree to
+      all of the terms and conditions
+      of this Agreement on behalf
+      of the minor in connection
+      with the minor's participation
+      in the Activities, and assume
+      the responsibilities of the
+      minor under this Agreement.
+    </p>
+
+    <label>
+      Parent / guardian full name *
+    </label>
+
+    <input type="text"
+           class="guardian-name"
+           maxlength="150">
+
+    <label class="check">
+
+      <input type="checkbox"
+             class="guardian-agree">
+
+      <span>
+        As parent/legal guardian,
+        I agree to the parental
+        consent above.
+      </span>
+
+    </label>
+
+    <div class="signrow">
+
+      <label>
+        Parent / guardian signature *
+      </label>
+
+      <button type="button"
+              class="button light clear-guardian">
+        Clear
+      </button>
+
+    </div>
+
+    <canvas class="signature guardian-sign"
+            aria-label="Parent or guardian signature">
+    </canvas>
+
+  </div>
+
+</div>
+
+</template>
+
+<script>
+'use strict';
+
+// =====================================================
+// CONFIGURATION
+// =====================================================
+
+// Keep true until the registration system has been tested.
+const TEST_MODE = true;
+
+// Existing Google Apps Script deployment.
+// A new deployment version will be required before live use.
+const RENTAL_API_URL =
+  'https://script.google.com/macros/s/AKfycbzg-QR_87Lpk_IChM8AQADfGGLN3dAXhMlxrkcq7to0RVFJaD1oB5oYnDKTuBbXD5Et-Q/exec';
+
+// =====================================================
+// PAGE ELEMENTS
+// =====================================================
+
+const list = document.getElementById('participants');
+const template = document.getElementById('participant-template');
+
+const form = document.getElementById('registration');
+
+const villaInput = document.getElementById('villa');
+const departureInput = document.getElementById('departure');
+const existingNameInput = document.getElementById('existing-name');
+
+const newButton = document.getElementById('new-mode');
+const existingButton = document.getElementById('existing-mode');
+
+const submitButton = document.getElementById('submit-button');
+const resultBox = document.getElementById('result');
+
+let registrationMode = '';
+let submitting = false;
+
+// =====================================================
+// SELECT REGISTRATION MODE
+// =====================================================
+
+function selectMode(mode) {
+
+  registrationMode = mode;
+
+  form.classList.remove('hidden');
+
+  newButton.classList.toggle(
+    'selected',
+    mode === 'new'
+  );
+
+  existingButton.classList.toggle(
+    'selected',
+    mode === 'existing'
+  );
+
+  const existing = mode === 'existing';
+
+  document.getElementById('departure-field')
+    .classList.toggle('hidden', existing);
+
+  document.getElementById('existing-name-field')
+    .classList.toggle('hidden', !existing);
+
+  document.getElementById('existing-explanation')
+    .classList.toggle('hidden', !existing);
+
+  document.getElementById('details-heading').textContent =
+    existing
+      ? '1. Find existing registration'
+      : '1. Villa details';
+
+  departureInput.required = !existing;
+  existingNameInput.required = existing;
+
+  villaInput.value = '';
+  departureInput.value = '';
+  existingNameInput.value = '';
+
+  document.getElementById('confirm').checked = false;
+
+  list.innerHTML = '';
+  addParticipant();
+
+  resultBox.className = '';
+  resultBox.textContent = '';
+
+  submitButton.textContent = TEST_MODE
+    ? 'Test Registration'
+    : existing
+      ? 'Add Participants'
+      : 'Submit Registration';
+
+  form.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+}
+
+newButton.addEventListener('click', () => {
+  selectMode('new');
+});
+
+existingButton.addEventListener('click', () => {
+  selectMode('existing');
+});
+
+// =====================================================
+// SIGNATURE PAD
+// =====================================================
+
+function enableSignature(canvas) {
+
+  const ctx = canvas.getContext('2d');
+
+  let drawing = false;
+  let signed = false;
+
+  function size() {
+
+    const previous = signed
+      ? canvas.toDataURL('image/png')
+      : null;
+
+    const r = canvas.getBoundingClientRect();
+
+    const scale = Math.min(
+      window.devicePixelRatio || 1,
+      2
+    );
+
+    canvas.width = Math.round(r.width * scale);
+    canvas.height = Math.round(r.height * scale);
+
+    ctx.setTransform(
+      scale,
+      0,
+      0,
+      scale,
+      0,
+      0
+    );
+
+    ctx.strokeStyle = '#183044';
+    ctx.lineWidth = 2.5;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    if (previous) {
+
+      const im = new Image();
+
+      im.onload = () => {
+        ctx.drawImage(
+          im,
+          0,
+          0,
+          r.width,
+          r.height
+        );
+      };
+
+      im.src = previous;
+    }
+  }
+
+  function point(e) {
+
+    const r = canvas.getBoundingClientRect();
+
+    return [
+      e.clientX - r.left,
+      e.clientY - r.top
+    ];
+  }
+
+  canvas.addEventListener('pointerdown', e => {
+
+    e.preventDefault();
+
+    canvas.setPointerCapture(e.pointerId);
+
+    drawing = true;
+
+    const [x, y] = point(e);
+
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x + .01, y + .01);
+    ctx.stroke();
+
+    signed = true;
+  });
+
+  canvas.addEventListener('pointermove', e => {
+
+    if (!drawing) return;
+
+    e.preventDefault();
+
+    const [x, y] = point(e);
+
+    ctx.lineTo(x, y);
+    ctx.stroke();
+  });
+
+  canvas.addEventListener('pointerup', () => {
+    drawing = false;
+  });
+
+  canvas.addEventListener('pointercancel', () => {
+    drawing = false;
+  });
+
+  requestAnimationFrame(size);
+
+  return {
+
+    hasSignature: () => signed,
+
+    toDataURL: () => {
+      return canvas.toDataURL('image/png');
+    },
+
+    clear: () => {
+
+      ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+
+      signed = false;
+    }
+  };
+}
+
+// =====================================================
+// PARTICIPANTS
+// =====================================================
+
+function renumber() {
+
+  [...list.children].forEach((el, i) => {
+
+    el.querySelector('.heading').textContent =
+      'Participant ' + (i + 1);
+
+    el.querySelector('.remove').disabled =
+      list.children.length === 1;
+  });
+}
+
+function addParticipant() {
+
+  if (list.children.length >= 20) {
+    alert('Maximum 20 participants per submission.');
+    return;
+  }
+
+  const el = template.content
+    .firstElementChild.cloneNode(true);
+
+  list.append(el);
+
+  const person = enableSignature(
+    el.querySelector('.person-sign')
+  );
+
+  const guardian = enableSignature(
+    el.querySelector('.guardian-sign')
+  );
+
+  el._signatures = {
+    person,
+    guardian
+  };
+
+  el.querySelector('.clear-sign').onclick = () => {
+    person.clear();
+  };
+
+  el.querySelector('.clear-guardian').onclick = () => {
+    guardian.clear();
+  };
+
+  el.querySelector('.remove').onclick = () => {
+    el.remove();
+    renumber();
+  };
+
+  el.querySelector('.age').addEventListener(
+    'input',
+    () => {
+
+      const age = el.querySelector('.age');
+
+      const isMinor =
+        age.value !== '' &&
+        Number(age.value) < 18;
+
+      el.querySelector('.guardian').classList.toggle(
+        'hidden',
+        !isMinor
+      );
+    }
+  );
+
+  renumber();
+}
+
+document.getElementById('add').onclick = addParticipant;
+
+// =====================================================
+// VALIDATION
+// =====================================================
+
+function collectParticipants() {
+
+  const participants = [];
+
+  for (const [i, el] of [...list.children].entries()) {
+
+    const name = el.querySelector('.name').value.trim();
+    const ageInput = el.querySelector('.age');
+
+    const age = Number(ageInput.value);
+
+    if (
+      !name ||
+      name.length > 150 ||
+      ageInput.value === '' ||
+      !ageInput.checkValidity() ||
+      !Number.isInteger(age) ||
+      !el.querySelector('.agree').checked ||
+      !el._signatures.person.hasSignature()
+    ) {
+
+      throw new Error(
+        'Please complete the name, age, agreement ' +
+        'and signature for Participant ' + (i + 1) + '.'
+      );
+    }
+
+    const participant = {
+      name: name,
+      age: age,
+      agreed: true,
+      signature: el._signatures.person.toDataURL(),
+      guardianName: '',
+      guardianAgreed: false,
+      guardianSignature: ''
+    };
+
+    if (age < 18) {
+
+      const guardianName = el.querySelector(
+        '.guardian-name'
+      ).value.trim();
+
+      const guardianAgreed = el.querySelector(
+        '.guardian-agree'
+      ).checked;
+
+      if (
+        !guardianName ||
+        !guardianAgreed ||
+        !el._signatures.guardian.hasSignature()
+      ) {
+
+        throw new Error(
+          'Please complete guardian consent and ' +
+          'signature for Participant ' + (i + 1) + '.'
+        );
+      }
+
+      participant.guardianName = guardianName;
+      participant.guardianAgreed = true;
+
+      participant.guardianSignature =
+        el._signatures.guardian.toDataURL();
+    }
+
+    participants.push(participant);
+  }
+
+  return participants;
+}
+
+// =====================================================
+// API CONNECTION
+// =====================================================
+
+async function sendRentalRequest(payload) {
+
+  const response = await fetch(RENTAL_API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/plain;charset=utf-8'
+    },
+    body: JSON.stringify(payload),
+    redirect: 'follow'
+  });
+
+  if (!response.ok) {
+    throw new Error(
+      'Unable to connect to the registration system.'
+    );
+  }
+
+  const result = await response.json();
+
+  if (!result.ok) {
+    throw new Error(
+      result.error || 'Registration could not be completed.'
+    );
+  }
+
+  return result.data;
+}
+
+// =====================================================
+// SHOW RESULT
+// =====================================================
+
+function showResult(message, error = false) {
+
+  resultBox.className = error
+    ? 'status error'
+    : 'status';
+
+  resultBox.textContent = message;
+
+  resultBox.scrollIntoView({
+    behavior: 'smooth',
+    block: 'center'
+  });
+}
+
+// =====================================================
+// SUBMIT REGISTRATION
+// =====================================================
+
+form.addEventListener('submit', async e => {
+
+  e.preventDefault();
+
+  if (submitting) return;
+
+  resultBox.className = '';
+  resultBox.textContent = '';
+
+  try {
+
+    if (!registrationMode) {
+      throw new Error(
+        'Please select a registration option.'
+      );
+    }
+
+    const villa = villaInput.value.trim();
+
+    if (
+      !villa ||
+      !/^[A-Za-z0-9 -]{1,20}$/.test(villa)
+    ) {
+      throw new Error(
+        'Please enter a valid villa number.'
+      );
+    }
+
+    if (
+      registrationMode === 'new' &&
+      !departureInput.value
+    ) {
+      throw new Error(
+        'Please enter your departure date.'
+      );
+    }
+
+    if (
+      registrationMode === 'existing' &&
+      !existingNameInput.value.trim()
+    ) {
+      throw new Error(
+        'Please enter the name of an already registered guest.'
+      );
+    }
+
+    const participants = collectParticipants();
+
+    if (!document.getElementById('confirm').checked) {
+      throw new Error(
+        'Please tick the final confirmation.'
+      );
+    }
+
+    // =================================================
+    // TEST MODE
+    // =================================================
+
+    if (TEST_MODE) {
+
+      const modeText = registrationMode === 'new'
+        ? 'New Registration'
+        : 'Existing Registration';
+
+      showResult(
+        'Test successful!\n\n' +
+        modeText +
+        ' — Villa ' + villa +
+        ' — ' + participants.length +
+        ' participant(s) completed.\n\n' +
+        'No information has been submitted or saved.'
+      );
+
+      return;
+    }
+
+    // =================================================
+    // LIVE SUBMISSION
+    // =================================================
+
+    let payload;
+
+    if (registrationMode === 'new') {
+
+      payload = {
+        action: 'rentalSaveRegistration',
+        registration: {
+          villa: villa,
+          departure: departureInput.value,
+          participants: participants,
+          confirmed: true
+        }
+      };
+
+    } else {
+
+      payload = {
+        action: 'rentalAddParticipants',
+        villa: villa,
+        guestName: existingNameInput.value.trim(),
+        participants: participants
+      };
+    }
+
+    submitting = true;
+    submitButton.disabled = true;
+
+    submitButton.textContent = 'Submitting...';
+
+    const data = await sendRentalRequest(payload);
+
+    if (!data || data.success !== true) {
+      throw new Error(
+        'The registration could not be confirmed.'
+      );
+    }
+
+    if (registrationMode === 'new') {
+
+      showResult(
+        'Registration completed successfully!\n\n' +
+        'Villa ' + villa + '\n' +
+        participants.length +
+        ' participant(s) registered.\n\n' +
+        'Thank you for completing your registration.'
+      );
+
+    } else {
+
+      showResult(
+        'Additional participants registered successfully!\n\n' +
+        participants.length +
+        ' participant(s) added to Villa ' +
+        villa + '.'
+      );
+    }
+
+    // Prevent accidental duplicate submission.
+    submitButton.disabled = true;
+
+    [...form.querySelectorAll('input')].forEach(input => {
+      input.disabled = true;
+    });
+
+    document.getElementById('add').disabled = true;
+
+    [...list.querySelectorAll('button')].forEach(button => {
+      button.disabled = true;
+    });
+
+    return;
+
+  } catch (error) {
+
+    showResult(
+      error.message || 'Something went wrong.',
+      true
+    );
+
+  } finally {
+
+    submitting = false;
+
+    if (!submitButton.disabled ||
+        resultBox.classList.contains('error')) {
+
+      submitButton.disabled = false;
+
+      submitButton.textContent = TEST_MODE
+        ? 'Test Registration'
+        : registrationMode === 'new'
+          ? 'Submit Registration'
+          : 'Add Participants';
+    }
+  }
+});
+</script>
+
+</body>
+</html>
