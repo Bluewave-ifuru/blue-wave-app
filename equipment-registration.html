@@ -142,6 +142,7 @@ input[type=date] {
 
 .button:disabled {
   opacity: .55;
+  cursor: not-allowed;
 }
 
 .participant {
@@ -191,6 +192,12 @@ input[type=date] {
   background: #e6f4ed;
   color: #17563b;
   margin-top: 15px;
+  line-height: 1.6;
+}
+
+.status.error {
+  background: #fff0ee;
+  color: #a12d22;
 }
 
 .badge {
@@ -203,8 +210,49 @@ input[type=date] {
   font-weight: bold;
 }
 
+.mode-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.mode-button {
+  border: 2px solid #d6e3eb;
+  background: #f5f9fc;
+  color: #183044;
+  border-radius: 12px;
+  padding: 20px 12px;
+  font: inherit;
+  cursor: pointer;
+  text-align: center;
+}
+
+.mode-button strong {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.mode-button span {
+  font-size: 13px;
+  color: #627687;
+  line-height: 1.5;
+}
+
+.mode-button.selected {
+  border-color: #086a9c;
+  background: #e6f2f8;
+}
+
+.highlight {
+  font-weight: bold;
+  color: #07547a;
+}
+
 @media(max-width:500px) {
-  .row {
+  .row,
+  .mode-options {
     grid-template-columns: 1fr;
   }
 
@@ -229,51 +277,109 @@ input[type=date] {
     Blue Wave Ifuru · Dive Butler International
   </div>
 
-  <p>
+  <p id="test-badge">
     <span class="badge">
-      TEST PAGE — NOT YET CONNECTED
+      TEST PAGE — SUBMISSIONS DISABLED
     </span>
   </p>
 </header>
 
-<form id="registration" novalidate>
+<section class="card">
+  <h2>Welcome</h2>
+
+  <p class="muted">
+    Please select how you would like to register.
+  </p>
+
+  <div class="mode-options">
+
+    <button type="button"
+            class="mode-button"
+            id="new-mode">
+      <strong>New Registration</strong>
+      <span>
+        Register yourself and other participants
+        for the first time.
+      </span>
+    </button>
+
+    <button type="button"
+            class="mode-button"
+            id="existing-mode">
+      <strong>Existing Registration</strong>
+      <span>
+        Add more participants to a registration
+        already completed.
+      </span>
+    </button>
+
+  </div>
+</section>
+
+<form id="registration" class="hidden" novalidate>
 
 <section class="card">
-  <h2>1. Villa details</h2>
+  <h2 id="details-heading">1. Villa details</h2>
 
   <div class="row">
+
     <div>
       <label for="villa">Villa number *</label>
       <input id="villa"
              type="text"
              required
              maxlength="20"
-             placeholder="e.g. 206">
+             placeholder="e.g. 206"
+             autocomplete="off">
     </div>
 
-    <div>
+    <div id="departure-field">
       <label for="departure">Departure date *</label>
       <input id="departure"
-             type="date"
-             required>
+             type="date">
     </div>
+
+    <div id="existing-name-field" class="hidden">
+      <label for="existing-name">
+        Name of an already registered guest *
+      </label>
+      <input id="existing-name"
+             type="text"
+             maxlength="150"
+             autocomplete="off"
+             placeholder="Full name">
+    </div>
+
   </div>
+
+  <p class="muted hidden" id="existing-explanation">
+    Enter the villa number and full name of a guest
+    who has already completed the registration.
+    You can then add new participants.
+
+    Previously registered participants cannot
+    be changed or removed.
+  </p>
 </section>
 
 <section class="card">
   <h2>2. Equipment rental agreement</h2>
 
-  <div class="agreement">
+  <div class="agreement" id="rental-agreement">
 
     <p>
-      Equipment is provided free of charge during your stay.
+      <span class="highlight">
+        Equipment is provided free of charge during your stay.
+      </span>
     </p>
 
     <p>
       By signing below, I agree and understand that
       should I lose or damage beyond normal wear and tear
       or that should I do not return the equipment to the
-      Dive Centre the day before my departure before 17:30,
+      <span class="highlight">
+        Dive Centre the day before my departure before 17:30,
+      </span>
       a charge of <strong>$170 per set</strong>
       (mask, snorkel, fins and bag) will be made to my room.
     </p>
@@ -294,9 +400,11 @@ input[type=date] {
     </p>
 
     <p>
-      Prices are quoted in US Dollars and are subject
-      to 10% service charge and 17% Tourism Goods
-      and Service Tax (TGST).
+      <span class="highlight">
+        Prices are quoted in US Dollars and are subject
+        to 10% service charge and 17% Tourism Goods
+        and Service Tax (TGST).
+      </span>
     </p>
 
   </div>
@@ -610,17 +718,19 @@ input[type=date] {
     </span>
   </label>
 
-  <button class="button" type="submit">
+  <button class="button"
+          id="submit-button"
+          type="submit">
     Test Registration
   </button>
 
   <div id="result" aria-live="polite"></div>
 
-  <p class="notice">
+  <p class="notice" id="test-notice">
     <strong>Testing only:</strong>
-    This page does not send or save guest
+    This page is not currently saving guest
     details or signatures.
-    Do not use it with real guests yet.
+    Please do not use it with real guests yet.
   </p>
 
 </section>
@@ -657,6 +767,7 @@ input[type=date] {
       <input class="name"
              type="text"
              required
+             maxlength="150"
              autocomplete="off">
     </div>
 
@@ -726,7 +837,8 @@ input[type=date] {
     </label>
 
     <input type="text"
-           class="guardian-name">
+           class="guardian-name"
+           maxlength="150">
 
     <label class="check">
 
@@ -767,11 +879,114 @@ input[type=date] {
 <script>
 'use strict';
 
-// TEST VERSION ONLY
-// No information is sent or saved.
+// =====================================================
+// CONFIGURATION
+// =====================================================
+
+// Keep true until the registration system has been tested.
+const TEST_MODE = true;
+
+// Existing Google Apps Script deployment.
+// A new deployment version will be required before live use.
+const RENTAL_API_URL =
+  'https://script.google.com/macros/s/AKfycbzg-QR_87Lpk_IChM8AQADfGGLN3dAXhMlxrkcq7to0RVFJaD1oB5oYnDKTuBbXD5Et-Q/exec';
+
+// =====================================================
+// PAGE ELEMENTS
+// =====================================================
 
 const list = document.getElementById('participants');
 const template = document.getElementById('participant-template');
+
+const form = document.getElementById('registration');
+
+const villaInput = document.getElementById('villa');
+const departureInput = document.getElementById('departure');
+const existingNameInput = document.getElementById('existing-name');
+
+const newButton = document.getElementById('new-mode');
+const existingButton = document.getElementById('existing-mode');
+
+const submitButton = document.getElementById('submit-button');
+const resultBox = document.getElementById('result');
+
+let registrationMode = '';
+let submitting = false;
+
+// =====================================================
+// SELECT REGISTRATION MODE
+// =====================================================
+
+function selectMode(mode) {
+
+  registrationMode = mode;
+
+  form.classList.remove('hidden');
+
+  newButton.classList.toggle(
+    'selected',
+    mode === 'new'
+  );
+
+  existingButton.classList.toggle(
+    'selected',
+    mode === 'existing'
+  );
+
+  const existing = mode === 'existing';
+
+  document.getElementById('departure-field')
+    .classList.toggle('hidden', existing);
+
+  document.getElementById('existing-name-field')
+    .classList.toggle('hidden', !existing);
+
+  document.getElementById('existing-explanation')
+    .classList.toggle('hidden', !existing);
+
+  document.getElementById('details-heading').textContent =
+    existing
+      ? '1. Find existing registration'
+      : '1. Villa details';
+
+  departureInput.required = !existing;
+  existingNameInput.required = existing;
+
+  villaInput.value = '';
+  departureInput.value = '';
+  existingNameInput.value = '';
+
+  document.getElementById('confirm').checked = false;
+
+  list.innerHTML = '';
+  addParticipant();
+
+  resultBox.className = '';
+  resultBox.textContent = '';
+
+  submitButton.textContent = TEST_MODE
+    ? 'Test Registration'
+    : existing
+      ? 'Add Participants'
+      : 'Submit Registration';
+
+  form.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+}
+
+newButton.addEventListener('click', () => {
+  selectMode('new');
+});
+
+existingButton.addEventListener('click', () => {
+  selectMode('existing');
+});
+
+// =====================================================
+// SIGNATURE PAD
+// =====================================================
 
 function enableSignature(canvas) {
 
@@ -782,17 +997,25 @@ function enableSignature(canvas) {
 
   function size() {
 
-    const previous = signed ? canvas.toDataURL() : null;
+    const previous = signed
+      ? canvas.toDataURL('image/png')
+      : null;
+
     const r = canvas.getBoundingClientRect();
 
-    canvas.width = Math.round(r.width * devicePixelRatio);
-    canvas.height = Math.round(r.height * devicePixelRatio);
+    const scale = Math.min(
+      window.devicePixelRatio || 1,
+      2
+    );
+
+    canvas.width = Math.round(r.width * scale);
+    canvas.height = Math.round(r.height * scale);
 
     ctx.setTransform(
-      devicePixelRatio,
+      scale,
       0,
       0,
-      devicePixelRatio,
+      scale,
       0,
       0
     );
@@ -803,10 +1026,17 @@ function enableSignature(canvas) {
     ctx.lineJoin = 'round';
 
     if (previous) {
+
       const im = new Image();
 
       im.onload = () => {
-        ctx.drawImage(im, 0, 0, r.width, r.height);
+        ctx.drawImage(
+          im,
+          0,
+          0,
+          r.width,
+          r.height
+        );
       };
 
       im.src = previous;
@@ -814,6 +1044,7 @@ function enableSignature(canvas) {
   }
 
   function point(e) {
+
     const r = canvas.getBoundingClientRect();
 
     return [
@@ -863,9 +1094,15 @@ function enableSignature(canvas) {
   requestAnimationFrame(size);
 
   return {
+
     hasSignature: () => signed,
 
+    toDataURL: () => {
+      return canvas.toDataURL('image/png');
+    },
+
     clear: () => {
+
       ctx.clearRect(
         0,
         0,
@@ -877,6 +1114,10 @@ function enableSignature(canvas) {
     }
   };
 }
+
+// =====================================================
+// PARTICIPANTS
+// =====================================================
 
 function renumber() {
 
@@ -891,6 +1132,11 @@ function renumber() {
 }
 
 function addParticipant() {
+
+  if (list.children.length >= 20) {
+    alert('Maximum 20 participants per submission.');
+    return;
+  }
 
   const el = template.content
     .firstElementChild.cloneNode(true);
@@ -929,12 +1175,13 @@ function addParticipant() {
 
       const age = el.querySelector('.age');
 
+      const isMinor =
+        age.value !== '' &&
+        Number(age.value) < 18;
+
       el.querySelector('.guardian').classList.toggle(
         'hidden',
-        !(
-          Number(age.value) < 18 &&
-          age.value !== ''
-        )
+        !isMinor
       );
     }
   );
@@ -944,92 +1191,312 @@ function addParticipant() {
 
 document.getElementById('add').onclick = addParticipant;
 
-addParticipant();
+// =====================================================
+// VALIDATION
+// =====================================================
 
-document.getElementById('registration')
-  .addEventListener('submit', e => {
+function collectParticipants() {
 
-    e.preventDefault();
+  const participants = [];
 
-    const out = document.getElementById('result');
+  for (const [i, el] of [...list.children].entries()) {
 
-    out.className = '';
-    out.textContent = '';
+    const name = el.querySelector('.name').value.trim();
+    const ageInput = el.querySelector('.age');
 
-    const villa = document.getElementById('villa');
-    const dep = document.getElementById('departure');
+    const age = Number(ageInput.value);
 
-    if (!villa.value.trim() || !dep.value) {
+    if (
+      !name ||
+      name.length > 150 ||
+      ageInput.value === '' ||
+      !ageInput.checkValidity() ||
+      !Number.isInteger(age) ||
+      !el.querySelector('.agree').checked ||
+      !el._signatures.person.hasSignature()
+    ) {
 
-      alert(
-        'Please enter villa number and departure date.'
+      throw new Error(
+        'Please complete the name, age, agreement ' +
+        'and signature for Participant ' + (i + 1) + '.'
       );
-
-      return;
     }
 
-    for (const [i, el] of [...list.children].entries()) {
+    const participant = {
+      name: name,
+      age: age,
+      agreed: true,
+      signature: el._signatures.person.toDataURL(),
+      guardianName: '',
+      guardianAgreed: false,
+      guardianSignature: ''
+    };
 
-      const age = el.querySelector('.age');
+    if (age < 18) {
+
+      const guardianName = el.querySelector(
+        '.guardian-name'
+      ).value.trim();
+
+      const guardianAgreed = el.querySelector(
+        '.guardian-agree'
+      ).checked;
 
       if (
-        !el.querySelector('.name').value.trim() ||
-        age.value === '' ||
-        !age.checkValidity() ||
-        !el.querySelector('.agree').checked ||
-        !el._signatures.person.hasSignature()
+        !guardianName ||
+        !guardianAgreed ||
+        !el._signatures.guardian.hasSignature()
       ) {
 
-        alert(
-          'Please complete the name, age, agreement ' +
-          'and signature for Participant ' + (i + 1)
-        );
-
-        return;
-      }
-
-      if (
-        Number(age.value) < 18 &&
-        (
-          !el.querySelector('.guardian-name').value.trim() ||
-          !el.querySelector('.guardian-agree').checked ||
-          !el._signatures.guardian.hasSignature()
-        )
-      ) {
-
-        alert(
+        throw new Error(
           'Please complete guardian consent and ' +
-          'signature for Participant ' + (i + 1)
+          'signature for Participant ' + (i + 1) + '.'
         );
-
-        return;
       }
+
+      participant.guardianName = guardianName;
+      participant.guardianAgreed = true;
+
+      participant.guardianSignature =
+        el._signatures.guardian.toDataURL();
     }
+
+    participants.push(participant);
+  }
+
+  return participants;
+}
+
+// =====================================================
+// API CONNECTION
+// =====================================================
+
+async function sendRentalRequest(payload) {
+
+  const response = await fetch(RENTAL_API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/plain;charset=utf-8'
+    },
+    body: JSON.stringify(payload),
+    redirect: 'follow'
+  });
+
+  if (!response.ok) {
+    throw new Error(
+      'Unable to connect to the registration system.'
+    );
+  }
+
+  const result = await response.json();
+
+  if (!result.ok) {
+    throw new Error(
+      result.error || 'Registration could not be completed.'
+    );
+  }
+
+  return result.data;
+}
+
+// =====================================================
+// SHOW RESULT
+// =====================================================
+
+function showResult(message, error = false) {
+
+  resultBox.className = error
+    ? 'status error'
+    : 'status';
+
+  resultBox.textContent = message;
+
+  resultBox.scrollIntoView({
+    behavior: 'smooth',
+    block: 'center'
+  });
+}
+
+// =====================================================
+// SUBMIT REGISTRATION
+// =====================================================
+
+form.addEventListener('submit', async e => {
+
+  e.preventDefault();
+
+  if (submitting) return;
+
+  resultBox.className = '';
+  resultBox.textContent = '';
+
+  try {
+
+    if (!registrationMode) {
+      throw new Error(
+        'Please select a registration option.'
+      );
+    }
+
+    const villa = villaInput.value.trim();
+
+    if (
+      !villa ||
+      !/^[A-Za-z0-9 -]{1,20}$/.test(villa)
+    ) {
+      throw new Error(
+        'Please enter a valid villa number.'
+      );
+    }
+
+    if (
+      registrationMode === 'new' &&
+      !departureInput.value
+    ) {
+      throw new Error(
+        'Please enter your departure date.'
+      );
+    }
+
+    if (
+      registrationMode === 'existing' &&
+      !existingNameInput.value.trim()
+    ) {
+      throw new Error(
+        'Please enter the name of an already registered guest.'
+      );
+    }
+
+    const participants = collectParticipants();
 
     if (!document.getElementById('confirm').checked) {
-
-      alert(
+      throw new Error(
         'Please tick the final confirmation.'
+      );
+    }
+
+    // =================================================
+    // TEST MODE
+    // =================================================
+
+    if (TEST_MODE) {
+
+      const modeText = registrationMode === 'new'
+        ? 'New Registration'
+        : 'Existing Registration';
+
+      showResult(
+        'Test successful!\n\n' +
+        modeText +
+        ' — Villa ' + villa +
+        ' — ' + participants.length +
+        ' participant(s) completed.\n\n' +
+        'No information has been submitted or saved.'
       );
 
       return;
     }
 
-    out.className = 'status';
+    // =================================================
+    // LIVE SUBMISSION
+    // =================================================
 
-    out.textContent =
-      'Test successful: Villa ' +
-      villa.value.trim() +
-      ' — ' +
-      list.children.length +
-      ' participant(s) completed. ' +
-      'Nothing has been submitted or saved.';
+    let payload;
 
-    out.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center'
+    if (registrationMode === 'new') {
+
+      payload = {
+        action: 'rentalSaveRegistration',
+        registration: {
+          villa: villa,
+          departure: departureInput.value,
+          participants: participants,
+          confirmed: true
+        }
+      };
+
+    } else {
+
+      payload = {
+        action: 'rentalAddParticipants',
+        villa: villa,
+        guestName: existingNameInput.value.trim(),
+        participants: participants
+      };
+    }
+
+    submitting = true;
+    submitButton.disabled = true;
+
+    submitButton.textContent = 'Submitting...';
+
+    const data = await sendRentalRequest(payload);
+
+    if (!data || data.success !== true) {
+      throw new Error(
+        'The registration could not be confirmed.'
+      );
+    }
+
+    if (registrationMode === 'new') {
+
+      showResult(
+        'Registration completed successfully!\n\n' +
+        'Villa ' + villa + '\n' +
+        participants.length +
+        ' participant(s) registered.\n\n' +
+        'Thank you for completing your registration.'
+      );
+
+    } else {
+
+      showResult(
+        'Additional participants registered successfully!\n\n' +
+        participants.length +
+        ' participant(s) added to Villa ' +
+        villa + '.'
+      );
+    }
+
+    // Prevent accidental duplicate submission.
+    submitButton.disabled = true;
+
+    [...form.querySelectorAll('input')].forEach(input => {
+      input.disabled = true;
     });
-  });
+
+    document.getElementById('add').disabled = true;
+
+    [...list.querySelectorAll('button')].forEach(button => {
+      button.disabled = true;
+    });
+
+    return;
+
+  } catch (error) {
+
+    showResult(
+      error.message || 'Something went wrong.',
+      true
+    );
+
+  } finally {
+
+    submitting = false;
+
+    if (!submitButton.disabled ||
+        resultBox.classList.contains('error')) {
+
+      submitButton.disabled = false;
+
+      submitButton.textContent = TEST_MODE
+        ? 'Test Registration'
+        : registrationMode === 'new'
+          ? 'Submit Registration'
+          : 'Add Participants';
+    }
+  }
+});
 </script>
 
 </body>
