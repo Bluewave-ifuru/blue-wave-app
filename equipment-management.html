@@ -1,16 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <title>Blue Wave Equipment Management</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -33,7 +29,7 @@
 
     .header p {
       margin: 7px 0 0;
-      opacity: 0.85;
+      opacity: .85;
     }
 
     .container {
@@ -55,17 +51,10 @@
 
     .card {
       background: white;
-      padding: 20px;
+      padding: 18px;
       border-radius: 14px;
       margin-bottom: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-
-    .section-title {
-      font-size: 19px;
-      font-weight: bold;
-      color: #12385b;
-      margin-bottom: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
     }
 
     .search {
@@ -86,13 +75,12 @@
     .tab {
       border: none;
       border-radius: 10px;
-      padding: 15px 8px;
+      padding: 14px 6px;
       background: white;
       color: #12385b;
-      font-size: 14px;
       font-weight: bold;
       cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
     }
 
     .tab.active {
@@ -103,71 +91,105 @@
     .count {
       display: block;
       font-size: 25px;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
 
-    .registration {
-      border: 1px solid #e1e7ed;
-      border-radius: 10px;
-      padding: 16px;
+    .date-group {
+      background: white;
+      border-radius: 12px;
       margin-bottom: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
     }
 
-    .registration-title {
-      font-size: 18px;
-      font-weight: bold;
-      color: #12385b;
-      margin-bottom: 8px;
-    }
-
-    .registration-info {
-      font-size: 14px;
-      color: #607080;
-      line-height: 1.7;
-    }
-
-    .action-button {
+    .date-heading {
       width: 100%;
       border: none;
-      border-radius: 8px;
-      padding: 13px;
-      margin-top: 12px;
-      background: #12385b;
-      color: white;
-      font-size: 15px;
+      background: #e8f0f7;
+      color: #12385b;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .date-heading .arrow {
+      transition: transform .25s ease;
+    }
+
+    .date-group.open .arrow {
+      transform: rotate(90deg);
+    }
+
+    .date-content {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows .25s ease;
+    }
+
+    .date-group.open .date-content {
+      grid-template-rows: 1fr;
+    }
+
+    .date-content-inner {
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    .villa-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      padding: 15px;
+    }
+
+    .villa-box {
+      min-height: 72px;
+      border: 1px solid #cbd5df;
+      border-radius: 10px;
+      background: white;
+      color: #12385b;
+      font-size: 19px;
       font-weight: bold;
       cursor: pointer;
+      padding: 8px 4px;
+    }
+
+    .villa-box:active {
+      background: #e8f0f7;
     }
 
     .status {
       text-align: center;
-      padding: 15px;
-      font-weight: bold;
+      padding: 18px;
       color: #607080;
+      font-weight: bold;
     }
 
-    .error {
-      color: #b42318;
-    }
+    .error { color: #b42318; }
 
     .empty {
       text-align: center;
+      padding: 30px;
       color: #778390;
-      padding: 30px 10px;
     }
 
     @media (max-width: 600px) {
-      .tabs {
-        gap: 6px;
+      .villa-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .villa-box {
+        min-height: 65px;
+        font-size: 17px;
       }
 
       .tab {
         font-size: 12px;
-        padding: 12px 5px;
-      }
-
-      .count {
-        font-size: 21px;
       }
     }
   </style>
@@ -175,10 +197,10 @@
 
 <body>
 
-  <div class="header">
+  <header class="header">
     <h1>BLUE WAVE DIVE CENTER</h1>
     <p>Equipment Management</p>
-  </div>
+  </header>
 
   <main class="container">
 
@@ -187,74 +209,54 @@
     </a>
 
     <div class="card">
-      <div class="section-title">
-        Search Registrations
-      </div>
-
       <input
-        type="text"
         id="searchInput"
         class="search"
-        placeholder="Search villa number or guest name"
+        type="search"
+        placeholder="Search villa number"
         oninput="renderRegistrations()"
       >
     </div>
 
     <div class="tabs">
 
-      <button
-        class="tab active"
-        id="tab-REGISTERED"
-        onclick="changeTab('REGISTERED')"
-      >
+      <button class="tab active" id="tab-REGISTERED"
+        onclick="changeTab('REGISTERED')">
         <span class="count" id="count-REGISTERED">0</span>
         Pending
       </button>
 
-      <button
-        class="tab"
-        id="tab-ISSUED"
-        onclick="changeTab('ISSUED')"
-      >
+      <button class="tab" id="tab-ISSUED"
+        onclick="changeTab('ISSUED')">
         <span class="count" id="count-ISSUED">0</span>
         Issued
       </button>
 
-      <button
-        class="tab"
-        id="tab-COMPLETED"
-        onclick="changeTab('COMPLETED')"
-      >
+      <button class="tab" id="tab-COMPLETED"
+        onclick="changeTab('COMPLETED')">
         <span class="count" id="count-COMPLETED">0</span>
         Completed
       </button>
 
     </div>
 
-    <div class="card">
-
-      <div class="section-title" id="listTitle">
-        Pending Equipment
-      </div>
-
-      <div id="status" class="status">
-        Loading registrations...
-      </div>
-
-      <div id="registrationList"></div>
-
+    <div id="status" class="status">
+      Loading registrations...
     </div>
+
+    <div id="registrationList"></div>
 
   </main>
 
   <script>
-
-    // GOOGLE APPS SCRIPT BACKEND
     const API_URL =
       "https://script.google.com/macros/s/AKfycbzg-QR_87Lpk_IChM8AQADfGGLN3dAXhMlxrkcq7to0RVFJaD1oB5oYnDKTuBbXD5Et-Q/exec";
 
     let registrations = [];
     let currentTab = "REGISTERED";
+
+    // Remember manually opened/closed dates.
+    const expandedDates = {};
 
     async function apiCall(action, payload = {}) {
       const response = await fetch(API_URL, {
@@ -263,10 +265,7 @@
         headers: {
           "Content-Type": "text/plain;charset=utf-8"
         },
-        body: JSON.stringify({
-          action,
-          ...payload
-        })
+        body: JSON.stringify({ action, ...payload })
       });
 
       const result = await response.json();
@@ -278,9 +277,57 @@
       return result.data;
     }
 
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function parseDate(dateString) {
+      const parts = String(dateString).split("-");
+      if (parts.length !== 3) return null;
+
+      const date = new Date(
+        Number(parts[0]),
+        Number(parts[1]) - 1,
+        Number(parts[2])
+      );
+
+      return isNaN(date.getTime()) ? null : date;
+    }
+
+    function displayDate(dateString) {
+      const date = parseDate(dateString);
+      if (!date) return dateString;
+
+      return date.toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      });
+    }
+
+    function autoExpand(dateString) {
+      const date = parseDate(dateString);
+      if (!date) return false;
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const lastExpandedDay = new Date(today);
+      lastExpandedDay.setDate(today.getDate() + 3);
+
+      // Past dates remain expanded so overdue returns are visible.
+      return date <= lastExpandedDay;
+    }
+
     async function loadRegistrations() {
       const status = document.getElementById("status");
 
+      status.style.display = "block";
       status.textContent = "Loading registrations...";
       status.className = "status";
 
@@ -297,7 +344,6 @@
         renderRegistrations();
 
       } catch (error) {
-        status.style.display = "block";
         status.className = "status error";
         status.textContent = "Error: " + error.message;
       }
@@ -322,24 +368,19 @@
 
       document.getElementById("tab-" + status).classList.add("active");
 
-      const titles = {
-        REGISTERED: "Pending Equipment",
-        ISSUED: "Equipment Issued",
-        COMPLETED: "Completed Returns"
-      };
-
-      document.getElementById("listTitle").textContent = titles[status];
-
       renderRegistrations();
     }
 
-    function escapeHtml(value) {
-      return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+    function toggleDate(dateKey) {
+      const group = document.getElementById("date-" + dateKey);
+      if (!group) return;
+
+      const isOpen = group.classList.toggle("open");
+
+      expandedDates[currentTab + "|" + dateKey] = isOpen;
+
+      group.querySelector(".date-heading")
+        .setAttribute("aria-expanded", String(isOpen));
     }
 
     function renderRegistrations() {
@@ -349,54 +390,92 @@
       const list = document.getElementById("registrationList");
 
       const filtered = registrations.filter(item => {
-        if (item.status !== currentTab) return false;
-
-        const villa = String(item.villa || "").toLowerCase();
-        const names = (item.participants || [])
-          .map(person => String(person.name || ""))
-          .join(" ")
-          .toLowerCase();
-
-        return villa.includes(search) || names.includes(search);
+        return (
+          item.status === currentTab &&
+          String(item.villa || "").toLowerCase().includes(search)
+        );
       });
 
       if (!filtered.length) {
-        list.innerHTML = `
-          <div class="empty">
-            No registrations found.
-          </div>
-        `;
+        list.innerHTML = '<div class="empty">No registrations found.</div>';
         return;
       }
 
-      list.innerHTML = filtered.map(item => {
-        const names = (item.participants || [])
-          .map(person => escapeHtml(person.name))
-          .join(", ");
+      const grouped = {};
+
+      filtered.forEach(item => {
+        const date = String(item.departure || "Unknown");
+
+        if (!grouped[date]) grouped[date] = [];
+
+        grouped[date].push(item);
+      });
+
+      const dates = Object.keys(grouped).sort();
+
+      list.innerHTML = dates.map(dateKey => {
+        const savedState = expandedDates[currentTab + "|" + dateKey];
+
+        // When searching, show matching villas immediately.
+        const open = search
+          ? true
+          : savedState !== undefined
+            ? savedState
+            : autoExpand(dateKey);
+
+        const villas = grouped[dateKey].map(item => `
+          <button
+            class="villa-box"
+            type="button"
+            data-rental-id="${escapeHtml(item.rentalId)}"
+          >
+            ${escapeHtml(item.villa)}
+          </button>
+        `).join("");
 
         return `
-          <div class="registration">
-            <div class="registration-title">
-              Villa ${escapeHtml(item.villa)}
-            </div>
-
-            <div class="registration-info">
-              <strong>Guests:</strong> ${names || "Not available"}<br>
-              <strong>Departure:</strong> ${escapeHtml(item.departure)}<br>
-              <strong>Participants:</strong> ${(item.participants || []).length}<br>
-              <strong>Status:</strong> ${escapeHtml(item.status)}
-            </div>
-
+          <section
+            class="date-group ${open ? "open" : ""}"
+            id="date-${escapeHtml(dateKey)}"
+          >
             <button
-              class="action-button"
-              onclick="openRegistration('${escapeHtml(item.rentalId)}')"
+              class="date-heading"
+              type="button"
+              data-date="${escapeHtml(dateKey)}"
+              aria-expanded="${open}"
             >
-              View Registration
+              <span>
+                ${escapeHtml(displayDate(dateKey))}
+                (${grouped[dateKey].length})
+              </span>
+              <span class="arrow">▶</span>
             </button>
-          </div>
+
+            <div class="date-content">
+              <div class="date-content-inner">
+                <div class="villa-grid">
+                  ${villas}
+                </div>
+              </div>
+            </div>
+          </section>
         `;
       }).join("");
     }
+
+    document.getElementById("registrationList")
+      .addEventListener("click", function(event) {
+        const dateButton = event.target.closest("[data-date]");
+        if (dateButton) {
+          toggleDate(dateButton.dataset.date);
+          return;
+        }
+
+        const villaButton = event.target.closest("[data-rental-id]");
+        if (villaButton) {
+          openRegistration(villaButton.dataset.rentalId);
+        }
+      });
 
     function openRegistration(rentalId) {
       const registration = registrations.find(
@@ -415,7 +494,6 @@
     }
 
     window.onload = loadRegistrations;
-
   </script>
 
 </body>
