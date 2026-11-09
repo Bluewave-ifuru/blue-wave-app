@@ -687,8 +687,13 @@ async function saveEquipment(rentalId) {
 
     <div class="card">
       <label>Issued By
-        <input id="issuedBy" type="text" placeholder="Staff name">
-      </label>
+  <select id="issuedBy">
+    <option value="">Select staff member</option>
+    ${staffNames.map(name => `
+      <option value="${escapeHtml(name)}">${escapeHtml(name)}</option>
+    `).join("")}
+  </select>
+</label>
 
       <button id="saveIssueButton" class="back-button"
         onclick="saveEquipment('${escapeHtml(rentalId)}')">
