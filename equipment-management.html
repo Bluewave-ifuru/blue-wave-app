@@ -1,1 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Blue Wave Equipment Management</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f8fb;
+      color: #17233c;
+    }
+
+    .header {
+      background: #12385b;
+      color: white;
+      padding: 24px 18px;
+      text-align: center;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 23px;
+    }
+
+    .header p {
+      margin: 7px 0 0;
+      opacity: 0.85;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 18px;
+    }
+
+    .back-button {
+      display: inline-block;
+      background: #e8f0f7;
+      color: #12385b;
+      padding: 10px 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-bottom: 18px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 14px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .section-title {
+      font-size: 19px;
+      font-weight: bold;
+      color: #12385b;
+      margin-bottom: 14px;
+    }
+
+    .search {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #cbd5df;
+      border-radius: 9px;
+      font-size: 16px;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .tab {
+      border: none;
+      border-radius: 10px;
+      padding: 15px 8px;
+      background: white;
+      color: #12385b;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .tab.active {
+      background: #12385b;
+      color: white;
+    }
+
+    .count {
+      display: block;
+      font-size: 25px;
+      margin-bottom: 6px;
+    }
+
+    .registration {
+      border: 1px solid #e1e7ed;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .registration-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #12385b;
+      margin-bottom: 8px;
+    }
+
+    .registration-info {
+      font-size: 14px;
+      color: #607080;
+      line-height: 1.7;
+    }
+
+    .action-button {
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      padding: 13px;
+      margin-top: 12px;
+      background: #12385b;
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .status {
+      text-align: center;
+      padding: 15px;
+      font-weight: bold;
+      color: #607080;
+    }
+
+    .error {
+      color: #b42318;
+    }
+
+    .empty {
+      text-align: center;
+      color: #778390;
+      padding: 30px 10px;
+    }
+
+    @media (max-width: 600px) {
+      .tabs {
+        gap: 6px;
+      }
+
+      .tab {
+        font-size: 12px;
+        padding: 12px 5px;
+      }
+
+      .count {
+        font-size: 21px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <h1>BLUE WAVE DIVE CENTER</h1>
+    <p>Equipment Management</p>
+  </div>
+
+  <main class="container">
+
+    <a href="./index.html" class="back-button">
+      ← Operations Hub
+    </a>
+
+    <div class="card">
+      <div class="section-title">
+        Search Registrations
+      </div>
+
+      <input
+        type="text"
+        id="searchInput"
+        class="search"
+        placeholder="Search villa number or guest name"
+        oninput="renderRegistrations()"
+      >
+    </div>
+
+    <div class="tabs">
+
+      <button
+        class="tab active"
+        id="tab-REGISTERED"
+        onclick="changeTab('REGISTERED')"
+      >
+        <span class="count" id="count-REGISTERED">0</span>
+        Pending
+      </button>
+
+      <button
+        class="tab"
+        id="tab-ISSUED"
+        onclick="changeTab('ISSUED')"
+      >
+        <span class="count" id="count-ISSUED">0</span>
+        Issued
+      </button>
+
+      <button
+        class="tab"
+        id="tab-COMPLETED"
+        onclick="changeTab('COMPLETED')"
+      >
+        <span class="count" id="count-COMPLETED">0</span>
+        Completed
+      </button>
+
+    </div>
+
+    <div class="card">
+
+      <div class="section-title" id="listTitle">
+        Pending Equipment
+      </div>
+
+      <div id="status" class="status">
+        Loading registrations...
+      </div>
+
+      <div id="registrationList"></div>
+
+    </div>
+
+  </main>
+
+  <script>
+
+    // GOOGLE APPS SCRIPT BACKEND
+    const API_URL =
+      "https://script.google.com/macros/s/AKfycbzg-QR_87Lpk_IChM8AQADfGGLN3dAXhMlxrkcq7to0RVFJaD1oB5oYnDKTuBbXD5Et-Q/exec";
+
+    let registrations = [];
+    let currentTab = "REGISTERED";
+
+    async function apiCall(action, payload = {}) {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        redirect: "follow",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify({
+          action,
+          ...payload
+        })
+      });
+
+      const result = await response.json();
+
+      if (!result.ok) {
+        throw new Error(result.error || "Backend request failed.");
+      }
+
+      return result.data;
+    }
+
+    async function loadRegistrations() {
+      const status = document.getElementById("status");
+
+      status.textContent = "Loading registrations...";
+      status.className = "status";
+
+      try {
+        registrations = await apiCall("rentalListRegistrations");
+
+        if (!Array.isArray(registrations)) {
+          throw new Error("Invalid registration data.");
+        }
+
+        status.style.display = "none";
+
+        updateCounts();
+        renderRegistrations();
+
+      } catch (error) {
+        status.style.display = "block";
+        status.className = "status error";
+        status.textContent = "Error: " + error.message;
+      }
+    }
+
+    function updateCounts() {
+      ["REGISTERED", "ISSUED", "COMPLETED"].forEach(status => {
+        const count = registrations.filter(
+          item => item.status === status
+        ).length;
+
+        document.getElementById("count-" + status).textContent = count;
+      });
+    }
+
+    function changeTab(status) {
+      currentTab = status;
+
+      document.querySelectorAll(".tab").forEach(tab => {
+        tab.classList.remove("active");
+      });
+
+      document.getElementById("tab-" + status).classList.add("active");
+
+      const titles = {
+        REGISTERED: "Pending Equipment",
+        ISSUED: "Equipment Issued",
+        COMPLETED: "Completed Returns"
+      };
+
+      document.getElementById("listTitle").textContent = titles[status];
+
+      renderRegistrations();
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function renderRegistrations() {
+      const search = document.getElementById("searchInput")
+        .value.trim().toLowerCase();
+
+      const list = document.getElementById("registrationList");
+
+      const filtered = registrations.filter(item => {
+        if (item.status !== currentTab) return false;
+
+        const villa = String(item.villa || "").toLowerCase();
+        const names = (item.participants || [])
+          .map(person => String(person.name || ""))
+          .join(" ")
+          .toLowerCase();
+
+        return villa.includes(search) || names.includes(search);
+      });
+
+      if (!filtered.length) {
+        list.innerHTML = `
+          <div class="empty">
+            No registrations found.
+          </div>
+        `;
+        return;
+      }
+
+      list.innerHTML = filtered.map(item => {
+        const names = (item.participants || [])
+          .map(person => escapeHtml(person.name))
+          .join(", ");
+
+        return `
+          <div class="registration">
+            <div class="registration-title">
+              Villa ${escapeHtml(item.villa)}
+            </div>
+
+            <div class="registration-info">
+              <strong>Guests:</strong> ${names || "Not available"}<br>
+              <strong>Departure:</strong> ${escapeHtml(item.departure)}<br>
+              <strong>Participants:</strong> ${(item.participants || []).length}<br>
+              <strong>Status:</strong> ${escapeHtml(item.status)}
+            </div>
+
+            <button
+              class="action-button"
+              onclick="openRegistration('${escapeHtml(item.rentalId)}')"
+            >
+              View Registration
+            </button>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function openRegistration(rentalId) {
+      const registration = registrations.find(
+        item => item.rentalId === rentalId
+      );
+
+      if (!registration) {
+        alert("Registration not found.");
+        return;
+      }
+
+      alert(
+        "Villa " + registration.villa +
+        "\n\nEquipment issuing and returns will be added next."
+      );
+    }
+
+    window.onload = loadRegistrations;
+
+  </script>
+
+</body>
+</html>
