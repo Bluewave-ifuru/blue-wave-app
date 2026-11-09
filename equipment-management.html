@@ -283,6 +283,7 @@
       "https://script.google.com/macros/s/AKfycbzg-QR_87Lpk_IChM8AQADfGGLN3dAXhMlxrkcq7to0RVFJaD1oB5oYnDKTuBbXD5Et-Q/exec";
 
     let registrations = [];
+    let staffNames = [];
     let currentTab = "REGISTERED";
 
     // Remember manually opened/closed dates.
@@ -565,9 +566,14 @@
     ${rows}
 
     <div class="card">
-      <label>Issued By
-        <input id="issuedBy" type="text" placeholder="Staff name">
-      </label>
+     <label>Issued By
+  <select id="issuedBy">
+    <option value="">Select staff member</option>
+    ${staffNames.map(name => `
+      <option value="${escapeHtml(name)}">${escapeHtml(name)}</option>
+    `).join("")}
+  </select>
+</label>
 
       <button id="saveIssueButton" class="back-button"
         onclick="saveEquipment('${escapeHtml(rentalId)}')">
@@ -738,7 +744,16 @@ async function saveEquipment(rentalId) {
     button.disabled = false;
   }
 }
-    window.onload = loadRegistrations;
+   window.onload = async function() {
+  try {
+    staffNames = await apiCall("rentalGetStaffList");
+  } catch (error) {
+    console.error("Could not load staff names:", error);
+    staffNames = [];
+  }
+
+  await loadRegistrations();
+};
   </script>
 
 </body>
