@@ -7,6 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Blue Wave">
+
   <title>Blue Wave Ifuru Operations</title>
 
   <link rel="manifest" href="manifest.json">
@@ -14,19 +15,24 @@
   <link rel="apple-touch-icon" href="icon-192.png">
 
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background: #f5f8fb;
       color: #17233c;
     }
+
     .header {
       background: #12385b;
       color: white;
       padding: 24px 18px 22px;
       text-align: center;
     }
+
     .app-logo {
       width: 92px;
       height: 92px;
@@ -34,13 +40,23 @@
       display: block;
       margin: 0 auto 12px;
     }
-    .header h1 { margin: 0; font-size: 24px; }
-    .header p { margin: 7px 0 0; opacity: .85; }
+
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .header p {
+      margin: 7px 0 0;
+      opacity: .85;
+    }
+
     .container {
       max-width: 760px;
       margin: auto;
       padding: 18px;
     }
+
     .intro {
       background: white;
       padding: 18px;
@@ -48,11 +64,13 @@
       box-shadow: 0 2px 8px rgba(0,0,0,.08);
       margin-bottom: 16px;
     }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 14px;
     }
+
     .module {
       background: white;
       border-radius: 14px;
@@ -67,31 +85,45 @@
       align-items: center;
       text-align: center;
     }
-    .module.active { border-top: 5px solid #12385b; }
-    .module.disabled { opacity: .52; cursor: default; }
-    .icon { font-size: 32px; margin-bottom: 10px; }
-    .module-title { font-size: 17px; font-weight: 700; margin-bottom: 5px; }
-    .module-subtitle { font-size: 13px; color: #607080; line-height: 1.35; }
-    .coming-soon {
-      margin-top: 8px;
-      font-size: 11px;
-      font-weight: bold;
-      text-transform: uppercase;
-      letter-spacing: .5px;
-      color: #7a8794;
+
+    .module.active {
+      border-top: 5px solid #12385b;
     }
+
+    .icon {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .module-title {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .module-subtitle {
+      font-size: 13px;
+      color: #607080;
+      line-height: 1.35;
+    }
+
     .footer {
       text-align: center;
       color: #778390;
       font-size: 12px;
       margin: 22px 0 10px;
     }
+
     @media (max-width: 560px) {
-      .grid { grid-template-columns: 1fr; }
+      .grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
+
 <body>
+
   <div class="header">
     <img src="icon-192.png" alt="Blue Wave" class="app-logo">
     <h1>Blue Wave Ifuru</h1>
@@ -99,121 +131,139 @@
   </div>
 
   <main class="container">
+
     <div class="intro">
       <strong>Staff Operations</strong><br>
-      Open the scheduler below. Additional Blue Wave tools can be added here later without changing the installed app.
+      Access the Blue Wave operational tools below.
     </div>
 
     <div class="grid">
-      <a class="module active" href="./scheduler.html" target="_self">
-        <div class="icon">📅</div>
-        <div class="module-title">Daily Scheduler</div>
-        <div class="module-subtitle">Create schedules, generate WhatsApp messages and IVD requests.</div>
-      </a>
+
+      <!-- 1. DAILY SCHEDULER -->
       <a
-  class="module active"
-  href="./booking.html"
->
+        class="module active"
+        href="./scheduler.html"
+        target="_self"
+      >
+        <div class="icon">📅</div>
 
-  <div
-    style="
-      width:64px;
-      height:64px;
-      margin-bottom:10px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:#e8f5fb;
-      border-radius:14px;
-      font-size:30px;
-      color:#12385b;
-    "
-  >
-    ✓
-  </div>
+        <div class="module-title">
+          Daily Scheduler
+        </div>
 
-  <div class="module-title">
-    Booking Confirmation
-  </div>
+        <div class="module-subtitle">
+          Create schedules, generate WhatsApp messages and IVD requests.
+        </div>
+      </a>
 
-  <div class="module-subtitle">
-    Create & copy guest confirmation cards
-  </div>
+      <!-- 2. BOOKING CONFIRMATION -->
+      <a
+        class="module active"
+        href="./booking.html"
+        target="_self"
+      >
+        <div
+          style="
+            width:64px;
+            height:64px;
+            margin-bottom:10px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:#e8f5fb;
+            border-radius:14px;
+            font-size:30px;
+            color:#12385b;
+          "
+        >
+          ✓
+        </div>
 
-</a>
+        <div class="module-title">
+          Booking Confirmation
+        </div>
 
-      <div class="module disabled">
-        <div class="icon">🗓️</div>
-        <div class="module-title">Future Bookings</div>
-        <div class="module-subtitle">Planner and upcoming guest bookings.</div>
-        <div class="coming-soon">Coming later</div>
-      </div>
+        <div class="module-subtitle">
+          Create & copy guest confirmation cards.
+        </div>
+      </a>
 
-      <div class="module disabled">
-        <div class="icon">👥</div>
-        <div class="module-title">Staff Planner</div>
-        <div class="module-subtitle">Off days and staff planning.</div>
-        <div class="coming-soon">Coming later</div>
-      </div>
+      <!-- 3. EQUIPMENT REGISTRATION -->
+      <a
+        class="module active"
+        href="./equipment-registration.html"
+        target="_self"
+      >
+        <div class="icon">🤿</div>
 
-      <div class="module disabled">
-        <div class="icon">🏖️</div>
-        <div class="module-title">Holiday Planner</div>
-        <div class="module-subtitle">Annual leave and holiday planning.</div>
-        <div class="coming-soon">Coming later</div>
-      </div>
-  <a
-  class="module active"
-  href="https://app.findnsecure.com/app/assets"
-  target="_blank"
-  rel="noopener noreferrer"
->
+        <div class="module-title">
+          Equipment Registration
+        </div>
 
-  <img
-    src="boat-tracking-logo.webp"
-    alt="Boat Tracking"
-    style="width:64px;height:64px;object-fit:contain;margin-bottom:10px;"
-  >
+        <div class="module-subtitle">
+          Guest equipment registration and digital waiver forms.
+        </div>
+      </a>
 
-  <div class="module-title">
-    Boat Tracking
-  </div>
+      <!-- 4. BOAT TRACKING -->
+      <a
+        class="module active"
+        href="https://app.findnsecure.com/app/assets"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          src="boat-tracking-logo.webp"
+          alt="Boat Tracking"
+          style="
+            width:64px;
+            height:64px;
+            object-fit:contain;
+            margin-bottom:10px;
+          "
+        >
 
-  <div class="module-subtitle">
-    Find’n’Secure Fleet Tracking
-  </div>
+        <div class="module-title">
+          Boat Tracking
+        </div>
 
-<a
-  class="module active"
-  href="./tripadvisor.html"
-  target="_self"
->
+        <div class="module-subtitle">
+          Find’n’Secure Fleet Tracking
+        </div>
+      </a>
 
-  <img
-    src="tripadvisor-logo.jpg"
-    alt="TripAdvisor"
-    style="width:90px;height:64px;object-fit:contain;margin-bottom:10px;"
-  >
+      <!-- 5. TRIPADVISOR -->
+      <a
+        class="module active"
+        href="./tripadvisor.html"
+        target="_self"
+      >
+        <img
+          src="tripadvisor-logo.jpg"
+          alt="TripAdvisor"
+          style="
+            width:90px;
+            height:64px;
+            object-fit:contain;
+            margin-bottom:10px;
+          "
+        >
 
-  <div class="module-title">
-    TripAdvisor Reviews
-  </div>
+        <div class="module-title">
+          TripAdvisor Reviews
+        </div>
 
-  <div class="module-subtitle">
-    Show guests our review QR code.
-  </div>
+        <div class="module-subtitle">
+          Show guests our review QR code.
+        </div>
+      </a>
 
-</a>      <div class="module disabled">
-        <div class="icon">📄</div>
-        <div class="module-title">Documents & SOPs</div>
-        <div class="module-subtitle">Operational documents and staff resources.</div>
-        <div class="coming-soon">Coming later</div>
-      </div>
     </div>
 
     <div class="footer">
       Blue Wave Ifuru · Dive Butler
     </div>
+
   </main>
 
   <script>
@@ -223,5 +273,6 @@
       });
     }
   </script>
+
 </body>
 </html>
