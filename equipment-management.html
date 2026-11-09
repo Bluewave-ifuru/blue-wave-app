@@ -192,6 +192,36 @@
         font-size: 12px;
       }
     }
+    .equipment-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.equipment-fields label,
+.card label {
+  display: block;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.equipment-fields input,
+.equipment-fields select,
+#issuedBy {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-top: 7px;
+  border: 1px solid #cbd5df;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+@media (max-width: 600px) {
+  .equipment-fields {
+    grid-template-columns: 1fr;
+  }
+}
   </style>
 </head>
 
@@ -477,22 +507,237 @@
         }
       });
 
-    function openRegistration(rentalId) {
-      const registration = registrations.find(
-        item => item.rentalId === rentalId
-      );
+   function openRegistration(rentalId) {
+  const registration = registrations.find(
+    item => item.rentalId === rentalId
+  );
 
-      if (!registration) {
-        alert("Registration not found.");
-        return;
-      }
+  if (!registration) {
+    alert("Registration not found.");
+    return;
+  }
 
-      alert(
-        "Villa " + registration.villa +
-        "\n\nEquipment issuing and returns will be added next."
-      );
-    }
+  const fins = [
+    "Kids Blue", "Kids Pink",
+    "34-35", "36-37", "38-39",
+    "40-41", "42-43", "44-45"
+  ];
 
+  const rows = registration.participants.map((guest, index) => `
+    <div class="card" style="margin-bottom:12px;">
+      <h3>${escapeHtml(guest.name)} — Age ${escapeHtml(guest.age)}</h3>
+
+      <div class="equipment-fields" data-participant="${escapeHtml(guest.participantId)}">
+        <label>Mask Number
+          <input class="mask" type="text" placeholder="e.g. 098 or S1">
+        </label>
+
+        <label>Snorkel Number
+          <input class="snorkel" type="text" placeholder="e.g. 111 or S20">
+        </label>
+
+        <label>Fin Size
+          <select class="fins">
+            <option value="">No fins</option>
+            ${fins.map(size => `
+              <option value="${size}">${size}</option>
+            `).join("")}
+          </select>
+        </label>
+
+        <label>Bag Number
+          <input class="bag" type="text" placeholder="e.g. 12">
+        </label>
+      </div>
+    </div>
+  `).join("");
+
+  const container = document.querySelector(".container");
+
+  container.innerHTML = `
+    <button class="back-button" onclick="location.reload()">
+      ← Back to Dashboard
+    </button>
+
+    <h2>Villa ${escapeHtml(registration.villa)}</h2>
+    <p>Departure: ${escapeHtml(displayDate(registration.departure))}</p>
+
+    ${rows}
+
+    <div class="card">
+      <label>Issued By
+        <input id="issuedBy" type="text" placeholder="Staff name">
+      </label>
+
+      <button id="saveIssueButton" class="back-button"
+        onclick="saveEquipment('${escapeHtml(rentalId)}')">
+        Save & Issue Equipment
+      </button>
+
+      <p id="issueMessage"></p>
+    </div>
+  `;
+}
+
+async function saveEquipment(rentalId) {
+  const issuedBy = document.getElementById("issuedBy").value.trim();
+  const message = document.getElementById("issueMessage");
+  const button = document.getElementById("saveIssueButton");
+
+  if (!issuedBy) {
+    message.textContent = "Please enter the staff name.";
+    return;
+  }
+
+  const items = [...document.querySelectorAll(".equipment-fields")]
+    .map(row => ({
+      participantId: row.dataset.participant,
+      mask: row.querySelector(".mask").value.trim(),
+      snorkel: row.querySelector(".snorkel").value.trim(),
+      fins: row.querySelector(".fins").value,
+      bag: row.querySelector(".bag").value.trim()
+    }));
+
+  if (!items.some(item =>
+    item.mask || item.snorkel || item.fins || item.bag
+  )) {
+    message.textContent = "Please enter at least one equipment item.";
+    return;
+  }
+
+  button.disabled = true;
+  message.textContent = "Saving equipment...";
+
+  try {
+    await apiCall("rentalIssueEquipment", {
+      rentalId,
+      issuedBy,
+      items
+    });
+
+    alert("Equipment issued successfully.");
+    location.reload();
+
+  } catch (error) {
+    message.textContent = "Error: " + error.message;
+    button.disabled = false;
+  }
+}function openRegistration(rentalId) {
+  const registration = registrations.find(
+    item => item.rentalId === rentalId
+  );
+
+  if (!registration) {
+    alert("Registration not found.");
+    return;
+  }
+
+  const fins = [
+    "Kids Blue", "Kids Pink",
+    "34-35", "36-37", "38-39",
+    "40-41", "42-43", "44-45"
+  ];
+
+  const rows = registration.participants.map((guest, index) => `
+    <div class="card" style="margin-bottom:12px;">
+      <h3>${escapeHtml(guest.name)} — Age ${escapeHtml(guest.age)}</h3>
+
+      <div class="equipment-fields" data-participant="${escapeHtml(guest.participantId)}">
+        <label>Mask Number
+          <input class="mask" type="text" placeholder="e.g. 098 or S1">
+        </label>
+
+        <label>Snorkel Number
+          <input class="snorkel" type="text" placeholder="e.g. 111 or S20">
+        </label>
+
+        <label>Fin Size
+          <select class="fins">
+            <option value="">No fins</option>
+            ${fins.map(size => `
+              <option value="${size}">${size}</option>
+            `).join("")}
+          </select>
+        </label>
+
+        <label>Bag Number
+          <input class="bag" type="text" placeholder="e.g. 12">
+        </label>
+      </div>
+    </div>
+  `).join("");
+
+  const container = document.querySelector(".container");
+
+  container.innerHTML = `
+    <button class="back-button" onclick="location.reload()">
+      ← Back to Dashboard
+    </button>
+
+    <h2>Villa ${escapeHtml(registration.villa)}</h2>
+    <p>Departure: ${escapeHtml(displayDate(registration.departure))}</p>
+
+    ${rows}
+
+    <div class="card">
+      <label>Issued By
+        <input id="issuedBy" type="text" placeholder="Staff name">
+      </label>
+
+      <button id="saveIssueButton" class="back-button"
+        onclick="saveEquipment('${escapeHtml(rentalId)}')">
+        Save & Issue Equipment
+      </button>
+
+      <p id="issueMessage"></p>
+    </div>
+  `;
+}
+
+async function saveEquipment(rentalId) {
+  const issuedBy = document.getElementById("issuedBy").value.trim();
+  const message = document.getElementById("issueMessage");
+  const button = document.getElementById("saveIssueButton");
+
+  if (!issuedBy) {
+    message.textContent = "Please enter the staff name.";
+    return;
+  }
+
+  const items = [...document.querySelectorAll(".equipment-fields")]
+    .map(row => ({
+      participantId: row.dataset.participant,
+      mask: row.querySelector(".mask").value.trim(),
+      snorkel: row.querySelector(".snorkel").value.trim(),
+      fins: row.querySelector(".fins").value,
+      bag: row.querySelector(".bag").value.trim()
+    }));
+
+  if (!items.some(item =>
+    item.mask || item.snorkel || item.fins || item.bag
+  )) {
+    message.textContent = "Please enter at least one equipment item.";
+    return;
+  }
+
+  button.disabled = true;
+  message.textContent = "Saving equipment...";
+
+  try {
+    await apiCall("rentalIssueEquipment", {
+      rentalId,
+      issuedBy,
+      items
+    });
+
+    alert("Equipment issued successfully.");
+    location.reload();
+
+  } catch (error) {
+    message.textContent = "Error: " + error.message;
+    button.disabled = false;
+  }
+}
     window.onload = loadRegistrations;
   </script>
 
