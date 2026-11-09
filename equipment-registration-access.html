@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Blue Wave Equipment Registration</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f8fb;
+      color: #17233c;
+    }
+
+    .header {
+      background: #12385b;
+      color: white;
+      padding: 25px 15px;
+      text-align: center;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 23px;
+    }
+
+    .header p {
+      margin: 8px 0 0;
+      opacity: 0.9;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .back-button {
+      display: inline-block;
+      background: #e8f0f7;
+      color: #12385b;
+      padding: 11px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 25px 20px;
+      text-align: center;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      color: #12385b;
+      font-size: 22px;
+    }
+
+    .description {
+      color: #607080;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    .qr-container {
+      background: white;
+      padding: 15px;
+      margin: 25px auto;
+      width: fit-content;
+      border: 1px solid #e1e7ed;
+      border-radius: 12px;
+    }
+
+    .qr-container img {
+      display: block;
+      width: 230px;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin: 25px 0;
+      color: #84919e;
+      font-weight: bold;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #dce3ea;
+    }
+
+    .form-button {
+      display: block;
+      background: #12385b;
+      color: white;
+      text-decoration: none;
+      padding: 16px;
+      border-radius: 10px;
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    .form-button:active {
+      background: #0c2944;
+    }
+
+    .note {
+      margin-top: 15px;
+      font-size: 13px;
+      color: #778390;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="header">
+    <h1>BLUE WAVE DIVE CENTER</h1>
+    <p>Snorkeling Equipment Registration</p>
+  </header>
+
+  <main class="container">
+
+    <a href="./index.html" class="back-button">
+      ← Operations Hub
+    </a>
+
+    <div class="card">
+
+      <h2>Scan to Register</h2>
+
+      <p class="description">
+        Scan the QR code using your phone to complete
+        the snorkeling equipment registration form.
+      </p>
+
+      <div class="qr-container">
+        <img
+          id="registrationQR"
+          alt="Equipment Registration QR Code"
+        >
+      </div>
+
+      <div class="divider">OR</div>
+
+      <a
+        href="./equipment-registration.html"
+        class="form-button"
+      >
+        Fill Registration Form
+      </a>
+
+      <p class="note">
+        Guests may also complete and sign the registration
+        form directly on this device.
+      </p>
+
+    </div>
+
+  </main>
+
+  <script>
+    const registrationURL =
+      "https://bluewave-ifuru.github.io/blue-wave-app/equipment-registration.html";
+
+    const qrURL =
+      "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data="
+      + encodeURIComponent(registrationURL);
+
+    document.getElementById("registrationQR").src = qrURL;
+  </script>
+
+</body>
+</html>
