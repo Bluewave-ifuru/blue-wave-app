@@ -993,127 +993,129 @@ existingButton.addEventListener('click', () => {
 
 function enableSignature(canvas) {
 
-  const ctx = canvas.getContext('2d');
-
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
   let drawing = false;
-  let signed = false;
+  let hasInk = false;
+  let activePointer = null;
+  let lastWidth = 0;
+  let lastHeight = 0;
+  let lastScale = 1;
 
   function size() {
+    const rect = canvas.getBoundingClientRect();
 
-    const previous = signed
-      ? canvas.toDataURL('image/png')
-      : null;
+    // Hidden guardian pads have zero width. Never resize them to zero.
+    if (rect.width < 2 || rect.height < 2) return false;
 
-    const r = canvas.getBoundingClientRect();
+    const scale = Math.min(window.devicePixelRatio || 1, 2);
+    const width = Math.max(1, Math.round(rect.width * scale));
+    const height = Math.max(1, Math.round(rect.height * scale));
 
-    const scale = Math.min(
-      window.devicePixelRatio || 1,
-      2
-    );
+    if (canvas.width === width && canvas.height === height &&
+        lastWidth === width && lastHeight === height) {
+      return true;
+    }
 
-    canvas.width = Math.round(r.width * scale);
-    canvas.height = Math.round(r.height * scale);
+    // Preserve existing strokes when the device rotates or the layout changes.
+    const snapshot = document.createElement('canvas');
+    snapshot.width = Math.max(1, canvas.width);
+    snapshot.height = Math.max(1, canvas.height);
+    snapshot.getContext('2d').drawImage(canvas, 0, 0);
 
-    ctx.setTransform(
-      scale,
-      0,
-      0,
-      scale,
-      0,
-      0
-    );
-
+    canvas.width = width;
+    canvas.height = height;
+    ctx.setTransform(scale, 0, 0, scale, 0, 0);
     ctx.strokeStyle = '#183044';
     ctx.lineWidth = 2.5;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
 
-    if (previous) {
-
-      const im = new Image();
-
-      im.onload = () => {
-        ctx.drawImage(
-          im,
-          0,
-          0,
-          r.width,
-          r.height
-        );
-      };
-
-      im.src = previous;
+    if (hasInk && lastWidth && lastHeight) {
+      ctx.drawImage(snapshot, 0, 0, lastWidth / lastScale,
+                    lastHeight / lastScale, 0, 0, rect.width, rect.height);
     }
+
+    lastWidth = width;
+    lastHeight = height;
+    lastScale = scale;
+    return true;
   }
 
   function point(e) {
+    const rect = canvas.getBoundingClientRect();
+    return [e.clientX - rect.left, e.clientY - rect.top];
+  }
 
-    const r = canvas.getBoundingClientRect();
-
-    return [
-      e.clientX - r.left,
-      e.clientY - r.top
-    ];
+  function containsVisibleInk() {
+    if (!hasInk || canvas.width < 2 || canvas.height < 2) return false;
+    const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    let visiblePixels = 0;
+    for (let i = 3; i < pixels.length; i += 4) {
+      if (pixels[i] > 50 && ++visiblePixels >= 12) return true;
+    }
+    return false;
   }
 
   canvas.addEventListener('pointerdown', e => {
-
+    if (!size()) return;
     e.preventDefault();
-
+    activePointer = e.pointerId;
     canvas.setPointerCapture(e.pointerId);
-
     drawing = true;
-
     const [x, y] = point(e);
-
     ctx.beginPath();
     ctx.moveTo(x, y);
-    ctx.lineTo(x + .01, y + .01);
+    ctx.lineTo(x + 0.1, y + 0.1);
     ctx.stroke();
-
-    signed = true;
+    hasInk = true;
   });
 
   canvas.addEventListener('pointermove', e => {
-
-    if (!drawing) return;
-
+    if (!drawing || e.pointerId !== activePointer) return;
     e.preventDefault();
-
     const [x, y] = point(e);
-
     ctx.lineTo(x, y);
     ctx.stroke();
   });
 
-  canvas.addEventListener('pointerup', () => {
+  function stop(e) {
+    if (e.pointerId !== activePointer) return;
     drawing = false;
+    activePointer = null;
+  }
+
+  canvas.addEventListener('pointerup', stop);
+  canvas.addEventListener('pointercancel', stop);
+  canvas.addEventListener('lostpointercapture', () => {
+    drawing = false;
+    activePointer = null;
   });
 
-  canvas.addEventListener('pointercancel', () => {
-    drawing = false;
-  });
-
+  if (typeof ResizeObserver !== 'undefined') {
+    const observer = new ResizeObserver(() => size());
+    observer.observe(canvas);
+  }
   requestAnimationFrame(size);
 
   return {
-
-    hasSignature: () => signed,
-
+    hasSignature: () => {
+      size();
+      return containsVisibleInk();
+    },
     toDataURL: () => {
+      size();
+      if (!containsVisibleInk()) {
+        throw new Error('Please draw a visible signature before submitting.');
+      }
       return canvas.toDataURL('image/png');
     },
-
     clear: () => {
-
-      ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-      );
-
-      signed = false;
+      size();
+      ctx.clearRect(0, 0, canvas.width / lastScale,
+                    canvas.height / lastScale);
+      hasInk = false;
+      drawing = false;
+      activePointer = null;
     }
   };
 }
