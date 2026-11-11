@@ -228,6 +228,8 @@
     .equipment-item { padding:14px 0; border-top:1px solid #dce5ed; }
     .equipment-item-top { display:flex; align-items:center; justify-content:space-between; gap:10px; }
     .equipment-item.returned { opacity:.7; }
+    .condition-field { display:block; margin:10px 0 0 32px; font-size:14px; color:#354b62; }
+    .condition-field select { display:block; margin-top:5px; padding:9px; border:1px solid #cbd5df; border-radius:8px; font-size:15px; width:170px; max-width:100%; }
     .return-check { display:flex!important; align-items:center; gap:12px; flex:1; cursor:pointer; }
     .return-check input { width:20px; height:20px; flex-shrink:0; }
     .return-check small { display:block; color:#617489; margin-top:4px; font-weight:normal; }
@@ -580,16 +582,23 @@ function renderEquipmentDetails(registration, details) {
   (details.history || []).forEach(h => (historyById[h.equipmentId] ||= []).push(h));
   const rows = details.equipment.map(e => {
     const history = historyById[e.equipmentId] || [];
-    return `<div class="equipment-item ${e.status === 'RETURNED' ? 'returned' : ''}">
+    return `<div class="equipment-item ${e.status !== 'ISSUED' ? 'returned' : ''}">
       <div class="equipment-item-top">
         <label class="return-check"><input type="checkbox" class="return-item" value="${escapeHtml(e.equipmentId)}" ${e.status !== 'ISSUED' ? 'disabled' : ''} onchange="updateFinalReturnUI()">
           <span><strong>${escapeHtml(guestMap[e.participantId] || 'Guest')}</strong> — ${escapeHtml(e.type)}: <strong>${escapeHtml(e.number)}</strong>
-          <small>${e.status === 'RETURNED' ? 'Returned' : 'Currently issued'}</small></span>
+          <small>${e.status === 'ISSUED' ? 'Currently issued' : escapeHtml(e.status.charAt(0) + e.status.slice(1).toLowerCase())}</small></span>
         </label>
         ${e.status === 'ISSUED' ? `<button type="button" class="secondary-button" data-exchange="${escapeHtml(e.equipmentId)}">Exchange</button>` : ''}
       </div>
+      ${e.status === 'ISSUED' ? `<label class="condition-field">Condition when resolving this item
+        <select class="return-condition" data-equipment-id="${escapeHtml(e.equipmentId)}">
+          <option value="RETURNED">Returned</option>
+          <option value="DAMAGED">Damaged</option>
+          <option value="LOST">Lost</option>
+        </select>
+      </label>` : ''}
       ${history.length ? `<div class="history">${history.map(h => `Previously ${escapeHtml(h.previousNumber)} → ${escapeHtml(h.newNumber)} · ${escapeHtml(h.exchangedBy)} · ${escapeHtml(h.exchangedAt)}`).join('<div></div>')}</div>` : ''}
-      ${e.status === 'RETURNED' ? `<div class="history">Received by ${escapeHtml(e.receivedBy || 'Staff')}${e.returnMethod ? ' · ' + escapeHtml(e.returnMethod) : ''}</div>` : ''}
+      ${e.status !== 'ISSUED' ? `<div class="history">Recorded by ${escapeHtml(e.receivedBy || 'Staff')}${e.returnMethod ? ' · ' + escapeHtml(e.returnMethod) : ''}</div>` : ''}
       <div class="exchange-form" id="exchange-${escapeHtml(e.equipmentId)}" hidden>
         <label>New ${escapeHtml(e.type)} ${e.type.toLowerCase() === 'fins' ? 'size' : 'number'}
           ${e.type.toLowerCase() === 'fins' ? `<select class="new-number">${finOptions(e.number)}</select>` : '<input class="new-number" type="text" placeholder="New number">'}
@@ -607,7 +616,7 @@ function renderEquipmentDetails(registration, details) {
       ${rows || '<p>No equipment recorded.</p>'}</div>
     ${!complete ? `<div class="card" id="returnPanel">
       <h3>Return Equipment</h3>
-      <p>Select each item being returned. Partial returns are saved without a guest signature.</p>
+      <p>Tick the items being resolved and select Returned, Damaged or Lost for each. Partial returns do not need a guest signature.</p>
       <label>Received By<select id="receivedBy">${staffOptions()}</select></label>
       <div id="finalReturnPanel" hidden>
         <h3>Final Return Confirmation</h3>
@@ -716,6 +725,11 @@ function updateFinalReturnUI() {
 }
 async function saveReturn(rentalId) {
   const selected = [...document.querySelectorAll('.return-item:checked')].map(box => box.value);
+  const outcomes = {};
+  selected.forEach(id => {
+    const condition = [...document.querySelectorAll('.return-condition')].find(el => el.dataset.equipmentId === id);
+    outcomes[id] = condition ? condition.value : 'RETURNED';
+  });
   const allOutstanding = document.querySelectorAll('.return-item:not(:disabled)').length;
   const receivedBy = document.getElementById('receivedBy').value.trim();
   const message = document.getElementById('returnMessage');
@@ -729,7 +743,7 @@ async function saveReturn(rentalId) {
   button.disabled = true;
   message.textContent = 'Saving return...';
   try {
-    const result = await apiCall('rentalReturnEquipment', { rentalId, equipmentIds: selected, receivedBy, method, signatureData });
+    const result = await apiCall('rentalReturnEquipment', { rentalId, equipmentIds: selected, outcomes, receivedBy, method, signatureData });
     alert(result.finalReturn ? 'All equipment returned. Registration completed.' : 'Partial return saved.');
     location.reload();
   } catch (error) { message.textContent = 'Error: ' + error.message; button.disabled = false; }
